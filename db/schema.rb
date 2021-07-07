@@ -57,10 +57,10 @@ ActiveRecord::Schema.define(version: 2021_07_06_084905) do
   create_table "employees", charset: "utf8mb4", force: :cascade do |t|
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.bigint "users_id", null: false
-    t.bigint "stores_id", null: false
-    t.index ["stores_id"], name: "index_employees_on_stores_id"
-    t.index ["users_id"], name: "index_employees_on_users_id"
+    t.bigint "user_id", null: false
+    t.bigint "store_id", null: false
+    t.index ["store_id"], name: "index_employees_on_store_id"
+    t.index ["user_id"], name: "index_employees_on_user_id"
   end
 
   create_table "models", charset: "utf8mb4", force: :cascade do |t|
@@ -68,11 +68,11 @@ ActiveRecord::Schema.define(version: 2021_07_06_084905) do
     t.text "description"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.bigint "operating_systems_id", null: false
-    t.bigint "brands_id", null: false
-    t.index ["brands_id"], name: "index_models_on_brands_id"
+    t.bigint "operating_system_id", null: false
+    t.bigint "brand_id", null: false
+    t.index ["brand_id"], name: "index_models_on_brand_id"
     t.index ["name"], name: "index_models_on_name", unique: true
-    t.index ["operating_systems_id"], name: "index_models_on_operating_systems_id"
+    t.index ["operating_system_id"], name: "index_models_on_operating_system_id"
   end
 
   create_table "operating_systems", charset: "utf8mb4", force: :cascade do |t|
@@ -91,22 +91,22 @@ ActiveRecord::Schema.define(version: 2021_07_06_084905) do
     t.string "status", default: "in_stock", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.bigint "models_id", null: false
-    t.bigint "stores_id", null: false
-    t.bigint "colors_id", null: false
-    t.index ["colors_id"], name: "index_phones_on_colors_id"
-    t.index ["models_id"], name: "index_phones_on_models_id"
-    t.index ["stores_id"], name: "index_phones_on_stores_id"
+    t.bigint "model_id", null: false
+    t.bigint "store_id", null: false
+    t.bigint "color_id", null: false
+    t.index ["color_id"], name: "index_phones_on_color_id"
+    t.index ["model_id"], name: "index_phones_on_model_id"
+    t.index ["store_id"], name: "index_phones_on_store_id"
   end
 
   create_table "stores", charset: "utf8mb4", force: :cascade do |t|
     t.string "name", null: false
     t.string "location"
-    t.bigint "users_id", null: false
+    t.bigint "user_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["name"], name: "index_stores_on_name", unique: true
-    t.index ["users_id"], name: "index_stores_on_users_id"
+    t.index ["user_id"], name: "index_stores_on_user_id"
   end
 
   create_table "users", charset: "utf8mb4", force: :cascade do |t|
@@ -123,12 +123,12 @@ ActiveRecord::Schema.define(version: 2021_07_06_084905) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
-  add_foreign_key "employees", "stores", column: "stores_id"
-  add_foreign_key "employees", "users", column: "users_id"
-  add_foreign_key "models", "brands", column: "brands_id"
-  add_foreign_key "models", "operating_systems", column: "operating_systems_id"
-  add_foreign_key "phones", "colors", column: "colors_id"
-  add_foreign_key "phones", "models", column: "models_id"
-  add_foreign_key "phones", "stores", column: "stores_id"
-  add_foreign_key "stores", "users", column: "users_id"
+  add_foreign_key "employees", "stores"
+  add_foreign_key "employees", "users"
+  add_foreign_key "models", "brands"
+  add_foreign_key "models", "operating_systems"
+  add_foreign_key "phones", "colors"
+  add_foreign_key "phones", "models"
+  add_foreign_key "phones", "stores"
+  add_foreign_key "stores", "users"
 end

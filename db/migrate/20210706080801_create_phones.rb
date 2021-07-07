@@ -9,9 +9,9 @@ class CreatePhones < ActiveRecord::Migration[6.1]
       t.string :status , null: false, default: 'in_stock'
       t.timestamps
 
-      t.belongs_to :models, null: false, foreign_key: true
-      t.belongs_to :stores, null: false, foreign_key: true
-      t.belongs_to :colors, null: false, foreign_key: true
+      t.belongs_to :model, null: false, foreign_key: true
+      t.belongs_to :store, null: false, foreign_key: true
+      t.belongs_to :color, null: false, foreign_key: true
     end
   end
 end
