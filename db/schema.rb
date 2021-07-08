@@ -60,7 +60,7 @@ ActiveRecord::Schema.define(version: 2021_07_06_084905) do
     t.bigint "user_id", null: false
     t.bigint "store_id", null: false
     t.index ["store_id"], name: "index_employees_on_store_id"
-    t.index ["user_id"], name: "index_employees_on_user_id"
+    t.index ["user_id"], name: "index_employees_on_user_id", unique: true
   end
 
   create_table "models", charset: "utf8mb4", force: :cascade do |t|
@@ -106,7 +106,7 @@ ActiveRecord::Schema.define(version: 2021_07_06_084905) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["name"], name: "index_stores_on_name", unique: true
-    t.index ["user_id"], name: "index_stores_on_user_id"
+    t.index ["user_id"], name: "index_stores_on_user_id", unique: true
   end
 
   create_table "users", charset: "utf8mb4", force: :cascade do |t|
