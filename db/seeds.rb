@@ -24,55 +24,56 @@ os_names = [
 ]
 operating_systems = []
 for os_name in os_names
-    operating_systems.append(OperatingSystem.create(name: os_name))
+  operating_systems.append(OperatingSystem.create(name: os_name))
 end
 
 # Creating Models
 def create_model_relating_to_brand_os(brand, os_prefix)
-    models = []
-    brand_name = brand.name
-    operating_systems = OperatingSystem.where('name LIKE ?', os_prefix + '%')
-    operating_systems.each_with_index do |os, idx|
-        model_name = brand_name[...3] + os.name
-        models.append(Model.create({name: model_name, operating_system: os, brand: brand}))
-    end
-    return models
+  models = []
+  brand_name = brand.name
+  operating_systems = OperatingSystem.where('name LIKE ?', os_prefix + '%')
+  operating_systems.each_with_index do |os, idx|
+      model_name = brand_name[...3] + os.name
+      models.append(Model.create(name: model_name, operating_system: os, brand: brand))
+  end
+  return models
 end
 
 os_prefixes = ['Android','IOS', 'MIUI', 'Windows', 'Android', 'Symbian', 'BlackBerry']
 models = []
-Brand.all.each_with_index do |brand, idx|
-    os_pref = os_prefixes[idx]
-    models.concat(create_model_relating_to_brand_os(brand, os_pref))
+Brand.find_each.with_index do |brand, idx|
+  os_pref = os_prefixes[idx]
+  models.concat(create_model_relating_to_brand_os(brand, os_pref))
 end
 
 #Creating Users
 users = []
 for i in 0..20
-    role = i > 5 ? 'employee' : (i > 0 ? 'manager' : 'admin') # 1 admin, few managers and all employees
-    users.append(User.create({email: "user#{i}@email.com", password:'password123', remember_created_at: Time.now, name: "User #{i}", role: role}))
+  role = i > 5 ? 'employee' : (i > 0 ? 'manager' : 'admin') # 1 admin, few managers and all employees
+  users.append(User.create(email: "user#{i}@email.com", password:'password123', remember_created_at: Time.now, name: "User #{i}", role: role))
 end
 
 #Stores and Employees
 stores = []
 employees = []
 users.each_with_index do |user, idx|
-    if user.role == 'manager'
-        stores.append(Store.create({name: user.name + '\'s Store', location: "Location #{idx}", user: user}))
-    elsif user.role == 'employee'
-        choosen_store = stores[idx % stores.length] #select based on order
-        employees.append(Employee.create({user: user, store: choosen_store}))
-    end
+  if user.manager?
+    stores.append(Store.create(name: user.name + '\'s Store', location: "Location #{idx}", user: user))
+  elsif user.employee?
+    choosen_store = stores[idx % stores.length] #select based on order
+    employees.append(Employee.create(user: user, store: choosen_store))
+  end
 end
 
 #Colors
 color_names = ['red', 'blue', 'purple', 'yellow', 'orange', 'white', 'black', 'green', 'neon', 'gray', 'pink', 'brown']
 colors = []
 for c_name in color_names
-    colors.append(Color.create({name: c_name}))
+  colors.append(Color.create(name: c_name))
 end
 
-#Predefined
+
+#Predefined phone attributes!
 conditions = ['99%', 'Like New', 'Old', 'Used Once', 'Brand New', '98%', 'Decently New', 'Usable']
 manufacture_years = Array(2015..2021)
 memory_sizes = [16, 24, 64, 96, 124, 186, 280, 514, 1024, 5000]
@@ -82,15 +83,26 @@ batch_count = 100
 #Phones
 phones = []
 for i in 0..batch_count
-    color = colors[i % colors.length]
-    store = stores[i % stores.length]
-    model = models[i % models.length]
+  color = colors[i % colors.length]
+  store = stores[i % stores.length]
+  model = models[i % models.length]
 
-    cond = conditions[i % conditions.length]
-    year = manufacture_years[i % manufacture_years.length]
-    mem = memory_sizes[i % memory_sizes.length]
-    batch = batch_sizes[i % batch_sizes.length]
-    price = price_calc.call(cond, year, mem)
-    phone_json = {manufacture_year: year, condition: cond, memory: mem, price: price, model: model, store: store, color: color}
-    phones.concat(Phone.create(Array.new(batch, phone_json)))
+  cond = conditions[i % conditions.length]
+  year = manufacture_years[i % manufacture_years.length]
+  mem = memory_sizes[i % memory_sizes.length]
+  batch = batch_sizes[i % batch_sizes.length]
+  price = price_calc.call(cond, year, mem)
+  phone_json = {manufacture_year: year, condition: cond, memory: mem, price: price, model: model, store: store, color: color}
+  phones.concat(Phone.create(Array.new(batch, phone_json)))
 end
+
+#Set some phones to unavailable
+update_batch_size = 10
+update_off_set = 30
+for i in 0..30
+  s_idx = i*update_off_set
+  e_idx = s_idx + update_batch_size
+  Phone.where(id: (s_idx..e_idx).to_a).update_all(status: 'unavailable')
+end
+
+
