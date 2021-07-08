@@ -1,6 +1,6 @@
 class Employee < ApplicationRecord
   belongs_to :store
-  belongs_to :user
+  belongs_to :user, dependent: :delete
 
   validate :validate_employee_role
 

@@ -10,4 +10,14 @@ class User < ApplicationRecord
   validates :name, presence: true
   validates :role, presence: true, inclusion: {in: ROLES, message: 'User role can only be ad/man/emp!'} 
   validates :phone, format: {with: /\A[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\.\/0-9]*\z|/} #phone regex from https://regexr.com/, notice empty is allowed
+
+  before_destroy do
+    if self.manager?
+      store = Store.find_by(user: self)
+      Store.destroy(store.id)
+    elsif self.employee?
+      employee = Employee.find_by(user: self)
+      Employee.destroy(employee.id)
+    end
+  end
 end
