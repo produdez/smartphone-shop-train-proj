@@ -11,7 +11,7 @@ class DeviseCreateUsers < ActiveRecord::Migration[6.1]
       t.timestamps null: false
       t.string :name, null: false
       t.string :phone
-      t.string :role, null: false, default: 'admin'
+      t.string :role, null: false, default: 'admin' # admin or user!
     end
 
     add_index :users, :email, unique: true

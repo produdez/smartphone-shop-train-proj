@@ -4,7 +4,7 @@ class CreatePhones < ActiveRecord::Migration[6.1]
       t.integer :manufacture_year, null: false
       t.string :condition, null: false
       t.integer :memory, null: false
-      t.float :price, null: false
+      t.decimal :price, null: false
       t.text :note
       t.string :status, null: false, default: 'in_stock'
       t.timestamps
