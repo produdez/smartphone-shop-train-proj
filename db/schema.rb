@@ -93,7 +93,7 @@ ActiveRecord::Schema.define(version: 20_210_706_084_905) do
   create_table 'staffs', charset: 'utf8mb4', force: :cascade do |t|
     t.datetime 'created_at', precision: 6, null: false
     t.datetime 'updated_at', precision: 6, null: false
-    t.string 'role', default: 'staff'
+    t.string 'role', default: 'employee'
     t.bigint 'user_id', null: false
     t.bigint 'store_id', null: false
     t.index ['store_id'], name: 'index_staffs_on_store_id'
