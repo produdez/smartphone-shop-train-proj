@@ -4,20 +4,11 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
-  ROLES = %w[admin manager employee].freeze
+  has_one :staff, dependent: :destroy
+  ROLES = %w[admin user].freeze
   enum role: ROLES.zip(ROLES).to_h
-  
-  validates :name, presence: true
-  validates :role, presence: true, inclusion: {in: ROLES, message: 'User role can only be ad/man/emp!'} 
-  validates :phone, format: {with: /\A[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\.\/0-9]*\z|/} #phone regex from https://regexr.com/, notice empty is allowed
 
-  before_destroy do
-    if self.manager?
-      store = Store.find_by(user: self)
-      Store.destroy(store.id)
-    elsif self.employee?
-      employee = Employee.find_by(user: self)
-      Employee.destroy(employee.id)
-    end
-  end
+  validates :name, presence: true
+  validates :role, presence: true, inclusion: { in: ROLES, message: 'User role can only be admin or user(normal)!' }
+  validates :phone, format: { with: %r{\A[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s./0-9]*\z|} } # phone regex from https://regexr.com/, notice empty is allowed
 end
