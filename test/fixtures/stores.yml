@@ -1,0 +1,9 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  Employee: MyString
+  User: MyString
+
+two:
+  Employee: MyString
+  User: MyString
