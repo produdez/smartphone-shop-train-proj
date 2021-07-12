@@ -8,9 +8,8 @@ class Phone < ApplicationRecord
   enum status: STATUSES.zip(STATUSES).to_h
   enum condition: CONDITIONS.zip(CONDITIONS).to_h
 
-  validates :manufacture_year, :memory, :price, numericality: { greater_than_or_equal_to: 0 }
+  validates :manufacture_year, :memory, :price, presence: true, numericality: { greater_than_or_equal_to: 0 }
   validates :condition, :status, presence: true
   validates :status, inclusion: { in: STATUSES }
-  validates :condition,
-            inclusion: { in: CONDITIONS }
+  validates :condition, inclusion: { in: CONDITIONS }
 end

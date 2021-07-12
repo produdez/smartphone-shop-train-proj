@@ -22,7 +22,7 @@ class Staff < ApplicationRecord
   def validate_single_store_per_manager
     if manager?
       conflict_manager = Staff.manager.find_by(store: store)
-      errors.add(:store, 'Store already have a manager (1-1)') unless conflict_manager.nil?
+      errors.add(:store, 'Store already have a manager (1-1)') if conflict_manager.present?
     end
   end
 end
