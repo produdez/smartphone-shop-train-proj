@@ -31,9 +31,9 @@ div#inventory
             td.model = phone.model.name
             td.manufacture_year = phone.manufacture_year
             td.color = phone.color.name
-            td.price = number_to_currency(phone.price, :unit => "$")
+            td.price = format_price(phone.price)
             td.operating_system = phone.model.operating_system.name
-            td.memory = number_to_human(phone.memory, precision: 2, units: {unit:'GB', thousand: 'TB'}) 
+            td.memory = format_memory(phone.memory)
             td.store = phone.store.name
             td.status = phone.status
     - else
