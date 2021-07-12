@@ -33,7 +33,7 @@ html
             th Condition
           - @phones[...10].each do |phone|
             tr
-              td.select_box = check_box_tag 'flag', true, @flag
+              td.select_box = check_box_tag 'flag', true
                 / = submit_tag 'Save'
               td.id = phone.id
               td.created_at = phone.created_at
