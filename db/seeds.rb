@@ -10,9 +10,8 @@
 
 # Creating Brands
 brand_names = %w[Samsung Apple Xiaomi Microsoft Google Sony BlackBerry]
-brands = []
 brand_names.each do |b_name|
-  brands.append(Brand.create(name: b_name))
+  Brand.create(name: b_name)
 end
 
 # Creating OSs
@@ -24,9 +23,9 @@ os_names = [
   'BlackBerry OS 5.6', 'BlackBerry OS 1', 'BlackBerry OS 2.3',
   'Symbian OS 6.9', 'Symbian OS 7.0'
 ]
-operating_systems = []
+
 os_names.each do |os_name|
-  operating_systems.append(OperatingSystem.create(name: os_name))
+  OperatingSystem.find_or_create_by(name: os_name)
 end
 
 # Creating Models
@@ -36,7 +35,7 @@ def create_model_relating_to_brand_os(brand, os_prefix)
   operating_systems = OperatingSystem.where('name LIKE ?', "#{os_prefix}%")
   operating_systems.each_with_index do |os, _idx|
     model_name = brand_name[...3] + os.name
-    models.append(Model.create(name: model_name, operating_system: os, brand: brand))
+    models.append(Model.find_or_create_by(name: model_name, operating_system: os, brand: brand))
   end
   models
 end
@@ -50,45 +49,50 @@ end
 
 # Creating Users
 users = []
+def find_or_create_user(user)
+  if User.exists?(email: user[:email])
+    User.find_by(email: user[:email])
+  else
+    User.create(user)
+  end
+end
 
 # Admin
-users.append(User.create(email: 'admin@admin.com', password: 'adminadmin', remember_created_at: Time.now,
-                         name: 'ADMIN'))
+users.append(find_or_create_user({ email: 'admin@admin.com', password: 'adminadmin', remember_created_at: Time.now,
+                                   name: 'ADMIN' }))
 
 # Stores and Managers
 stores = []
-staffs = []
 (1..4).each do |i|
-  users.append(User.create(email: "manager#{i}@email.com", password: 'password123', remember_created_at: Time.now,
-                           name: "Manager #{i}", role: 'user'))
-  stores.append(Store.create(name: "Store #{i}", location: "Location #{i}"))
-  staffs.append(Staff.create(user: users[-1], store: stores[-1], role: 'manager'))
+  users.append(find_or_create_user({ email: "manager#{i}@email.com", password: 'password123', remember_created_at: Time.now,
+                                     name: "Manager #{i}", role: 'user' }))
+  stores.append(Store.find_or_create_by(name: "Store #{i}", location: "Location #{i}"))
+  Staff.find_or_create_by(user: users[-1], store: stores[-1], role: 'manager')
 end
 # Employees
 (1..15).each do |i|
-  users.append(User.create(
-                 email: "employee#{i}@email.com", password: 'password123',
-                 remember_created_at: Time.now, name: "Employee #{i}", role: 'user'
-               ))
-  staffs.append(Staff.create(user: users[-1], store: stores[i % stores.length]))
+  users.append(find_or_create_user({
+                                     email: "employee#{i}@email.com", password: 'password123',
+                                     remember_created_at: Time.now, name: "Employee #{i}", role: 'user'
+                                   }))
+  Staff.find_or_create_by(user: users[-1], store: stores[i % stores.length])
 end
 
 # Colors
 color_names = %w[red blue purple yellow orange white black green neon gray pink brown]
 colors = []
 color_names.each do |c_name|
-  colors.append(Color.create(name: c_name))
+  colors.append(Color.find_or_create_by(name: c_name))
 end
 
 # Predefined phone attributes!
-conditions = ['99%', 'Like New', 'Old', 'Used Once', 'Brand New', '98%', 'Decently New', 'Usable']
+conditions = Phone::CONDITIONS
 manufacture_years = Array(2015..2021)
 memory_sizes = [16, 24, 64, 96, 124, 186, 280, 514, 1024, 5000]
 price_calc = ->(cond, year, mem) { return cond.length * 50.5 + (year - 2015) * 100.3 + mem * 50.11 }
 batch_sizes = [5, 8, 10, 13, 15, 20]
 batch_count = 100
 # Phones
-phones = []
 (0..batch_count).each do |i|
   color = colors[i % colors.length]
   store = stores[i % stores.length]
@@ -101,7 +105,8 @@ phones = []
   price = price_calc.call(cond, year, mem)
   phone_json = { manufacture_year: year, condition: cond, memory: mem, price: price, model: model, store: store,
                  color: color }
-  phones.concat(Phone.create(Array.new(batch, phone_json)))
+
+  Phone.create(Array.new(batch, phone_json))
 end
 
 # Set some phones to unavailable

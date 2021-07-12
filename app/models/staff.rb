@@ -13,6 +13,8 @@ class Staff < ApplicationRecord
     store.destroy if manager?
   end
 
+  private
+
   def validate_user_role
     errors.add(:role, "Invalid user role: #{user.role} for a staff, must be a normal user") unless user.user?
   end
