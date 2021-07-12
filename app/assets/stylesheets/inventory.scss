@@ -5,14 +5,14 @@
 @use 'inventory_table';
 
 #inventory{
+  // border: 1px solid;
+  text-align: center;
+  #content {
+    width: 80%;
     // border: 1px solid;
-    text-align: center;
-    #content {
-        width: 80%;
-        // border: 1px solid;
-        text-align: left;
-        margin: auto;
-    }
+    text-align: left;
+    margin: auto;
+  }
 }
 
 
