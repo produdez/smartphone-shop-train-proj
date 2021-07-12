@@ -1,0 +1,47 @@
+scss = stylesheet_link_tag "phones_inventory"
+
+div#inventory
+  = render partial: 'shared/navbar'
+  h1 Phone Inventory
+  p Link: inventory/index
+  strong Note: Currely showing fixed number items only (10) 
+
+  div#content
+    button Add Phone
+    == yield
+    - if @phones.any?
+      table class="styled-table"
+        thead
+          th
+          th Index
+          th Added Date
+          th Brand
+          th Model
+          th Manufacture Year
+          th Color
+          th Price
+          th OS
+          th Memorty
+          th Store 
+          th Condition
+        - @phones[...10].each do |phone|
+          tr
+            td.select_box = check_box_tag 'flag', true
+              / = submit_tag 'Save'
+            td.id = phone.id
+            td.created_at = phone.created_at
+            td.brand = phone.model.brand.name
+            td.model = phone.model.name
+            td.manufacture_year = phone.manufacture_year
+            td.color = phone.color.name
+            td.price = phone.price
+            td.operating_system = phone.model.operating_system.name
+            td.memory = phone.memory
+            td.store = phone.store.name
+            td.status = phone.status
+    - else
+      p No items found. Please add some inventory.
+        Thank you!
+    button Set Unavailable
+    button Delete Selected
+  
