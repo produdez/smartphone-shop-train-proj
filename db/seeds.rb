@@ -59,7 +59,7 @@ end
 
 # Admin
 users.append(find_or_create_user({ email: 'admin@admin.com', password: 'adminadmin', remember_created_at: Time.now,
-                                   name: 'ADMIN', role: 'admin'}))
+                                   name: 'ADMIN', role: 'admin' }))
 
 # Stores and Managers
 stores = []

@@ -1,0 +1,21 @@
+// Place all the styles related to the inventory controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: https://sass-lang.com/
+// @use 'base';
+@use 'inventory_table';
+
+#inventory{
+    // border: 1px solid;
+    text-align: center;
+    #content {
+        width: 80%;
+        // border: 1px solid;
+        text-align: left;
+        margin: auto;
+    }
+}
+
+
+// body {
+//     color: black;
+// }
