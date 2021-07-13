@@ -1,0 +1,66 @@
+
+div#container
+  h1 New Phone
+  div#avatar
+    image src='/avatar.jpeg' style='width:10%'
+  p = @phone.inspect
+  - selected_model = @models[0]
+  = form_with url: '/phones', method: :post do | f |
+    / = f.label :id, value: :id
+    / br
+    = f.label :model
+    = f.select :model, model_names
+    br
+
+    = f.label :brand
+    = f.label :brand, selected_model.brand.name
+    br
+
+    = f.label :operating_system
+    = f.label :operating_system, selected_model.operating_system.name
+    br
+    
+    = f.label :memory
+    = f.number_field :memory, min: 0, range: 1
+    = f.label :memory, 'GB'
+    br
+
+    = f.label :manufacture_year
+    = select_year(Date.today, field_name: :manufacture_year, start_year: 2010 , end_year: 2025)
+    br
+    
+    = f.label :status
+    = f.label :status, 'AVAILABLE'
+    br
+    
+    = f.label :condition
+    = f.select :condition, condition_strs
+    br
+
+    = f.label :color
+    = f.select :color, color_names 
+    br
+
+    = f.label :quantity
+    = f.number_field :quantity, min: 0, range: 1
+    br
+
+    = f.label :price
+    = f.number_field :price, min: 0, range: :any
+    = f.label :price, '$$$'
+    br
+
+     
+    = f.label :note
+    = f.text_area :note
+    br
+
+    = f.label :model_description
+    = f.label :model_description, 'No description!'
+    br
+
+    = f.submit 'Let \'s goooo!'
+
+
+
+
