@@ -39,7 +39,7 @@ div.d-flex.justify-content-center
           div.mb-3.justify-content-center.col
             = f.label :price, class: 'form-label'
             div.row
-              div.col = f.number_field :price, min: 0, range: :any, required: true, class: 'form-control'
+              div.col = f.number_field :price, min: 0, step: :any, required: true, class: 'form-control'
               div.col-1 = f.label :price, '$$$', class: 'form-text'
 
         div.mb-3
