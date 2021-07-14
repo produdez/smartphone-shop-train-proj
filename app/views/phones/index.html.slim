@@ -6,8 +6,7 @@ div#inventory
   strong Note: Currely showing fixed number items only (10) 
 
   div#content
-    form action = new_phone_path
-      button type='submit' Create New Phone
+    = link_to 'Add Phones', new_phone_path ,class: 'btn btn-dark my-2'
     - if @phones.any?
       table class="styled-table"
         thead

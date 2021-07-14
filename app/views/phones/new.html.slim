@@ -2,7 +2,7 @@ div.d-flex.justify-content-center
   div.card.text-center.w-50
     h3.card-title New Phone
     div#avatar
-      image.class-img-top src='/avatar.jpeg' style='width:10%'
+      = image_tag '/avatar.jpeg', style: 'width:10%', class: 'card-img-top'
     div.card-body.col
       = form_with model: Phone.new , method: :post do | f |
 
@@ -50,5 +50,5 @@ div.d-flex.justify-content-center
           div.row = f.label :model_description, 'No description!', class: 'form-text'
 
           = f.submit 'Submit', class: 'btn btn-dark m-5'
-          = link_to 'Cancel', phones_path, class: 'btn btn-light m-5', method: "get"
+          = link_to 'Cancel', phones_path, class: 'btn btn-light m-5'
 

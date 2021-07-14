@@ -24,18 +24,15 @@ module PhonesHelper
   end
 
   def condition_mapping
-    CONDITION_TRANSLATION
+    [
+      ['99%', 'percent99'],
+      ['Like New', 'like_new'],
+      %w[Old old],
+      ['Used Once', 'used_once'],
+      ['Brand New', 'brand_new'],
+      ['98%', 'percent98'],
+      ['Decently New', 'decent_new'],
+      %w[Usable usable]
+    ]
   end
-
-  # NOTE: %w[percent99 like_new old used_once brand_new percent98 decent_new usable].freeze
-  CONDITION_TRANSLATION = [
-    ['99%', 'percent99'],
-    ['Like New', 'like_new'],
-    %w[Old old],
-    ['Used Once', 'used_once'],
-    ['Brand New', 'brand_new'],
-    ['98%', 'percent98'],
-    ['Decently New', 'decent_new'],
-    %w[Usable usable]
-  ].freeze
 end
