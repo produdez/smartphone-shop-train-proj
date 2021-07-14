@@ -50,6 +50,5 @@ div.d-flex.justify-content-center
           div.row = f.label :model_description, 'No description!', class: 'form-text'
 
           = f.submit 'Submit', class: 'btn btn-dark m-5'
-          form action='index'
-            button.btn.btn-light.m-5 type='submit' Cancel
+          = link_to 'Cancel', phones_path, class: 'btn btn-light m-5', method: "get"
 

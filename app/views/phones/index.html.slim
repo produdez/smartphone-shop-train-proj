@@ -6,7 +6,7 @@ div#inventory
   strong Note: Currely showing fixed number items only (10) 
 
   div#content
-    form action='phones/new'
+    form action = new_phone_path
       button type='submit' Create New Phone
     - if @phones.any?
       table class="styled-table"
