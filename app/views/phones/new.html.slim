@@ -1,66 +1,55 @@
+div.d-flex.justify-content-center
+  div.card.text-center.w-50
+    h3.card-title New Phone
+    div#avatar
+      image.class-img-top src='/avatar.jpeg' style='width:10%'
+    div.card-body.col
+      = form_with model: Phone.new , method: :post do | f |
 
-div#container
-  h1 New Phone
-  div#avatar
-    image src='/avatar.jpeg' style='width:10%'
-  p = @phone.inspect
-  - selected_model = @models[0]
-  = form_with url: '/phones', method: :post do | f |
-    / = f.label :id, value: :id
-    / br
-    = f.label :model
-    = f.select :model, model_names
-    br
+        div.row.justify-content-between
+          div.mb-3.justify-content-center.col
+            = f.label :model_id, class: 'form-label'
+            = f.select(:model_id, model_mapping, {}, { class: 'form-select' })
+          div.mb-3.justify-content-center.col
+            = f.label :color_id, class: 'form-label'
+            = f.select(:color_id, color_mapping, {}, { class: 'form-select' })
+        
+        // NOTE: Add os and brand here
 
-    = f.label :brand
-    = f.label :brand, selected_model.brand.name
-    br
+        div.row.justify-content-between
+          div.mb-3.justify-content-center.col
+            = f.label :manufacture_year, class: 'form-label'
+            = f.select(:manufacture_year, year_mapping, {}, { class: 'form-select' })
+          div.mb-3.justify-content-center.col
+            = f.label :memory, class: 'form-label'
+            div.row
+              div.col = f.number_field :memory, min: 0, range: 1, required: true, class: 'form-control'
+              div.col-1 = f.label :memory, 'GB', class: 'form-text'
+        div.row.justify-content-between
+          div.mb-3.justify-content-center.col
+            = f.label :status
+            = f.select(:status, status_mapping, {}, { class: 'form-select' })
+          div.mb-3.justify-content-center.col
+            = f.label :condition
+            = f.select(:condition, condition_mapping, {}, { class: 'form-select' })
+        div.row.justify-content-between
+          div.mb-3.justify-content-center.col
+            = f.label :quantity, class: 'form-label'
+            = f.number_field :quantity, min: 1, max: 20, range: 1, required: true, class: 'form-control'
+          div.mb-3.justify-content-center.col
+            = f.label :price, class: 'form-label'
+            div.row
+              div.col = f.number_field :price, min: 0, range: :any, required: true, class: 'form-control'
+              div.col-1 = f.label :price, '$$$', class: 'form-text'
 
-    = f.label :operating_system
-    = f.label :operating_system, selected_model.operating_system.name
-    br
-    
-    = f.label :memory
-    = f.number_field :memory, min: 0, range: 1
-    = f.label :memory, 'GB'
-    br
+        div.mb-3
+          = f.label :note, class: 'form-label'
+          = f.text_area :note, class: 'form-control'
+        div.mb-3.col
+          div.row = f.label :model_description, class: 'form-label'
+          div.row = f.label :model_description, 'No description!', class: 'form-text'
 
-    = f.label :manufacture_year
-    = select_year(Date.today, field_name: :manufacture_year, start_year: 2010 , end_year: 2025)
-    br
-    
-    = f.label :status
-    = f.label :status, 'AVAILABLE'
-    br
-    
-    = f.label :condition
-    = f.select :condition, condition_strs
-    br
-
-    = f.label :color
-    = f.select :color, color_names 
-    br
-
-    = f.label :quantity
-    = f.number_field :quantity, min: 0, range: 1
-    br
-
-    = f.label :price
-    = f.number_field :price, min: 0, range: :any
-    = f.label :price, '$$$'
-    br
-
-     
-    = f.label :note
-    = f.text_area :note
-    br
-
-    = f.label :model_description
-    = f.label :model_description, 'No description!'
-    br
-
-    = f.submit 'Let \'s goooo!'
-
-
-
+          = f.submit 'Submit', class: 'btn btn-dark m-5'
+          form action='index'
+            button.btn.btn-light.m-5 type='submit' Cancel
 

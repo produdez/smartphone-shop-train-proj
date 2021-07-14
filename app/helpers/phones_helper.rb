@@ -7,26 +7,35 @@ module PhonesHelper
     number_to_human(memory, precision: 2, units: { mili: 'MB', unit: 'GB', thousand: 'TB' })
   end
 
-  def condition_strs
-    puts Phone::CONDITIONS
-    Phone::CONDITIONS.map { |cond| CONDITION_MAPPING[cond.to_sym] }
+  def color_mapping
+    Color.all.collect { |color| [color.name.capitalize, color.id] }
   end
 
-  def get_condition_value(cond_str)
-    CONDITION_MAPPING.each do |value, str|
-      return value if str == cond_str
-    end
+  def model_mapping
+    Model.all.collect { |model| [model.name, model.id] }
+  end
+
+  def status_mapping
+    Phone::STATUSES.collect { |status| [status.capitalize, status] }
+  end
+
+  def year_mapping
+    2010..2025
+  end
+
+  def condition_mapping
+    CONDITION_TRANSLATION
   end
 
   # NOTE: %w[percent99 like_new old used_once brand_new percent98 decent_new usable].freeze
-  CONDITION_MAPPING = {
-    percent99: '99%',
-    like_new: 'Like New',
-    old: 'Old',
-    used_once: 'Used Once',
-    brand_new: 'Brand New',
-    percent98: '98%',
-    decent_new: 'Decently New',
-    usable: 'Usable'
-  }.freeze
+  CONDITION_TRANSLATION = [
+    ['99%', 'percent99'],
+    ['Like New', 'like_new'],
+    %w[Old old],
+    ['Used Once', 'used_once'],
+    ['Brand New', 'brand_new'],
+    ['98%', 'percent98'],
+    ['Decently New', 'decent_new'],
+    %w[Usable usable]
+  ].freeze
 end
