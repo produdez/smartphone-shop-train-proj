@@ -4,7 +4,7 @@ div.d-flex.justify-content-center
     div#avatar
       = image_tag '/avatar.jpeg', style: 'width:10%', class: 'card-img-top'
     div.card-body.col
-      = form_with model: Phone.new , method: :post do | f |
+      = form_with model: Phone.new , method: :post do |f|
 
         div.row.justify-content-between
           div.mb-3.justify-content-center.col
@@ -28,7 +28,7 @@ div.d-flex.justify-content-center
         div.row.justify-content-between
           div.mb-3.justify-content-center.col
             = f.label :status
-            input.form-control placeholder='In Stock' disabled=''
+            input.form-control placeholder = 'In Stock' disabled = ''
           div.mb-3.justify-content-center.col
             = f.label :condition
             = f.select(:condition, condition_mapping, {}, { class: 'form-select' })

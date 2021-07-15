@@ -11,32 +11,31 @@ div.d-flex.justify-content-center
         div.mb-3.justify-content-center.col
           label.form-label.fw-bold.fw-bold Model
           p.mb-3.fs-6.border-bottom = @phone.model.name
-          / p.mb-3.fs-6.border-bottom placeholder=@phone.model.name disabled=''
         div.mb-3.justify-content-center.col
           label.form-label.fw-bold Color
-          p.mb-3.fs-6.border-bottom =format_color(@phone.color.name)
+          p.mb-3.fs-6.border-bottom = format_color(@phone.color.name)
       
       // NOTE: Add os and brand here
 
       div.row.justify-content-between
         div.mb-3.justify-content-center.col
           label.form-label.fw-bold Manufacture Year
-          p.mb-3.fs-6.border-bottom =@phone.manufacture_year
+          p.mb-3.fs-6.border-bottom = @phone.manufacture_year
         div.mb-3.justify-content-center.col
           label.form-label.fw-bold Memory
           div.row
-            div.col: p.mb-3.fs-6.border-bottom =format_memory(@phone.memory)
+            div.col: p.mb-3.fs-6.border-bottom = format_memory(@phone.memory)
       div.row.justify-content-between
         div.mb-3.justify-content-center.col
           label.form-label.fw-bold Status
-          p.mb-3.fs-6.border-bottom =format_status(@phone.status)
+          p.mb-3.fs-6.border-bottom = format_status(@phone.status)
         div.mb-3.justify-content-center.col
           label.form-label.fw-bold Condition
-          p.mb-3.fs-6.border-bottom =format_condition(@phone.condition)
+          p.mb-3.fs-6.border-bottom = format_condition(@phone.condition)
       div.row.justify-content-between
         div.mb-3.justify-content-center.col
           label.form-label.fw-bold Date Added
-          p.mb-3.fs-6.border-bottom =@phone.created_at
+          p.mb-3.fs-6.border-bottom = @phone.created_at
         div.mb-3.justify-content-center.col
           label.form-label.fw-bold Price
           div.row
@@ -44,18 +43,18 @@ div.d-flex.justify-content-center
       div.row.justify-content-between
         div.mb-3.justify-content-center.col
           label.form-label.fw-bold Store
-          p.mb-3.fs-6.border-bottom =@phone.store.name
+          p.mb-3.fs-6.border-bottom = @phone.store.name
         div.mb-3.justify-content-center.col
           label.form-label.fw-bold Location 
-          p.mb-3.fs-6.border-bottom =@phone.store.location
+          p.mb-3.fs-6.border-bottom = @phone.store.location
       div.mb-3
         label.form-label.fw-bold Note
-        textarea.form-control =format_note(@phone)
+        textarea.form-control = format_note(@phone)
       div.mb-3.col
         div.row: label.form-label.fw-bold Description
         div.row: label.form-text = format_model_description(@phone)
 
-      = link_to 'DELETE', phone_path(@phone), class: 'btn btn-danger m-5', method: "delete"
+      = link_to 'DELETE', phone_path(@phone), class: 'btn btn-danger m-5', method: 'delete'
 
       = link_to 'Edit', edit_phone_path(@phone), class: 'btn btn-primary m-5'
 

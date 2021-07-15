@@ -53,7 +53,6 @@ module PhonesHelper
   end
 
   def format_status(status)
-    puts status
     status = status.dup
     status.gsub('_', ' ').capitalize
   end

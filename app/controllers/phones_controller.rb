@@ -10,11 +10,10 @@ class PhonesController < ApplicationController
     batch_size = params[:phone][:quantity].to_i
     idx = 1
     phone = nil
-    while idx <= batch_size
+    (idx..batch_size).each do
       phone = Phone.new(create_phone_params)
       phone.store_id = 1 # TODO: get store_id from user after auth is implemented
       phone.save!
-      idx += 1
     end
     flash[:success] = "Created #{batch_size} phones successfully (finished: #{Time.now})"
     redirect_to(phones_path)
@@ -32,7 +31,7 @@ class PhonesController < ApplicationController
   def edit; end
 
   def update
-    phone.update!(phone_params)
+    @phone.update!(phone_params)
     flash[:success] = "Edited phone id: #{phone.id} successfully (finished: #{Time.now})"
     redirect_to(phone_path(phone))
   rescue ActiveRecord::RecordInvalid
@@ -50,7 +49,6 @@ class PhonesController < ApplicationController
   private
 
   def load_phone
-    puts "Loading phone #{params[:id]}  "
     @phone = Phone.find(params[:id])
   end
 
