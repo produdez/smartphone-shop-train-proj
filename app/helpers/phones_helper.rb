@@ -44,13 +44,21 @@ module PhonesHelper
     ]
   end
 
+  def format_condition(condition_value)
+    condition_mapping.find { |_text, value| value == condition_value }[0]
+  end
+
+  def format_status(status)
+    status.capitalize
+  end
+
   def format_model_description(phone)
     description = phone.model.description
-    description.blank? ? 'No description' : description
+    description.present? ? description : 'No description'
   end
 
   def format_note(phone)
     note = phone.note
-    note.blank? ? 'Note Empty' : note
+    note.present? ? note : 'Note Empty'
   end
 end

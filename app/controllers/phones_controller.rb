@@ -1,4 +1,5 @@
 class PhonesController < ApplicationController
+  before_action :load_phone, only: %i[show edit destroy update]
   def index
     @phones = Phone.all
   end
@@ -26,16 +27,11 @@ class PhonesController < ApplicationController
     redirect_to(new_phone_path)
   end
 
-  def show
-    @phone = Phone.find(params[:id])
-  end
+  def show; end
 
-  def edit
-    @phone = Phone.find(params[:id])
-  end
+  def edit; end
 
   def update
-    phone = Phone.find(params[:id])
     phone.update!(phone_params)
     flash[:success] = "Edited phone id: #{phone.id} successfully (finished: #{Time.now})"
     redirect_to(phone_path(phone))
@@ -48,11 +44,15 @@ class PhonesController < ApplicationController
   end
 
   def destroy
-    @phone = Phone.find(params[:id])
     # TODO: Next PR
   end
 
   private
+
+  def load_phone
+    puts "Loading phone #{params[:id]}  "
+    @phone = Phone.find(params[:id])
+  end
 
   def phone_params
     params.require(:phone).permit(:model_id, :memory, :status, :condition, :color_id, :price, :note, :manufacture_year)

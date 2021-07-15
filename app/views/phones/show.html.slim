@@ -29,10 +29,10 @@ div.d-flex.justify-content-center
       div.row.justify-content-between
         div.mb-3.justify-content-center.col
           label.form-label Status
-          input.form-control placeholder=@phone.status disabled=''
+          input.form-control placeholder=format_status(@phone.status) disabled=''
         div.mb-3.justify-content-center.col
           label.form-label Condition
-          input.form-control placeholder=@phone.condition disabled=''
+          input.form-control placeholder=format_condition(@phone.condition) disabled=''
       div.row.justify-content-between
         div.mb-3.justify-content-center.col
           label.form-label Date Added
