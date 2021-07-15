@@ -40,4 +40,4 @@ div#inventory
       p No items found. Please add some inventory.
         Thank you!
     button#unavailable-selected Set Unavailable
-    button#delete-selected Delete Selected
+    = button_tag "Delete selected", remote: true, id: 'delete-selected'
