@@ -1,11 +1,13 @@
 div.d-flex.justify-content-center
   div.card.text-center.w-50
-    h3.card-title New Phone
+    h3.card-title Edit Phone 
     div#avatar
       = image_tag '/avatar.jpeg', style: 'width:10%', class: 'card-img-top'
     div.card-body.col
-      = form_with model: Phone.new , method: :post do |f|
-
+      = form_with model: @phone , method: :patch do |f|
+        div.d-flex.flex-row.justify-content-center.align-items-center
+          div.p2 Phone Id: 
+          div.p2 = @phone.id
         div.row.justify-content-between
           div.mb-3.justify-content-center.col
             = f.label :model_id, class: 'form-label'
@@ -28,27 +30,33 @@ div.d-flex.justify-content-center
         div.row.justify-content-between
           div.mb-3.justify-content-center.col
             = f.label :status
-            input.form-control placeholder = 'In Stock' disabled = ''
+            = f.select(:status, status_mapping, {}, { class: 'form-select' })
           div.mb-3.justify-content-center.col
             = f.label :condition
             = f.select(:condition, condition_mapping, {}, { class: 'form-select' })
         div.row.justify-content-between
           div.mb-3.justify-content-center.col
-            = f.label :quantity, class: 'form-label'
-            = f.number_field :quantity, min: 1, max: 20, range: 1, required: true, class: 'form-control'
+            label.form-label Date Added
+            input.form-control placeholder= @phone.created_at disabled = ''
           div.mb-3.justify-content-center.col
             = f.label :price, class: 'form-label'
             div.row
               div.col = f.number_field :price, min: 0, step: :any, required: true, class: 'form-control'
               div.col-1 = f.label :price, '$$$', class: 'form-text'
-
+        div.row.justify-content-between
+          div.mb-3.justify-content-center.col
+            label.form-label Store
+            input.form-control placeholder = @phone.store.name disabled = ''
+          div.mb-3.justify-content-center.col
+            label.form-label Location 
+            input.form-control placeholder = @phone.store.location disabled = ''
         div.mb-3
           = f.label :note, class: 'form-label'
-          = f.text_area :note, class: 'form-control'
+          = f.text_area :note, placeholder: format_note(@phone), class: 'form-control'
         div.mb-3.col
           div.row = f.label :model_description, class: 'form-label'
-          div.row = f.label :model_description, 'No description!', class: 'form-text'
-
+          div.row = f.label :model_description, format_model_description(@phone), class: 'form-text'
+          = link_to 'DELETE', phone_path(@phone), class: 'btn btn-danger m-5', method: 'delete'
           = f.submit 'Submit', class: 'btn btn-dark m-5'
+          = link_to 'Info', phone_path(@phone), class: 'btn btn-primary m-5'
           = link_to 'Cancel', phones_path, class: 'btn btn-light m-5'
-
