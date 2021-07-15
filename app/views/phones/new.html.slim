@@ -29,7 +29,6 @@ div.d-flex.justify-content-center
           div.mb-3.justify-content-center.col
             = f.label :status
             input.form-control placeholder='In Stock' disabled=''
-            = f.hidden_field :status, type: 'hidden', value: in_stock
           div.mb-3.justify-content-center.col
             = f.label :condition
             = f.select(:condition, condition_mapping, {}, { class: 'form-select' })

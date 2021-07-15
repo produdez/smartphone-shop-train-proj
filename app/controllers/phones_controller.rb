@@ -11,7 +11,7 @@ class PhonesController < ApplicationController
     idx = 1
     phone = nil
     while idx <= batch_size
-      phone = Phone.new(phone_params)
+      phone = Phone.new(create_phone_params)
       phone.store_id = 1 # TODO: get store_id from user after auth is implemented
       phone.save!
       idx += 1
@@ -56,5 +56,9 @@ class PhonesController < ApplicationController
 
   def phone_params
     params.require(:phone).permit(:model_id, :memory, :status, :condition, :color_id, :price, :note, :manufacture_year)
+  end
+
+  def create_phone_params
+    params.require(:phone).permit(:model_id, :memory, :condition, :color_id, :price, :note, :manufacture_year)
   end
 end
