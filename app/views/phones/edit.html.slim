@@ -1,0 +1,62 @@
+div.d-flex.justify-content-center
+  div.card.text-center.w-50
+    h3.card-title Edit Phone 
+    div#avatar
+      = image_tag '/avatar.jpeg', style: 'width:10%', class: 'card-img-top'
+    div.card-body.col
+      = form_with model: @phone , method: :patch do | f |
+        div.d-flex.flex-row.justify-content-center.align-items-center
+          div.p2 Phone Id: 
+          div.p2 = @phone.id
+        div.row.justify-content-between
+          div.mb-3.justify-content-center.col
+            = f.label :model_id, class: 'form-label'
+            = f.select(:model_id, model_mapping, {}, { class: 'form-select' })
+          div.mb-3.justify-content-center.col
+            = f.label :color_id, class: 'form-label'
+            = f.select(:color_id, color_mapping, {}, { class: 'form-select' })
+        
+        // NOTE: Add os and brand here
+
+        div.row.justify-content-between
+          div.mb-3.justify-content-center.col
+            = f.label :manufacture_year, class: 'form-label'
+            = f.select(:manufacture_year, year_mapping, {}, { class: 'form-select' })
+          div.mb-3.justify-content-center.col
+            = f.label :memory, class: 'form-label'
+            div.row
+              div.col = f.number_field :memory, min: 0, range: 1, required: true, class: 'form-control'
+              div.col-1 = f.label :memory, 'GB', class: 'form-text'
+        div.row.justify-content-between
+          div.mb-3.justify-content-center.col
+            = f.label :status
+            = f.select(:status, status_mapping, {}, { class: 'form-select' })
+          div.mb-3.justify-content-center.col
+            = f.label :condition
+            = f.select(:condition, condition_mapping, {}, { class: 'form-select' })
+        div.row.justify-content-between
+          div.mb-3.justify-content-center.col
+            label.form-label Date Added
+            input.form-control placeholder=@phone.created_at disabled=''
+          div.mb-3.justify-content-center.col
+            = f.label :price, class: 'form-label'
+            div.row
+              div.col = f.number_field :price, min: 0, step: :any, required: true, class: 'form-control'
+              div.col-1 = f.label :price, '$$$', class: 'form-text'
+        div.row.justify-content-between
+          div.mb-3.justify-content-center.col
+            label.form-label Store
+            input.form-control placeholder=@phone.store.name disabled=''
+          div.mb-3.justify-content-center.col
+            label.form-label Location 
+            input.form-control placeholder=@phone.store.location disabled=''
+        div.mb-3
+          = f.label :note, class: 'form-label'
+          = f.text_area :note, placeholder: format_note(@phone), class: 'form-control'
+        div.mb-3.col
+          div.row = f.label :model_description, class: 'form-label'
+          div.row = f.label :model_description, format_model_description(@phone), class: 'form-text'
+          = link_to 'DELETE', phone_path(@phone), class: 'btn btn-danger m-5', method: "delete"
+          = f.submit 'Submit', class: 'btn btn-dark m-5'
+          = link_to 'Info', phone_path(@phone), class: 'btn btn-primary m-5'
+          = link_to 'Cancel', phones_path, class: 'btn btn-light m-5'

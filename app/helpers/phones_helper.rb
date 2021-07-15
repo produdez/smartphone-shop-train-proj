@@ -43,4 +43,14 @@ module PhonesHelper
       %w[Usable usable]
     ]
   end
+
+  def format_model_description(phone)
+    description = phone.model.description
+    description.blank? ? 'No description' : description
+  end
+
+  def format_note(phone)
+    note = phone.note
+    note.blank? ? 'Note Empty' : note
+  end
 end

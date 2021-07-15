@@ -1,0 +1,63 @@
+div.d-flex.justify-content-center
+  div.card.text-center.w-50
+    h3.card-title Info Phone 
+    div#avatar
+      = image_tag '/avatar.jpeg', style: 'width:10%', class: 'card-img-top'
+    div.card-body.col
+      div.d-flex.flex-row.justify-content-center.align-items-center
+        div.p2 Phone Id: 
+        div.p2 = @phone.id
+      div.row.justify-content-between
+        div.mb-3.justify-content-center.col
+          label.form-label Model
+          input.form-control placeholder=@phone.model.name disabled=''
+        div.mb-3.justify-content-center.col
+          label.form-label Color
+          input.form-control placeholder=@phone.color.name disabled=''
+      
+      // NOTE: Add os and brand here
+
+      div.row.justify-content-between
+        div.mb-3.justify-content-center.col
+          label.form-label Manufacture Year
+          input.form-control placeholder=@phone.manufacture_year disabled=''
+        div.mb-3.justify-content-center.col
+          label.form-label Memory
+          div.row
+            div.col: input.form-control placeholder=@phone.memory disabled=''
+            div.col-1: label.form-text GB
+      div.row.justify-content-between
+        div.mb-3.justify-content-center.col
+          label.form-label Status
+          input.form-control placeholder=@phone.status disabled=''
+        div.mb-3.justify-content-center.col
+          label.form-label Condition
+          input.form-control placeholder=@phone.condition disabled=''
+      div.row.justify-content-between
+        div.mb-3.justify-content-center.col
+          label.form-label Date Added
+          input.form-control placeholder=@phone.created_at disabled=''
+        div.mb-3.justify-content-center.col
+          label.form-label Price
+          div.row
+            div.col: input.form-control placeholder=@phone.price disabled=''
+            div.col-1: label.form-text $$$
+      div.row.justify-content-between
+        div.mb-3.justify-content-center.col
+          label.form-label Store
+          input.form-control placeholder=@phone.store.name disabled=''
+        div.mb-3.justify-content-center.col
+          label.form-label Location 
+          input.form-control placeholder=@phone.store.location disabled=''
+      div.mb-3
+        label.form-label Note
+        textarea.form-control placeholder=format_note(@phone) disabled=''
+      div.mb-3.col
+        div.row: label.form-label Description
+        div.row: label.form-text = format_model_description(@phone)
+
+      = link_to 'DELETE', phone_path(@phone), class: 'btn btn-danger m-5', method: "delete"
+
+      = link_to 'Edit', edit_phone_path(@phone), class: 'btn btn-primary m-5'
+
+      = link_to 'Cancel', phones_path, class: 'btn btn-light m-5'

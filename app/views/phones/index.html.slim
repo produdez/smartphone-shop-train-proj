@@ -36,6 +36,7 @@ div#inventory
             td.memory = format_memory(phone.memory)
             td.store = phone.store.name
             td.status = phone.status
+            td.link = link_to 'Info', phone_path(phone)
     - else
       p No items found. Please add some inventory.
         Thank you!
