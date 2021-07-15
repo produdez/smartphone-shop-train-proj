@@ -1,12 +1,4 @@
 module PhonesHelper
-  def format_price(price)
-    number_to_currency(price, unit: '$')
-  end
-
-  def format_memory(memory)
-    number_to_human(memory, precision: 2, units: { mili: 'MB', unit: 'GB', thousand: 'TB' })
-  end
-
   def color_mapping
     Color.all.collect { |color| [color.name.capitalize, color.id] }
   end
@@ -16,7 +8,7 @@ module PhonesHelper
   end
 
   def status_mapping
-    Phone::STATUSES.collect { |status| [status.capitalize, status] }
+    Phone::STATUSES.collect { |status| [format_status(status), status] }
   end
 
   def in_stock
@@ -44,12 +36,26 @@ module PhonesHelper
     ]
   end
 
+  def format_price(price)
+    number_to_currency(price, unit: '$')
+  end
+
+  def format_memory(memory)
+    number_to_human(memory, precision: 2, units: { mili: 'MB', unit: 'GB', thousand: 'TB' })
+  end
+
+  def format_color(color)
+    color.capitalize
+  end
+
   def format_condition(condition_value)
     condition_mapping.find { |_text, value| value == condition_value }[0]
   end
 
   def format_status(status)
-    status.capitalize
+    puts status
+    status = status.dup
+    status.gsub('_', ' ').capitalize
   end
 
   def format_model_description(phone)
