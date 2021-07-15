@@ -11,15 +11,14 @@ class PhonesController < ApplicationController
     idx = 1
     phone = nil
     (idx..batch_size).each do
-      phone = Phone.new(create_phone_params)
+      phone = Phone.new(phone_params)
       phone.store_id = 1 # TODO: get store_id from user after auth is implemented
       phone.save!
     end
     flash[:success] = "Created #{batch_size} phones successfully (finished: #{Time.now})"
     redirect_to(phones_path)
   rescue ActiveRecord::RecordInvalid
-    flash[:error] = "Error creating phones, batch_size: #{batch_size}, stoped at ##{idx}"
-
+    flash[:error] = "Error creating phones, batch_size: #{batch_size}"
     phone.errors.errors.each do |error|
       flash[:error] << ", (Error Attribute: #{error.attribute}, Type: #{error.type})"
     end
@@ -32,11 +31,11 @@ class PhonesController < ApplicationController
 
   def update
     @phone.update!(phone_params)
-    flash[:success] = "Edited phone id: #{phone.id} successfully (finished: #{Time.now})"
-    redirect_to(phone_path(phone))
+    flash[:success] = "Edited phone id: #{@phone.id} successfully (finished: #{Time.now})"
+    redirect_to(phone_path(@phone))
   rescue ActiveRecord::RecordInvalid
-    flash[:error] = "Error editing info of phone id: #{phone.id}"
-    phone.errors.errors.each do |error|
+    flash[:error] = "Error editing info of phone id: #{@phone.id}"
+    @phone.errors.errors.each do |error|
       flash[:error] << ", (Attribute: #{error.attribute}, Type: #{error.type})"
     end
     redirect_to(edit_phone_path)
@@ -54,9 +53,5 @@ class PhonesController < ApplicationController
 
   def phone_params
     params.require(:phone).permit(:model_id, :memory, :status, :condition, :color_id, :price, :note, :manufacture_year)
-  end
-
-  def create_phone_params
-    params.require(:phone).permit(:model_id, :memory, :condition, :color_id, :price, :note, :manufacture_year)
   end
 end

@@ -39,7 +39,7 @@ div.d-flex.justify-content-center
         div.mb-3.justify-content-center.col
           label.form-label.fw-bold Price
           div.row
-            div.col: p.mb-3.fs-6.border-bottom =format_price(@phone.price)
+            div.col: p.mb-3.fs-6.border-bottom = format_price(@phone.price)
       div.row.justify-content-between
         div.mb-3.justify-content-center.col
           label.form-label.fw-bold Store
@@ -49,7 +49,7 @@ div.d-flex.justify-content-center
           p.mb-3.fs-6.border-bottom = @phone.store.location
       div.mb-3
         label.form-label.fw-bold Note
-        textarea.form-control = format_note(@phone)
+        p.mb-3.fs-6.border-bottom = format_note(@phone)
       div.mb-3.col
         div.row: label.form-label.fw-bold Description
         div.row: label.form-text = format_model_description(@phone)
