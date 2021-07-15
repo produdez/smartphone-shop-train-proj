@@ -12,4 +12,21 @@ class Phone < ApplicationRecord
   validates :condition, :status, presence: true
   validates :status, inclusion: { in: STATUSES }
   validates :condition, inclusion: { in: CONDITIONS }
+  
+  class << self
+
+    def filter_by(filter_name, options = {})
+      if !filter_name || options.empty?
+        nil # TODO: may raise error?
+      else
+        send("filter_by_#{filter_name}", *options)
+      end
+    end
+
+    private
+
+    def filter_by_brand_name(value = nil)
+      joins(model: :brand).where(brand: {name: value})
+    end
+  end
 end
