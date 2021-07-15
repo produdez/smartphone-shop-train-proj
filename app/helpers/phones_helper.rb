@@ -19,6 +19,14 @@ module PhonesHelper
     Phone::STATUSES.collect { |status| [status.capitalize, status] }
   end
 
+  def in_stock
+    Phone::STATUSES[0]
+  end
+
+  def in_stock_status_mapping
+    [['In Stock', in_stock]]
+  end
+
   def year_mapping
     2010..2025
   end
