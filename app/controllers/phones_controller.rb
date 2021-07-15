@@ -1,5 +1,6 @@
 class PhonesController < ApplicationController
   before_action :load_phone, only: %i[show edit destroy update]
+
   def index
     @phones = Phone.all
   end
@@ -8,20 +9,13 @@ class PhonesController < ApplicationController
 
   def create
     batch_size = params[:phone][:quantity].to_i
-    idx = 1
-    phone = nil
-    (idx..batch_size).each do
-      phone = Phone.new(phone_params)
-      phone.store_id = 1 # TODO: get store_id from user after auth is implemented
-      phone.save!
+    (1..batch_size).each do
+      Phone.create!(phone_params.merge(store_id: 2)) # TODO: get store_id from user after auth is implemented
     end
     flash[:success] = "Created #{batch_size} phones successfully (finished: #{Time.now})"
     redirect_to(phones_path)
   rescue ActiveRecord::RecordInvalid
     flash[:error] = "Error creating phones, batch_size: #{batch_size}"
-    phone.errors.errors.each do |error|
-      flash[:error] << ", (Error Attribute: #{error.attribute}, Type: #{error.type})"
-    end
     redirect_to(new_phone_path)
   end
 
@@ -35,9 +29,6 @@ class PhonesController < ApplicationController
     redirect_to(phone_path(@phone))
   rescue ActiveRecord::RecordInvalid
     flash[:error] = "Error editing info of phone id: #{@phone.id}"
-    @phone.errors.errors.each do |error|
-      flash[:error] << ", (Attribute: #{error.attribute}, Type: #{error.type})"
-    end
     redirect_to(edit_phone_path)
   end
 
