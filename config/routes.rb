@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  resources :phones do 
+  resources :phones do
     collection do
       post 'delete_selected'
     end

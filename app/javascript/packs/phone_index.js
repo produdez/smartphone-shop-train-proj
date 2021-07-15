@@ -1,33 +1,17 @@
-
-
 console.log('Loaded phone_index.js')
 
-
 $(function(){
-    $('#shit-button').on('click', function(){
-      console.log('button clicked');
-    });
-
-    $('#phone_model_id').on('change', function(){
-        console.log('Select value: ', $(this).children("option:selected").val());
-        $(this).val(2)
-        console.log('Select value: ', $(this).children("option:selected").val());
-
-    });
-
-    //! real
     var $check_boxes = $('input[name="phone_check_box_id"]')
     var $delete_button = $('#delete-selected')
 
     $delete_button.on('click', function(){
-      console.log('Check count: ', $check_boxes.length);
       var checked_indexes = get_checked_phone_index($check_boxes)
+      console.log('Check count: ', $check_boxes.length);
       console.log('Checked indexes: ', checked_indexes);
-      if(checked_indexes.length == 0){
-        alert('Dint select anything');
-        return
-      }
-      // TODO: make ajax request to delete
+
+      if(empty_selection(checked_indexes)) return;
+      if(!request_confirmed('Confirming delete request!')) return;
+
       data_json = {ids: checked_indexes}
       Rails.ajax({
         type: "post",
@@ -46,6 +30,15 @@ $(function(){
       })
     })
 });
+
+function request_confirmed(message){
+  return confirm(message);
+}
+function empty_selection(checked_indexes){
+  var empty = checked_indexes.length == 0
+  if(empty) window.alert('Please select something first!')
+  return empty;
+}
 
 function log_alert_reload(prepend, result, alert){
   console.log(prepend, result)
