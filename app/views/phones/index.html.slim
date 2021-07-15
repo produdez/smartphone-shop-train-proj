@@ -1,5 +1,5 @@
 scss = stylesheet_link_tag "phones_inventory"
-
+= javascript_pack_tag "phone_index.js"
 div#inventory
   = render partial: 'shared/navbar'
   h1 Phone Inventory
@@ -24,7 +24,7 @@ div#inventory
           th Condition
         - @phones[...10].each do |phone|
           tr
-            td.select_box = check_box_tag 'flag', true
+            td.select_box = check_box_tag :phone_check_box_id, phone.id, false
             td.id = phone.id
             td.created_at = phone.created_at
             td.brand = phone.model.brand.name
@@ -39,5 +39,5 @@ div#inventory
     - else
       p No items found. Please add some inventory.
         Thank you!
-    button Set Unavailable
-    button Delete Selected
+    button#unavailable-selected Set Unavailable
+    button#delete-selected Delete Selected
