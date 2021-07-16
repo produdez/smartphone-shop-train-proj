@@ -54,7 +54,7 @@ div.d-flex.justify-content-center
         div.row: label.form-label.fw-bold Description
         div.row: label.form-text = format_model_description(@phone)
 
-      = link_to 'DELETE', phone_path(@phone), class: 'btn btn-danger m-5', method: 'delete'
+      = link_to 'DELETE', phone_path(@phone), class: 'btn btn-danger m-5', method: 'delete', data: { confirm: 'Are you sure?' }
 
       = link_to 'Edit', edit_phone_path(@phone), class: 'btn btn-primary m-5'
 

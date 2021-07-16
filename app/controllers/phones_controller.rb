@@ -2,7 +2,7 @@ class PhonesController < ApplicationController
   before_action :load_phone, only: %i[show edit destroy update]
 
   def index
-    @phones = Phone.all
+    @phones = Phone.order(updated_at: :desc)
   end
 
   def new; end
@@ -33,7 +33,27 @@ class PhonesController < ApplicationController
   end
 
   def destroy
-    # TODO: Next PR
+    @phone.destroy!
+    flash[:success] = "Deleted record #{params[:id]} successfully (finished: #{Time.now})"
+    redirect_to(phones_path)
+  rescue ActiveRecord::RecordNotDestroyed
+    flash[:error] = 'Fail to delete seleted records!'
+    redirect_to(phone_path(@phone))
+  end
+
+  # NOTE: async ajax
+  def delete_selected
+    id_list = params[:ids].split(',')
+    if id_list.blank?
+      render(json: { success: false, error: 'Empty Request' })
+      return
+    end
+    Phone.where(id: id_list).each(&:destroy!)
+    message = "Deleted records: #{id_list}, finished: #{Time.now}"
+    render(json: { success: true, ids: id_list, total: id_list.length, message: message })
+  rescue ActiveRecord::RecordNotDestroyed
+    error = 'Fail to delete seleted records!'
+    render(json: { success: false, error: error })
   end
 
   private
