@@ -13,50 +13,46 @@ class Phone < ApplicationRecord
   validates :status, inclusion: { in: STATUSES }
   validates :condition, inclusion: { in: CONDITIONS }
 
-  class << self
-    def filter_by(filter_name, **options)
-      raise StandardError 'Unspecified filter name!' unless filter_name.present?
+  scope :filter_by, lambda { |filter_name, **options|
+    raise StandardError 'Unspecified filter name!' unless filter_name.present?
 
-      send("filter_by_#{filter_name}", **options)
-    end
+    send("filter_by_#{filter_name}", **options)
+  }
 
-    private
+  scope :filter_by_brand_name, lambda { |value: nil|
+    joins(model: :brand).where(brand: { name: value })
+  }
 
-    def filter_by_brand_name(value: nil)
-      joins(model: :brand).where(brand: { name: value })
-    end
+  scope :filter_by_os_name, lambda { |value: nil|
+    joins(model: :operating_system).where(operating_system: { name: value })
+  }
 
-    def filter_by_os_name(value: nil)
-      joins(model: :operating_system).where(operating_system: { name: value })
-    end
+  scope :filter_by_color_name, lambda { |value: nil|
+    joins(:color).where(color: { name: value })
+  }
 
-    def filter_by_color_name(value: nil)
-      joins(:color).where(color: { name: value })
-    end
+  scope :filter_by_store_name, lambda { |value: nil|
+    joins(:store).where(store: { name: value })
+  }
 
-    def filter_by_store_name(value: nil)
-      joins(:store).where(store: { name: value })
-    end
+  scope :filter_by_condition, lambda { |value: nil|
+    where(condition: value)
+  }
 
-    def filter_by_condition(value: nil)
-      where(condition: value)
-    end
+  scope :filter_by_manufacture_year_range, lambda { |min: nil, max: nil|
+    where(GetRangeSqlService.call('manufacture_year', min, max))
+  }
 
-    def filter_by_manufacture_year_range(min: nil, max: nil)
-      where(GetRangeSqlService.call('manufacture_year', min, max))
-    end
+  scope :filter_by_memory_range, lambda { |min: nil, max: nil|
+    where(GetRangeSqlService.call('memory', min, max))
+  }
 
-    def filter_by_memory_range(min: nil, max: nil)
-      where(GetRangeSqlService.call('memory', min, max))
-    end
+  scope :filter_by_price_range, lambda { |min: nil, max: nil|
+    where(GetRangeSqlService.call('manufacture_year', min, max))
+  }
 
-    def filter_by_price_range(min: nil, max: nil)
-      where(GetRangeSqlService.call('manufacture_year', min, max))
-    end
-
-    def filter_by_created_at_range(min: nil, max: nil)
-      # ! this one is special !
-      where(GetRangeSqlService.call('created_at', min, max))
-    end
-  end
+  scope :filter_by_created_at_range, lambda { |min: nil, max: nil|
+    # ! this one is special !
+    where(GetRangeSqlService.call('created_at', min, max))
+  }
 end
