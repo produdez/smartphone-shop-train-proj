@@ -15,18 +15,14 @@ class Phone < ApplicationRecord
 
   class << self
     def filter_by(filter_name, **options)
-      puts "Filter: #{filter_name}, params: #{options}, params empty? #{options.empty?}"
-      if !filter_name || empty_options(options)
-        Phone.none # TODO: may raise error?
-      else
-        send("filter_by_#{filter_name}", **options)
-      end
+      raise StandardError 'Unspecified filter name!' unless filter_name.present?
+
+      send("filter_by_#{filter_name}", **options)
     end
 
     private
 
     def filter_by_brand_name(value: nil)
-      puts 'shit: ', value
       joins(model: :brand).where(brand: { name: value })
     end
 
@@ -47,35 +43,20 @@ class Phone < ApplicationRecord
     end
 
     def filter_by_manufacture_year_range(min: nil, max: nil)
-      where(range_sql_str('manufacture_year', min, max))
+      where(GetRangeSqlService.call('manufacture_year', min, max))
     end
 
     def filter_by_memory_range(min: nil, max: nil)
-      where(range_sql_str('memory', min, max))
+      where(GetRangeSqlService.call('memory', min, max))
     end
 
     def filter_by_price_range(min: nil, max: nil)
-      where(range_sql_str('manufacture_year', min, max))
+      where(GetRangeSqlService.call('manufacture_year', min, max))
     end
 
     def filter_by_created_at_range(min: nil, max: nil)
       # ! this one is special !
-      where(range_sql_str('created_at', min, max))
+      where(GetRangeSqlService.call('created_at', min, max))
     end
   end
-end
-
-# TODO: move these helper to helper or module!
-def empty_options(options)
-  options.reduce(true) { |empty, (_key, val)| empty && val.empty? }
-end
-
-def range_sql_str(attribute_name, min, max)
-  return "#{attribute_name} BETWEEN #{min} AND #{max}" if min.present? && max.present?
-
-  return "#{attribute_name} <= #{max}" if min.empty?
-
-  return "#{attribute_name} >= #{min}" if max.empty?
-
-  nil
 end

@@ -2,19 +2,8 @@ class PhonesController < ApplicationController
   before_action :load_phone, only: %i[show edit destroy update]
 
   def index
-    @phones = Phone
-    filters = filter_params[:filters].present? ? filter_params[:filters] : {}
-    flash[:warning] = 'Filters', filters
-
-    filters.each do |name, options|
-      options = options.to_h.symbolize_keys
-
-      next if empty_options(options)
-
-      @phones = @phones.filter_by(name, options)
-    end
-
-    @phones = @phones.order(updated_at: :desc)
+    @phones = PhoneFilterService.call(filter_params[:filters])
+    flash[:warning] = 'Filters', filter_params[:filters]
     flash[:success] = "Filtered: #{@phones.length}"
   end
 
@@ -83,9 +72,4 @@ class PhonesController < ApplicationController
     # TODO: only permit the needed filters
     params.permit!
   end
-end
-
-# TODO: move these helper to helper or module!
-def empty_options(options)
-  options.reduce(true) { |empty, (_key, val)| empty && val.empty? }
 end
