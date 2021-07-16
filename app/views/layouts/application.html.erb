@@ -20,23 +20,21 @@
         <div class="alert alert-success">
           <%= msg %>
         </div>
-      <% end %>
-      <%if type == 'warning' %>
+      <%elsif type == 'warning' %>
         <div class="alert alert-warning">
           <%= msg %>
         </div>
-      <% end %>
-      <%if type == 'info' %>
-        <div class="alert alert-info">
-          <%= msg %>
-        </div>
-      <% end %>
-      <%if type == 'error' %>
+      <%elsif type == 'error' %>
         <div class="alert alert-danger">
           <%= msg %>
         </div>
-      <% end %>
-    <% end %>
+      <% else %>
+        <div class="alert alert-info">
+          <%= msg %>
+        </div>
+      <%end%>
+
+    <% end %> 
 
     <%= yield %>
   </body>

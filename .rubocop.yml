@@ -1,0 +1,15 @@
+AllCops:
+  NewCops: enable
+  TargetRubyVersion: 2.7
+  SuggestExtensions: false
+  Exclude:
+    - 'vendor/**/*'
+    - 'bin/**/*'
+    - 'frontend/**/*'
+    - '.git/**/*'
+    - 'db/schema.rb'
+    - 'db/migrate/*.rb'
+    - 'log/**/*'
+    - 'public/**/*'
+    - 'tmp/**/*'
+    - 'config/initializers/*'
