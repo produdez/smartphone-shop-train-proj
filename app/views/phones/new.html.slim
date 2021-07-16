@@ -28,7 +28,7 @@ div.d-flex.justify-content-center
         div.row.justify-content-between
           div.mb-3.justify-content-center.col
             = f.label :status
-            input.form-control placeholder = 'In Stock' disabled = ''
+            input.form-control placeholder='In Stock' disabled=''
           div.mb-3.justify-content-center.col
             = f.label :condition
             = f.select(:condition, condition_mapping, {}, { class: 'form-select' })

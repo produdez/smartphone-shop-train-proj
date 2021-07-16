@@ -37,7 +37,7 @@ div.d-flex.justify-content-center
         div.row.justify-content-between
           div.mb-3.justify-content-center.col
             label.form-label Date Added
-            input.form-control placeholder= @phone.created_at disabled = ''
+            input.form-control placeholder=@phone.created_at disabled=''
           div.mb-3.justify-content-center.col
             = f.label :price, class: 'form-label'
             div.row
@@ -46,10 +46,10 @@ div.d-flex.justify-content-center
         div.row.justify-content-between
           div.mb-3.justify-content-center.col
             label.form-label Store
-            input.form-control placeholder = @phone.store.name disabled = ''
+            input.form-control placeholder=@phone.store.name disabled=''
           div.mb-3.justify-content-center.col
             label.form-label Location 
-            input.form-control placeholder = @phone.store.location disabled = ''
+            input.form-control placeholder=@phone.store.location disabled=''
         div.mb-3
           = f.label :note, class: 'form-label'
           = f.text_area :note, placeholder: format_note(@phone), class: 'form-control'
