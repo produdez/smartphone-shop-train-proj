@@ -2,7 +2,7 @@ class PhonesController < ApplicationController
   before_action :load_phone, only: %i[show edit destroy update]
 
   def index
-    @phones = Phone.all.order(updated_at: :desc)
+    @phones = Phone.order(updated_at: :desc)
   end
 
   def new; end

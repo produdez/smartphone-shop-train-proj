@@ -1,30 +1,30 @@
 $(function(){
-    var $check_boxes = $('input[name="phone_check_box_id"]')
-    var $delete_button = $('#delete-selected')
+  var $check_boxes = $('input[name="phone_check_box_id"]')
+  var $delete_button = $('#delete-selected')
 
-    $delete_button.on('click', function(){
-      var checked_indexes = get_checked_phone_index($check_boxes)
+  $delete_button.on('click', function(){
+    var checked_indexes = get_checked_phone_index($check_boxes)
 
-      if(empty_selection(checked_indexes)) return
-      if(!confirm('Confirming delete request!')) return
+    if(empty_selection(checked_indexes)) return
+    if(!confirm('Confirming delete request!')) return
 
-      data_json = {ids: checked_indexes}
-      Rails.ajax({
-        type: 'post',
-        url: 'phones/delete_selected',
-        data: new URLSearchParams(data_json).toString(),
-        success: function(result){
-          if(result.success){
-            alert_n_reload(result.message)
-          }else{
-            alert_n_reload(result.error)
-          }
-        },
-        error: function(){
-          alert_n_reload('Request failed')
+    data_json = {ids: checked_indexes}
+    Rails.ajax({
+      type: 'post',
+      url: 'phones/delete_selected',
+      data: new URLSearchParams(data_json).toString(),
+      success: function(result){
+        if(result.success){
+          alert_n_reload(result.message)
+        }else{
+          alert_n_reload(result.error)
         }
-      })
+      },
+      error: function(){
+        alert_n_reload('Request failed')
+      }
     })
+  })
 })
 
 function empty_selection(checked_indexes){
