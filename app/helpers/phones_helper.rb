@@ -20,7 +20,7 @@ module PhonesHelper
   end
 
   def year_mapping
-    2010..2025
+    (2010..2025).to_a
   end
 
   def condition_mapping
@@ -65,5 +65,19 @@ module PhonesHelper
   def format_note(phone)
     note = phone.note
     note.present? ? note : 'Note Empty'
+  end
+
+  def add_empty_option(available_options)
+    available_options.insert(0, ['Not Filtered', ''])
+  end
+
+  def get_filtered_option(filter_name, field_type)
+    return '' if params.blank?
+
+    return '' if params[:filters].blank?
+
+    return '' if params[:filters][filter_name].blank?
+
+    params[:filters][filter_name][field_type]
   end
 end

@@ -19,24 +19,32 @@ class Phone < ApplicationRecord
     send("filter_by_#{filter_name}", **options)
   }
 
-  scope :filter_by_brand_name, lambda { |value: nil|
-    joins(model: :brand).where(brand: { name: value })
+  scope :filter_by_brand, lambda { |value: nil|
+    joins(model: :brand).where(brand: { id: value })
   }
 
-  scope :filter_by_os_name, lambda { |value: nil|
-    joins(model: :operating_system).where(operating_system: { name: value })
+  scope :filter_by_operating_system, lambda { |value: nil|
+    joins(model: :operating_system).where(operating_system: { id: value })
   }
 
-  scope :filter_by_color_name, lambda { |value: nil|
-    joins(:color).where(color: { name: value })
+  scope :filter_by_color, lambda { |value: nil|
+    joins(:color).where(color: { id: value })
   }
 
-  scope :filter_by_store_name, lambda { |value: nil|
-    joins(:store).where(store: { name: value })
+  scope :filter_by_store, lambda { |value: nil|
+    joins(:store).where(store: { id: value })
+  }
+
+  scope :filter_by_model, lambda { |value: nil|
+    joins(:model).where(model: { id: value })
   }
 
   scope :filter_by_condition, lambda { |value: nil|
     where(condition: value)
+  }
+
+  scope :filter_by_status, lambda { |value: nil|
+    where(status: value)
   }
 
   scope :filter_by_manufacture_year_range, lambda { |min: nil, max: nil|
