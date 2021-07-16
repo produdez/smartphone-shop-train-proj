@@ -12,9 +12,8 @@ class Phone < ApplicationRecord
   validates :condition, :status, presence: true
   validates :status, inclusion: { in: STATUSES }
   validates :condition, inclusion: { in: CONDITIONS }
-  
-  class << self
 
+  class << self
     def filter_by(filter_name, options = {})
       if !filter_name || options.empty?
         nil # TODO: may raise error?
@@ -28,5 +27,49 @@ class Phone < ApplicationRecord
     def filter_by_brand_name(value = nil)
       joins(model: :brand).where(brand: {name: value})
     end
+
+    def filter_by_os_name(value = nil)
+      joins(model: :operating_system).where(operating_system: {name: value})
+    end
+
+    def filter_by_color_name(value = nil)
+      joins(:color).where(color: {name: value})
+    end
+
+    def filter_by_store_name(value = nil)
+      joins(:store).where(store: {name: value})
+    end
+
+    def filter_by_condition(value = nil)
+      where(condition: value)
+    end
+
+    def filter_by_manufacture_year_range(min = nil, max = nil)
+      where(range_sql_str('manufacture_year', min, max))
+    end
+
+    def filter_by_memory_range(min = nil, max = nil)
+      where(range_sql_str('memory', min, max))
+    end
+
+    def filter_by_price_range(min = nil, max = nil)
+      where(range_sql_str('manufacture_year', min, max))
+    end
+
+    def filter_by_created_at_range(min = nil, max = nil)
+      # ! this one is special !
+      where(range_sql_str('created_at', min, max))
+    end
   end
+end
+
+# TODO: move this helper to helper or module!
+def range_sql_str(attribute_name, min = nil, max = nil)
+  return "#{attribute_name} BETWEEN #{min} AND #{max}" if min.present? && max.present?
+
+  return "#{attribute_name} <= #{max}" if min.nil?
+
+  return "#{attribute_name} >= #{min}" if max.nil?
+
+  nil
 end
