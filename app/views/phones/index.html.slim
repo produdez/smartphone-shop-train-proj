@@ -1,5 +1,5 @@
-scss = stylesheet_link_tag "phones_inventory"
-= javascript_pack_tag "phone_index.js"
+scss = stylesheet_link_tag 'phones_inventory'
+= javascript_pack_tag 'phone_index.js'
 div#inventory
   = render partial: 'shared/navbar'
   h1 Phone Inventory
@@ -8,7 +8,7 @@ div#inventory
   div#content
     = link_to 'Add Phones', new_phone_path ,class: 'btn btn-dark my-2'
     - if @phones.any?
-      table class="styled-table"
+      table class='styled-table'
         thead
           th
           th Index
@@ -41,4 +41,4 @@ div#inventory
       p No items found. Please add some inventory.
         Thank you!
     button#unavailable-selected Set Unavailable
-    = button_tag "Delete selected", remote: true, id: 'delete-selected'
+    = button_tag 'Delete selected', remote: true, id: 'delete-selected'

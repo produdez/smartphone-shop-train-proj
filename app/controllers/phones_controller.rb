@@ -39,21 +39,17 @@ class PhonesController < ApplicationController
   # NOTE: async ajax
   def delete_selected
     id_list = params[:ids].split(',')
-    phone = nil
-
-    if id_list.length.zero?
+    if id_list.blank?
       render json: { success: false, error: 'Empty Request' }
       return
     end
 
-    id_list.each do |phone_id|
-      phone = Phone.find(phone_id)
-      phone.destroy!
-    end
+    Phone.where(id: id_list).each(&:destroy!)
+
     message = "Deleted records: #{id_list}, finished: #{Time.now}"
     render json: { success: true, ids: id_list, total: id_list.length, message: message }
   rescue ActiveRecord::RecordNotDestroyed
-    error = "Fail to delete seleted records, stopped at: ##{phone.id}"
+    error = 'Fail to delete seleted records!'
     render json: { success: false, error: error }
   end
 
