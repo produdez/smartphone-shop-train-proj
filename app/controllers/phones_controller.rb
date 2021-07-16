@@ -2,7 +2,20 @@ class PhonesController < ApplicationController
   before_action :load_phone, only: %i[show edit destroy update]
 
   def index
-    @phones = Phone.order(updated_at: :desc)
+    @phones = Phone
+    filters = filter_params[:filters].present? ? filter_params[:filters] : {}
+    flash[:warning] = 'Filters', filters
+
+    filters.each do |name, options|
+      options = options.to_h.symbolize_keys
+
+      next if empty_options(options)
+
+      @phones = @phones.filter_by(name, options)
+    end
+
+    @phones = @phones.order(updated_at: :desc)
+    flash[:success] = "Filtered: #{@phones.length}"
   end
 
   def new; end
@@ -65,4 +78,14 @@ class PhonesController < ApplicationController
   def phone_params
     params.require(:phone).permit(:model_id, :memory, :status, :condition, :color_id, :price, :note, :manufacture_year)
   end
+
+  def filter_params
+    # TODO: only permit the needed filters
+    params.permit!
+  end
+end
+
+# TODO: move these helper to helper or module!
+def empty_options(options)
+  options.reduce(true) { |empty, (_key, val)| empty && val.empty? }
 end

@@ -6,6 +6,28 @@ div#inventory
   strong Note: Currely showing fixed number items only (10) 
 
   div#content
+    = form_for :filters, url: phones_path, method: :get do |f|
+      = f.label :brand_name
+      = f.fields_for :brand_name do |ff|
+        = ff.text_field :value
+        = f.label :os_name
+      = f.fields_for :os_name do |ff|
+        = ff.text_field :value
+      br
+      = f.label :manufacture_year_range, 'Year'
+      = f.fields_for :manufacture_year_range do |ff|
+        = ff.label :min
+        = ff.text_field :min
+        = ff.label :max
+        = ff.text_field :max
+      br
+      = f.label :memory_range, 'Memory'
+      = f.fields_for :memory_range do |ff|
+        = ff.label :min
+        = ff.text_field :min
+        = ff.label :max
+        = ff.text_field :max
+      = f.submit 'Filter'
     = link_to 'Add Phones', new_phone_path ,class: 'btn btn-dark my-2'
     - if @phones.any?
       table class='styled-table'
@@ -42,3 +64,5 @@ div#inventory
         Thank you!
     button#unavailable-selected Set Unavailable
     = button_tag 'Delete selected', remote: true, id: 'delete-selected'
+
+= link_to "Test Filter Link", phones_path(:brand => "Samsung")

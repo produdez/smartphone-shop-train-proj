@@ -14,62 +14,68 @@ class Phone < ApplicationRecord
   validates :condition, inclusion: { in: CONDITIONS }
 
   class << self
-    def filter_by(filter_name, options = {})
-      if !filter_name || options.empty?
-        nil # TODO: may raise error?
+    def filter_by(filter_name, **options)
+      puts "Filter: #{filter_name}, params: #{options}, params empty? #{options.empty?}"
+      if !filter_name || empty_options(options)
+        Phone.none # TODO: may raise error?
       else
-        send("filter_by_#{filter_name}", *options)
+        send("filter_by_#{filter_name}", **options)
       end
     end
 
     private
 
-    def filter_by_brand_name(value = nil)
-      joins(model: :brand).where(brand: {name: value})
+    def filter_by_brand_name(value: nil)
+      puts 'shit: ', value
+      joins(model: :brand).where(brand: { name: value })
     end
 
-    def filter_by_os_name(value = nil)
-      joins(model: :operating_system).where(operating_system: {name: value})
+    def filter_by_os_name(value: nil)
+      joins(model: :operating_system).where(operating_system: { name: value })
     end
 
-    def filter_by_color_name(value = nil)
-      joins(:color).where(color: {name: value})
+    def filter_by_color_name(value: nil)
+      joins(:color).where(color: { name: value })
     end
 
-    def filter_by_store_name(value = nil)
-      joins(:store).where(store: {name: value})
+    def filter_by_store_name(value: nil)
+      joins(:store).where(store: { name: value })
     end
 
-    def filter_by_condition(value = nil)
+    def filter_by_condition(value: nil)
       where(condition: value)
     end
 
-    def filter_by_manufacture_year_range(min = nil, max = nil)
+    def filter_by_manufacture_year_range(min: nil, max: nil)
       where(range_sql_str('manufacture_year', min, max))
     end
 
-    def filter_by_memory_range(min = nil, max = nil)
+    def filter_by_memory_range(min: nil, max: nil)
       where(range_sql_str('memory', min, max))
     end
 
-    def filter_by_price_range(min = nil, max = nil)
+    def filter_by_price_range(min: nil, max: nil)
       where(range_sql_str('manufacture_year', min, max))
     end
 
-    def filter_by_created_at_range(min = nil, max = nil)
+    def filter_by_created_at_range(min: nil, max: nil)
       # ! this one is special !
       where(range_sql_str('created_at', min, max))
     end
   end
 end
 
-# TODO: move this helper to helper or module!
-def range_sql_str(attribute_name, min = nil, max = nil)
+# TODO: move these helper to helper or module!
+def empty_options(options)
+  options.reduce(true) { |empty, (_key, val)| empty && val.empty? }
+end
+
+def range_sql_str(attribute_name, min, max)
   return "#{attribute_name} BETWEEN #{min} AND #{max}" if min.present? && max.present?
 
-  return "#{attribute_name} <= #{max}" if min.nil?
+  return "#{attribute_name} <= #{max}" if min.empty?
 
-  return "#{attribute_name} >= #{min}" if max.nil?
+  return "#{attribute_name} >= #{min}" if max.empty?
 
   nil
 end
