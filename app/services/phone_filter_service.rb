@@ -1,4 +1,12 @@
 class PhoneFilterService
+  class PhoneFilterError < StandardError; end
+
+  class NilFilterNameError < PhoneFilterError
+    def message
+      'No filter name specified'
+    end
+  end
+
   def initialize(filters)
     @filters = filters.present? ? filters : {}
   end

@@ -4,13 +4,13 @@ div#inventory
   = render partial: 'shared/navbar'
   h1 Phone Inventory
   strong Note: Currely showing fixed number items only (10) 
-
+  - has_phones = @phones.present?
   div#content
     = render partial: 'phones/filter_form/filter_form'
     div.d-flex.flex-row.align-items-center
       = link_to 'Add Phones', new_phone_path ,class: 'btn btn-dark my-2 align-self'
-      p.m-3.fw-bold = "Total rows: #{@phones.length}"
-    - if @phones.any?
+      p.m-3.fw-bold = "Total rows: #{has_phones ? @phones.length : 0}"
+    - if has_phones
       table class='styled-table'
         thead
           th
