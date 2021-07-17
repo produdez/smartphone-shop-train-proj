@@ -1,5 +1,5 @@
 - mapping_name = filter_name.to_s.sub('_range', '')
-= f.select(:field_name, \
+= f.select(field_name, \
   send("#{mapping_name}_mapping"), \
   {selected: get_filtered_option(filter_name, field_name), prompt: true}, \
   { class: 'form-select' })
