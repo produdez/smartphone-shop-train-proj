@@ -79,6 +79,6 @@ class PhonesController < ApplicationController
                                       condition: [:value],
                                       manufacture_year_range: %i[min max],
                                       memory_range: %i[min max],
-                                      date_range: %i[min max])
+                                      created_at_range: [start_date: {}, end_date: {}])
   end
 end

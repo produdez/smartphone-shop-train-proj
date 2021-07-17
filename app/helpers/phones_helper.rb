@@ -74,4 +74,11 @@ module PhonesHelper
   def get_filtered_option(filter_name, field_type)
     params.dig(:filters, filter_name, field_type)
   end
+
+  def get_filtered_date(filter_name, field_type)
+    event = params.dig(:filters, filter_name, field_type)
+    return nil if check_empty_hash(event)
+
+    Date.new event['dates(1i)'].to_i, event['dates(2i)'].to_i, event['dates(3i)'].to_i
+  end
 end

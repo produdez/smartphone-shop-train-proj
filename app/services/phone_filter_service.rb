@@ -35,9 +35,10 @@ class PhoneFilterService
     nil
   end
 
-  private
+  def self.convert_params_to_datetime(event, start: true)
+    return nil if check_empty_hash(event)
 
-  def check_empty_hash(options)
-    options.reduce(true) { |empty, (_key, val)| empty && val.empty? }
+    date = Date.new event['dates(1i)'].to_i, event['dates(2i)'].to_i, event['dates(3i)'].to_i
+    start ? date.beginning_of_day : date.end_of_day
   end
 end

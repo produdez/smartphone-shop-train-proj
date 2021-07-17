@@ -59,8 +59,15 @@ class Phone < ApplicationRecord
     where(PhoneFilterService.get_range_sql('manufacture_year', min, max))
   }
 
-  scope :filter_by_created_at_range, lambda { |min: nil, max: nil|
-    # ! this one is special !
-    where(PhoneFilterService.get_range_sql('created_at', min, max))
+  scope :filter_by_created_at_range, lambda { |start_date: nil, end_date: nil|
+    # !This query is very dangerous! due to datetime type and also created_at column being in all tables
+    start_time = PhoneFilterService.convert_params_to_datetime(start_date)
+    end_time = PhoneFilterService.convert_params_to_datetime(end_date, start: false)
+
+    return where('phones.created_at BETWEEN ? AND ?', start_time, end_time) if start_time.present? && end_time.present?
+
+    return where('phones.created_at >= ?', start_time) if start_time.present?
+
+    where('phones.created_at <= ?', end_time) if end_time.present?
   }
 end
