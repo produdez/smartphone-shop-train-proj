@@ -48,19 +48,19 @@ class Phone < ApplicationRecord
   }
 
   scope :filter_by_manufacture_year_range, lambda { |min: nil, max: nil|
-    where(GetRangeSqlService.call('manufacture_year', min, max))
+    where(PhoneFilterService.get_range_sql('manufacture_year', min, max))
   }
 
   scope :filter_by_memory_range, lambda { |min: nil, max: nil|
-    where(GetRangeSqlService.call('memory', min, max))
+    where(PhoneFilterService.get_range_sql('memory', min, max))
   }
 
   scope :filter_by_price_range, lambda { |min: nil, max: nil|
-    where(GetRangeSqlService.call('manufacture_year', min, max))
+    where(PhoneFilterService.get_range_sql('manufacture_year', min, max))
   }
 
   scope :filter_by_created_at_range, lambda { |min: nil, max: nil|
     # ! this one is special !
-    where(GetRangeSqlService.call('created_at', min, max))
+    where(PhoneFilterService.get_range_sql('created_at', min, max))
   }
 end

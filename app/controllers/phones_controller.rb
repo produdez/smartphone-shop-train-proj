@@ -2,9 +2,7 @@ class PhonesController < ApplicationController
   before_action :load_phone, only: %i[show edit destroy update]
 
   def index
-    @phones = PhoneFilterService.call(filter_params[:filters])
-    flash[:warning] = 'Filters', filter_params[:filters]
-    flash[:success] = "Filtered: #{@phones.length}"
+    @phones = PhoneFilterService.new(filter_params[:filters]).filter
   end
 
   def new; end
