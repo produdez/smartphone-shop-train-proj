@@ -19,7 +19,7 @@ module PhonesHelper
     [['In Stock', in_stock]]
   end
 
-  def year_mapping
+  def manufacture_year_mapping
     (2010..2025).to_a
   end
 
@@ -72,12 +72,6 @@ module PhonesHelper
   end
 
   def get_filtered_option(filter_name, field_type)
-    return '' if params.blank?
-
-    return '' if params[:filters].blank?
-
-    return '' if params[:filters][filter_name].blank?
-
-    params[:filters][filter_name][field_type]
+    params.dig(:filters, filter_name, field_type)
   end
 end

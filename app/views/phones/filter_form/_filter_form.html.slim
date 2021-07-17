@@ -1,0 +1,22 @@
+- filter_path = 'phones/filter_form/'
+- value_field_col = filter_path + 'value_field_column'
+- value_field_row = filter_path + 'value_field_inline'
+- range_field = filter_path + 'range_field'
+- select_range_field = filter_path + 'select_range_field'
+div.card.text-center.p-5.border-primary.border-3.my-3 = form_for :filters, url: phones_path, method: :get do |f|
+  div.row.justify-content-between
+      = render partial: value_field_col, locals: {f: f, filter_name: :brand}  
+      = render partial: value_field_col, locals: {f: f, filter_name: :operating_system}
+      = render partial: value_field_col, locals: {f: f, filter_name: :model}
+      = render partial: value_field_col, locals: {f: f, filter_name: :store}
+      = render partial: value_field_col, locals: {f: f, filter_name: :color}
+  div.row.mb-3.justify-content-between
+    = render partial: select_range_field, locals: {f: f, filter_name: :manufacture_year_range, display_name: 'Manufacture Year'}
+    = render partial: range_field, locals: {f: f, filter_name: :memory_range, display_name: 'Memory', field_type: 'number_field', field_params: {min: 0, range: 1, class: 'form-control'}}
+  div.row.mb-3.justify-content-between
+    = render partial: value_field_row, locals: {f: f, filter_name: :condition}
+    = render partial: value_field_row, locals: {f: f, filter_name: :status}
+    = render partial: range_field, locals: {f: f, filter_name: :date_range, display_name: 'Date Added', field_type: 'text_field', field_params: {class: 'form-control'}}
+  div.d-flex.flex-row-reverse
+    = link_to 'Clear Filter', phones_path, class: 'btn btn-dark my-2', style: 'width: 150px'
+    = f.submit 'Filter', class: 'btn btn-primary my-2 mx-3', style: 'width: 80px'

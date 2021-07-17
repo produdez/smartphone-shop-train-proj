@@ -6,60 +6,7 @@ div#inventory
   strong Note: Currely showing fixed number items only (10) 
 
   div#content
-    div.card.text-center.p-5.border-primary.border-3.my-3 = form_for :filters, url: phones_path, method: :get do |f|
-      div.row.justify-content-between
-        div.mb-3.justify-content-center.col
-          = f.label :brand, class: 'form-label fw-bold'
-          = f.fields_for :brand do |ff|
-            = ff.select(:value, add_empty_option(brand_mapping), {selected: get_filtered_option(:brand, :value)}, { class: 'form-select' })
-        div.mb-3.justify-content-center.col  
-          = f.label :operating_system, class: 'form-label fw-bold'
-          = f.fields_for :operating_system do |ff|
-            = ff.select(:value, add_empty_option(operating_system_mapping), {selected: get_filtered_option(:operating_system, :value)}, { class: 'form-select' })
-        div.mb-3.justify-content-center.col
-          = f.label :model, class: 'form-label fw-bold'
-          = f.fields_for :model do |ff|
-            = ff.select(:value, add_empty_option(model_mapping), {selected: get_filtered_option(:model, :value)}, { class: 'form-select' })
-        div.mb-3.justify-content-center.col
-          = f.label :store, class: 'form-label fw-bold'
-          = f.fields_for :store do |ff|
-            = ff.select(:value, add_empty_option(store_mapping), {selected: get_filtered_option(:store, :value)}, { class: 'form-select' })
-        div.mb-3.justify-content-center.col
-          = f.label :color, class: 'form-label fw-bold'
-          = f.fields_for :color do |ff|
-            = ff.select(:value, add_empty_option(color_mapping), {selected: get_filtered_option(:color, :value)}, { class: 'form-select' })
-      div.row.mb-3.justify-content-between
-        div.col-1 = f.label :manufacture_year_range, 'Year', class: 'form-label fw-bold'
-        div.col = f.fields_for :manufacture_year_range do |ff|
-          div.d-flex.flex-row
-            = ff.label :min, class: 'form-label'
-            = ff.select(:min, add_empty_option(year_mapping), {selected: get_filtered_option(:manufacture_year_range, :min)}, { class: 'form-select' })
-            = ff.label :max, class: 'form-label'
-            = ff.select(:max, add_empty_option(year_mapping), {selected: get_filtered_option(:manufacture_year_range, :max)}, { class: 'form-select' })
-        div.col-1 = f.label :memory_range, 'Memory', class: 'form-label fw-bold'
-        div.col = f.fields_for :memory_range do |ff|
-          div.d-flex.flex-row  
-            = ff.label :min, class: 'form-label'
-            = ff.number_field :min, min: 0, range: 1, class: 'form-control', value: get_filtered_option(:memory_range, :max)
-            = ff.label :max, class: 'form-label'
-            = ff.number_field :max, min: 0, range: 1, class: 'form-control', value: get_filtered_option(:memory_range, :max)
-      div.row.mb-3.justify-content-between
-        div.col-1 = f.label :condition, class: 'form-label fw-bold'
-        div.col-2 = f.fields_for :condition do |ff|
-          div.d-flex.flex-row = ff.select(:value, add_empty_option(condition_mapping), {selected: get_filtered_option(:condition, :value)}, { class: 'form-select' })
-        div.col-1 = f.label :status, class: 'form-label fw-bold'
-        div.col-2 = f.fields_for :status do |ff|
-          div.d-flex.flex-row = ff.select(:value, add_empty_option(status_mapping), {selected: get_filtered_option(:status, :value)}, { class: 'form-select' })
-        div.col-1 = f.label :date_range, 'Date Added', class: 'form-label fw-bold'
-        div.col = f.fields_for :date_range do |ff|
-          .d-flex.flex-row  
-            = ff.label :min, class: 'form-label'
-            = ff.text_field :min, class: 'form-control'
-            = ff.label :max, class: 'form-label'
-            = ff.text_field :max, class: 'form-control'
-      div.d-flex.flex-row-reverse
-        = link_to 'Clear Filter', phones_path, class: 'btn btn-dark my-2', style: 'width: 150px'
-        = f.submit 'Filter', class: 'btn btn-primary my-2 mx-3', style: 'width: 80px'
+    = render partial: 'phones/filter_form/filter_form'
     = link_to 'Add Phones', new_phone_path ,class: 'btn btn-dark my-2'
     - if @phones.any?
       table class='styled-table'
@@ -76,7 +23,7 @@ div#inventory
           th Memory
           th Store 
           th Condition
-        - @phones[...10].each do |phone|
+        - @phones[1..100].each do |phone|
           tr
             td.select_box = check_box_tag :phone_check_box_id, phone.id, false
             td.id = phone.id
