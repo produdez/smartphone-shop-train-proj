@@ -41,7 +41,7 @@ module PhonesHelper
   end
 
   def format_memory(memory)
-    number_to_human(memory, precision: 2, units: { mili: 'MB', unit: 'GB', thousand: 'TB' })
+    number_to_human(memory, precision: 4, units: { mili: 'MB', unit: 'GB', thousand: 'TB' })
   end
 
   def format_color(color)
