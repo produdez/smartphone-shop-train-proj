@@ -2,7 +2,7 @@ class PhonesController < ApplicationController
   before_action :load_phone, only: %i[show edit destroy update]
 
   def index
-    @phones = PhoneFilterService.new(filter_params[:filters]).filter
+    @phones = PhoneFilterService.new(filter_params).filter
   end
 
   def new; end
@@ -68,6 +68,15 @@ class PhonesController < ApplicationController
 
   def filter_params
     # TODO: only permit the needed filters
-    params.permit!
+    params.fetch(:filters, {}).permit(brand: [:value],
+                                      operating_system: [:value],
+                                      model: [:value],
+                                      store: [:value],
+                                      color: [:value],
+                                      status: [:value],
+                                      condition: [:value],
+                                      manufacture_year_range: %i[min max],
+                                      memory_range: %i[min max],
+                                      date_range: %i[min max])
   end
 end

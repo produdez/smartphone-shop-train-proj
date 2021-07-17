@@ -7,7 +7,9 @@ div#inventory
 
   div#content
     = render partial: 'phones/filter_form/filter_form'
-    = link_to 'Add Phones', new_phone_path ,class: 'btn btn-dark my-2'
+    div.d-flex.flex-row.align-items-center
+      = link_to 'Add Phones', new_phone_path ,class: 'btn btn-dark my-2 align-self'
+      p.m-3.fw-bold = "Total rows: #{@phones.length}"
     - if @phones.any?
       table class='styled-table'
         thead
