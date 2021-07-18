@@ -1,8 +1,11 @@
 class PhonesController < ApplicationController
-  before_action :load_phone, only: %i[show edit destroy update]
+  # before_action :load_phone, only: %i[show edit destroy update]
+  before_action :load_store_specific_phones, only: :index
+  load_and_authorize_resource
 
   def index
-    @phones = Phone.order(updated_at: :desc)
+    # @phones = Phone.order(updated_at: :desc)
+    @phones = @phones.order(updated_at: :desc)
   end
 
   def new; end
@@ -64,5 +67,14 @@ class PhonesController < ApplicationController
 
   def phone_params
     params.require(:phone).permit(:model_id, :memory, :status, :condition, :color_id, :price, :note, :manufacture_year)
+  end
+
+  def load_store_specific_phones
+    if current_user.admin?
+      @phones = Phone.all if current_user.admin?
+    else
+      store = current_user.staff.store
+      @phones = Phone.where(store: store)
+    end
   end
 end

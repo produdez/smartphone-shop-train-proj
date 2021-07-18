@@ -28,6 +28,8 @@ gem 'devise'
 gem 'slim-rails'
 # Rubocop
 gem 'rubocop', require: false
+# Role split
+gem 'cancancan'
 
 # Use Active Storage variant
 # gem 'image_processing', '~> 1.2'
