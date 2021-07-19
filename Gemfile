@@ -30,6 +30,8 @@ gem 'slim-rails'
 gem 'rubocop', require: false
 # Pagination
 gem 'kaminari'
+# Fix n + 1 query
+gem 'bullet', group: 'development'
 
 # Use Active Storage variant
 # gem 'image_processing', '~> 1.2'
