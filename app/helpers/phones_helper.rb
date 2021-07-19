@@ -73,7 +73,7 @@ module PhonesHelper
 
   def get_filtered_date(filter_name, field_type)
     event = params.dig(:filters, filter_name, field_type)
-    return nil if check_empty_parameters(event)
+    return nil if check_empty_hash(event.present? ? event.to_unsafe_h : event)
 
     today = Date.today
     year = event['dates(1i)']
