@@ -6,12 +6,14 @@ div#inventory
   div#content
     = render partial: 'phones/filter_form/filter_form'
     div.d-flex.flex-row.align-items-center
-      = link_to 'Add Phones', new_phone_path ,class: 'btn btn-dark my-2 align-self'
+      - if can? :create, Phone
+        = link_to 'Add Phones', new_phone_path ,class: 'btn btn-dark my-2 align-self'
       p.m-3.fw-bold = "Total rows: #{has_phones ? @phones.total_count : 0}"
     - if has_phones
       table class='styled-table'
         thead
-          th
+          - if can? :manage, Phone
+            th 
           th Index
           th Added Date
           th Brand
@@ -25,7 +27,8 @@ div#inventory
           th Condition
         - @phones.each do |phone|
           tr
-            td.select_box = check_box_tag :phone_check_box_id, phone.id, false
+            - if can? :manage, Phone
+              td.select_box = check_box_tag :phone_check_box_id, phone.id, false
             td.id = phone.id
             td.created_at = phone.created_at
             td.brand = phone.model.brand.name
@@ -43,7 +46,9 @@ div#inventory
         Thank you!
     .row.py-2
       .col
-        = button_tag 'Set Unavailable', remote: true, id: 'unavailable-selected',class: 'btn btn-dark'
-        = button_tag 'Delete selected', remote: true, id: 'delete-selected',class: 'btn btn-dark mx-2'
+        - if can? :edit, Phone
+          = button_tag 'Set Unavailable', remote: true, id: 'unavailable-selected',class: 'btn btn-dark'
+        - if can? :destroy, Phone
+          = button_tag 'Delete selected', remote: true, id: 'delete-selected',class: 'btn btn-dark mx-2'
       .col-6 = render partial: 'shared/page_nav', locals: {model: @phones}
       .col
