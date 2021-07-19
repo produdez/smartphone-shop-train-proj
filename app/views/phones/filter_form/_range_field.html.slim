@@ -1,0 +1,7 @@
+div.col-1.my-auto = f.label filter_name, display_name, class: 'form-label fw-bold'
+div.col.my-auto = f.fields_for filter_name do |ff|
+  .d-flex.flex-row.my-auto
+    = ff.label :min, class: 'form-label m-2'
+    = ff.send("#{field_type}", :min, value: get_filtered_option(filter_name, :min), **field_params)
+    = ff.label :max, class: 'form-label m-2'
+    = ff.send("#{field_type}", :max, value: get_filtered_option(filter_name, :max), **field_params)

@@ -19,8 +19,8 @@ module PhonesHelper
     [['In Stock', in_stock]]
   end
 
-  def year_mapping
-    2010..2025
+  def manufacture_year_mapping
+    (2010..2025).to_a
   end
 
   def condition_mapping
@@ -41,7 +41,7 @@ module PhonesHelper
   end
 
   def format_memory(memory)
-    number_to_human(memory, precision: 2, units: { mili: 'MB', unit: 'GB', thousand: 'TB' })
+    number_to_human(memory, precision: 4, units: { mili: 'MB', unit: 'GB', thousand: 'TB' })
   end
 
   def format_color(color)
@@ -65,5 +65,24 @@ module PhonesHelper
   def format_note(phone)
     note = phone.note
     note.present? ? note : 'Note Empty'
+  end
+
+  def get_filtered_option(filter_name, field_type)
+    params.dig(:filters, filter_name, field_type)
+  end
+
+  def get_filtered_date(filter_name, field_type)
+    event = params.dig(:filters, filter_name, field_type)
+    return nil if check_empty_hash(event.present? ? event.to_unsafe_h : event)
+
+    today = Date.today
+    year = event['dates(1i)']
+    year = year.present? ? year.to_i : today.year
+    month = event['dates(2i)']
+    month = month.present? ? month.to_i : today.month
+    day = event['dates(3i)']
+    day = day.present? ? day.to_i : today.day
+
+    Date.new(year, month, day)
   end
 end

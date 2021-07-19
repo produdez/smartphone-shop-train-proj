@@ -4,10 +4,13 @@ div#inventory
   = render partial: 'shared/navbar'
   h1 Phone Inventory
   strong Note: Currely showing fixed number items only (10) 
-
+  - has_phones = @phones.present?
   div#content
-    = link_to 'Add Phones', new_phone_path ,class: 'btn btn-dark my-2'
-    - if @phones.any?
+    = render partial: 'phones/filter_form/filter_form'
+    div.d-flex.flex-row.align-items-center
+      = link_to 'Add Phones', new_phone_path ,class: 'btn btn-dark my-2 align-self'
+      p.m-3.fw-bold = "Total rows: #{has_phones ? @phones.length : 0}"
+    - if has_phones
       table class='styled-table'
         thead
           th
@@ -22,7 +25,7 @@ div#inventory
           th Memory
           th Store 
           th Condition
-        - @phones[...10].each do |phone|
+        - @phones[1..100].each do |phone|
           tr
             td.select_box = check_box_tag :phone_check_box_id, phone.id, false
             td.id = phone.id
