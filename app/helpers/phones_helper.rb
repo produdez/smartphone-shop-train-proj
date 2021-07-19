@@ -79,6 +79,14 @@ module PhonesHelper
     event = params.dig(:filters, filter_name, field_type)
     return nil if check_empty_parameters(event)
 
-    Date.new event['dates(1i)'].to_i, event['dates(2i)'].to_i, event['dates(3i)'].to_i
+    today = Date.today
+    year = event['dates(1i)']
+    year = year.present? ? year.to_i : today.year
+    month = event['dates(2i)']
+    month = month.present? ? month.to_i : today.month
+    day = event['dates(3i)']
+    day = day.present? ? day.to_i : today.day
+
+    Date.new(year, month, day)
   end
 end

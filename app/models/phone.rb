@@ -14,7 +14,7 @@ class Phone < ApplicationRecord
   validates :condition, inclusion: { in: CONDITIONS }
 
   scope :filter_by, lambda { |filter_name, **options|
-    raise PhoneFilterService::NilFilterNameError unless filter_name.present?
+    raise PhoneFilterService::NilFilterNameError if filter_name.blank?
 
     send("filter_by_#{filter_name}", **options)
   }

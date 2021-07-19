@@ -38,7 +38,15 @@ class PhoneFilterService
   def self.convert_params_to_datetime(event, start: true)
     return nil if check_empty_hash(event)
 
-    date = Date.new event['dates(1i)'].to_i, event['dates(2i)'].to_i, event['dates(3i)'].to_i
+    today = Date.today
+    year = event['dates(1i)']
+    year = year.present? ? year.to_i : today.year
+    month = event['dates(2i)']
+    month = month.present? ? month.to_i : today.month
+    day = event['dates(3i)']
+    day = day.present? ? day.to_i : today.day
+
+    date = Date.new(year, month, day)
     start ? date.beginning_of_day : date.end_of_day
   end
 
