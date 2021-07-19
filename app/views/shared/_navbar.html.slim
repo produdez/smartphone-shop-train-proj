@@ -17,4 +17,4 @@
 
 = link_to 'Logout', destroy_user_session_path , class: 'btn btn-primary m-5', method: 'delete'
 
-/ = link_to 'Cancel', phones_path, class: 'btn btn-light m-5'
+= link_to 'Profile', user_path(current_user), class: 'btn btn-light m-5'
