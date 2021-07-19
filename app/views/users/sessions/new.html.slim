@@ -1,0 +1,16 @@
+
+
+div.text-center.d-flex.justify-content-center
+  div.w-50
+    h2.p-5 Log in
+    = form_for resource, as: resource_name, url: session_path(resource_name), class: 'form-signin' do |f|
+      div.row.m-3
+        .col-4 = f.label :email, 'Email address', class: 'label sr-only'
+        .col= f.email_field :email, autofocus: true, autocomplete: "email", class: 'form-control', id: 'inputEmail', placeholder: "Email address"
+      div.row.m-3
+        .col-4 = f.label :password, 'Password', class: 'label sr-only', autocomplete: "current-password"
+        .col= f.password_field :password, autocomplete: "current-password", class: 'form-control', id: 'inputPassword', placeholder: "Password"
+      .actions.m-5 = f.submit "Sign in", class: 'btn btn-lg btn-dark btn-block'
+
+= render "users/shared/links"
+

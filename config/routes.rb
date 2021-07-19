@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   root to: 'users#home'
 
-  devise_for :users, skip: [:registrations, :passwords], controllers: { sessions: 'users/sessions' }
+  devise_for :users, skip: %i[registrations passwords], controllers: { sessions: 'users/sessions' }
 
   resources :phones do
     collection do
