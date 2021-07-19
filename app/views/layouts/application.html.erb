@@ -43,7 +43,13 @@
       <%end%>
 
     <% end %> 
-
+    
+    <% if user_signed_in? %>
+      <%=render partial: 'shared/navbar'%>
+    <% else %>
+      <%= render partial: 'shared/non_auth_nav_bar' %>
+    <% end %>
+    
     <%= yield %>
   </body>
 </html>

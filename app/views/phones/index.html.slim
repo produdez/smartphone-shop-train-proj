@@ -1,7 +1,6 @@
 scss = stylesheet_link_tag 'phones_inventory'
 = javascript_pack_tag 'phone_index'
 div#inventory
-  = render partial: 'shared/navbar'
   h1 Phone Inventory
   - has_phones = @phones.present?
   div#content
