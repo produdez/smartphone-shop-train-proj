@@ -17,7 +17,7 @@ class PhoneFilterService
     filters.each do |name, options|
       options = options.to_h.symbolize_keys
 
-      next if check_empty_hash(options)
+      next if PhoneFilterService.check_empty_hash(options)
 
       phones = phones.filter_by(name, options)
     end
@@ -40,5 +40,11 @@ class PhoneFilterService
 
     date = Date.new event['dates(1i)'].to_i, event['dates(2i)'].to_i, event['dates(3i)'].to_i
     start ? date.beginning_of_day : date.end_of_day
+  end
+
+  def self.check_empty_hash(options)
+    return true if options.blank?
+
+    options.reduce(true) { |empty, (_key, val)| empty && val.empty? }
   end
 end

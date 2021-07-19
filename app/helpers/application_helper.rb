@@ -11,10 +11,11 @@ module ApplicationHelper
     Store.all.collect { |store| [store.name, store.id] }
   end
 
-  def check_empty_hash(options)
-    return true if options.blank?
+  def check_empty_parameters(parameters)
+    # parameters is an ActionController::Parameters
+    return true if parameters.blank?
 
-    options = options.to_unsafe_h
-    options.reduce(true) { |empty, (_key, val)| empty && val.empty? }
+    parameters = parameters.to_unsafe_h
+    parameters.reduce(true) { |empty, (_key, val)| empty && val.empty? }
   end
 end
