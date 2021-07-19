@@ -3,11 +3,12 @@ scss = stylesheet_link_tag 'phones_inventory'
 div#inventory
   = render partial: 'shared/navbar'
   h1 Phone Inventory
-  strong Note: Currely showing fixed number items only (10) 
 
-  div#content
-    = link_to 'Add Phones', new_phone_path ,class: 'btn btn-dark my-2'
-    = render partial: 'shared/page_nav', locals: {model: @phones}
+  div.my-5#content
+    .row
+      .col = link_to 'Add Phones', new_phone_path ,class: 'btn btn-dark my-2'
+      .col-6 = render partial: 'shared/page_nav', locals: {model: @phones}
+      .col
     - if @phones.any?
       table class='styled-table'
         thead
@@ -41,7 +42,9 @@ div#inventory
     - else
       p No items found. Please add some inventory.
         Thank you!
-    button#unavailable-selected Set Unavailable
-    = button_tag 'Delete selected', remote: true, id: 'delete-selected'
-
-    = render partial: 'shared/page_nav', locals: {model: @phones}
+    .row.py-2
+      .col
+        = button_tag 'Set Unavailable', remote: true, id: 'unavailable-selected',class: 'btn btn-dark'
+        = button_tag 'Delete selected', remote: true, id: 'delete-selected',class: 'btn btn-dark mx-2'
+      .col-6 = render partial: 'shared/page_nav', locals: {model: @phones}
+      .col
