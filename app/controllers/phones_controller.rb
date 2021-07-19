@@ -69,7 +69,6 @@ class PhonesController < ApplicationController
   end
 
   def filter_params
-    # TODO: only permit the needed filters
     params.fetch(:filters, {}).permit(brand: [:value],
                                       operating_system: [:value],
                                       model: [:value],

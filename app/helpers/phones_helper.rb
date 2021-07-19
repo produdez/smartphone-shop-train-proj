@@ -67,10 +67,6 @@ module PhonesHelper
     note.present? ? note : 'Note Empty'
   end
 
-  def add_empty_option(available_options)
-    available_options.insert(0, ['Not Filtered', ''])
-  end
-
   def get_filtered_option(filter_name, field_type)
     params.dig(:filters, filter_name, field_type)
   end
