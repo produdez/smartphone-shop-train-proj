@@ -9,6 +9,7 @@ class Ability
     user ||= User.new # guest user (not logged in)
     if user.admin?
       can :manage, :all
+      cannot :create, Phone
     else
       staff = user.staff
       if staff.employee?

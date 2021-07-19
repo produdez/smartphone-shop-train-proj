@@ -15,7 +15,7 @@ class PhonesController < ApplicationController
   def create
     batch_size = params[:phone][:quantity].to_i
     (1..batch_size).each do
-      Phone.create!(phone_params.merge(store_id: 2)) # TODO: get store_id from user after auth is implemented
+      Phone.create!(phone_params.merge(store_id: current_user.staff.store_id))
     end
     flash[:success] = "Created #{batch_size} phones successfully (finished: #{Time.now})"
     redirect_to(phones_path)
