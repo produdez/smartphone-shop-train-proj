@@ -28,6 +28,8 @@ gem 'devise'
 gem 'slim-rails'
 # Rubocop
 gem 'rubocop', require: false
+# Pagination
+gem 'kaminari'
 
 # Use Active Storage variant
 # gem 'image_processing', '~> 1.2'
@@ -50,6 +52,8 @@ group :development do
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'jquery-rails'
   gem 'spring'
+  # Fix n + 1 query
+  gem 'bullet'
 end
 
 group :test do

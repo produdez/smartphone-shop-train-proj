@@ -20,23 +20,23 @@ class Phone < ApplicationRecord
   }
 
   scope :filter_by_brand, lambda { |value: nil|
-    joins(model: :brand).where(brand: { id: value })
+    joins(:model).where(brand_id: value)
   }
 
   scope :filter_by_operating_system, lambda { |value: nil|
-    joins(model: :operating_system).where(operating_system: { id: value })
+    joins(:model).where(operating_system_id: value)
   }
 
   scope :filter_by_color, lambda { |value: nil|
-    joins(:color).where(color: { id: value })
+    where(color_id: value)
   }
 
   scope :filter_by_store, lambda { |value: nil|
-    joins(:store).where(store: { id: value })
+    where(store_id: value)
   }
 
   scope :filter_by_model, lambda { |value: nil|
-    joins(:model).where(model: { id: value })
+    where(model_id: value)
   }
 
   scope :filter_by_condition, lambda { |value: nil|

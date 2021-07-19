@@ -3,6 +3,7 @@ class PhonesController < ApplicationController
 
   def index
     @phones = PhoneFilterService.new(filter_params).filter
+    @phones = @phones.page(params[:page])
   rescue PhoneFilterService::PhoneFilterError => e
     flash[:error] = "Filter error: #{e.message}"
   end
