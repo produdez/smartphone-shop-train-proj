@@ -17,7 +17,7 @@ class PhoneFilterService
     filters.each do |name, options|
       options = options.to_h.symbolize_keys
 
-      next if PhoneFilterService.check_empty_hash(options)
+      next if UtilityHelper.check_empty_hash(options)
 
       phones = phones.filter_by(name, options)
     end
@@ -36,7 +36,7 @@ class PhoneFilterService
   end
 
   def self.convert_params_to_datetime(event, start: true)
-    return nil if check_empty_hash(event)
+    return nil if UtilityHelper.check_empty_hash(event)
 
     today = Date.today
     year = event['dates(1i)']
@@ -48,11 +48,5 @@ class PhoneFilterService
 
     date = Date.new(year, month, day)
     start ? date.beginning_of_day : date.end_of_day
-  end
-
-  def self.check_empty_hash(options)
-    return true if options.blank?
-
-    options.reduce(true) { |empty, (_key, val)| empty && val.empty? }
   end
 end

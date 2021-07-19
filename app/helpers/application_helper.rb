@@ -13,9 +13,7 @@ module ApplicationHelper
 
   def check_empty_parameters(parameters)
     # parameters is an ActionController::Parameters
-    return true if parameters.blank?
-
     parameters = parameters.to_unsafe_h
-    parameters.reduce(true) { |empty, (_key, val)| empty && val.empty? }
+    UtilityHelper.check_empty_hash(parameters)
   end
 end
