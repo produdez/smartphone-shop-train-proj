@@ -3,6 +3,7 @@ class PhonesController < ApplicationController
 
   def index
     @phones = Phone.order(updated_at: :desc)
+    @phones = @phones.page(params[:page])
   end
 
   def new; end

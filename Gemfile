@@ -28,6 +28,8 @@ gem 'devise'
 gem 'slim-rails'
 # Rubocop
 gem 'rubocop', require: false
+# Pagination
+gem 'kaminari'
 
 # Use Active Storage variant
 # gem 'image_processing', '~> 1.2'
