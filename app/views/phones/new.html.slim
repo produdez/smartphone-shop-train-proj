@@ -19,7 +19,7 @@ div.d-flex.justify-content-center
         div.row.justify-content-between
           div.mb-3.justify-content-center.col
             = f.label :manufacture_year, class: 'form-label'
-            = f.select(:manufacture_year, year_mapping, {}, { class: 'form-select' })
+            = f.select(:manufacture_year, manufacture_year_mapping, {}, { class: 'form-select' })
           div.mb-3.justify-content-center.col
             = f.label :memory, class: 'form-label'
             div.row

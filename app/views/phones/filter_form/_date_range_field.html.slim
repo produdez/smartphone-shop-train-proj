@@ -1,0 +1,10 @@
+div.col-1.mt-2 = f.label filter_name, display_name, class: 'form-label fw-bold'
+div.col.my-auto = f.fields_for filter_name do |ff|
+  div.d-flex.flex-row
+    - select_field = 'phones/filter_form/select_field'
+    = ff.label :start_date, 'Start', class: 'form-label m-2'
+    = ff.fields_for :start_date do |fff|
+      = fff.date_select :dates, { ampm: true, order: [:day, :month, :year] , prompt: {day: "Day", month: "Month", year: "Year"}, selected: get_filtered_date(filter_name, :start_date)}, { class: "form-control" }
+    = ff.label :end_date, 'End', class: 'form-label m-2'
+    = ff.fields_for :end_date do |fff|
+      = fff.date_select :dates, { ampm: true, order: [:day, :month, :year], prompt: {day: "Day", month: "Month", year: "Year"}, selected: get_filtered_date(filter_name, :end_date)}, { class: "form-control" }

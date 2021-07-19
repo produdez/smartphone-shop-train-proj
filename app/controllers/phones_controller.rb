@@ -2,8 +2,10 @@ class PhonesController < ApplicationController
   before_action :load_phone, only: %i[show edit destroy update]
 
   def index
-    @phones = Phone.order(updated_at: :desc)
+    @phones = PhoneFilterService.new(filter_params).filter
     @phones = @phones.page(params[:page])
+  rescue PhoneFilterService::PhoneFilterError => e
+    flash[:error] = "Filter error: #{e.message}"
   end
 
   def new; end
@@ -65,5 +67,18 @@ class PhonesController < ApplicationController
 
   def phone_params
     params.require(:phone).permit(:model_id, :memory, :status, :condition, :color_id, :price, :note, :manufacture_year)
+  end
+
+  def filter_params
+    params.fetch(:filters, {}).permit(brand: [:value],
+                                      operating_system: [:value],
+                                      model: [:value],
+                                      store: [:value],
+                                      color: [:value],
+                                      status: [:value],
+                                      condition: [:value],
+                                      manufacture_year_range: %i[min max],
+                                      memory_range: %i[min max],
+                                      created_at_range: [start_date: {}, end_date: {}])
   end
 end
