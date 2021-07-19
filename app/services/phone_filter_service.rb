@@ -11,8 +11,9 @@ class PhoneFilterService
     @filters = filters.present? ? filters : {}
   end
 
+  attr_reader :filters
+
   def filter
-    filters = @filters
     phones = Phone
     filters.each do |name, options|
       options = options.to_h.symbolize_keys
