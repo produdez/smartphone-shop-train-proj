@@ -14,7 +14,7 @@ class PhoneFilterService
   attr_reader :filters
 
   def filter
-    phones = Phone
+    phones = Phone.includes(:color, :store, :model, model: %i[brand operating_system])
     filters.each do |name, options|
       options = options.to_h.symbolize_keys
 
