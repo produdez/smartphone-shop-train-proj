@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  root to: 'users#home'
+  root to: 'phones#index'
 
   devise_for :users, skip: %i[registrations passwords], controllers: { sessions: 'users/sessions' }
 
