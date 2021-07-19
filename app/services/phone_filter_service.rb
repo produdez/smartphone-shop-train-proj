@@ -7,20 +7,20 @@ class PhoneFilterService
     end
   end
 
-  def initialize(filters)
+  def initialize(phones, filters)
     @filters = filters.present? ? filters : {}
+    @phones = phones
   end
 
-  attr_reader :filters
+  attr_reader :filters, :phones
 
   def filter
-    phones = Phone.includes(:color, :store, :model, model: %i[brand operating_system])
     filters.each do |name, options|
       options = options.to_h.symbolize_keys
 
       next if UtilityHelper.check_empty_hash(options)
 
-      phones = phones.filter_by(name, options)
+      phones.filter_by(name, options)
     end
 
     phones.order(updated_at: :desc)

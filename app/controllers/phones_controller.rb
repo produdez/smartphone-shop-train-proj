@@ -4,7 +4,7 @@ class PhonesController < ApplicationController
   load_and_authorize_resource
 
   def index
-    @phones = PhoneFilterService.new(filter_params).filter
+    @phones = PhoneFilterService.new(@phones, filter_params).filter
     @phones = @phones.page(params[:page])
   rescue PhoneFilterService::PhoneFilterError => e
     flash[:error] = "Filter error: #{e.message}"
@@ -72,11 +72,12 @@ class PhonesController < ApplicationController
   end
 
   def load_store_specific_phones
+    phones = Phone.includes(:color, :store, :model, model: %i[brand operating_system])
     if current_user.admin?
-      @phones = Phone.all if current_user.admin?
+      @phones = phones if current_user.admin?
     else
       store = current_user.staff.store
-      @phones = Phone.where(store: store)
+      @phones = phones.where(store: store)
     end
   end
 
