@@ -1,0 +1,8 @@
+div.col-1.mt-2 = f.label filter_name, display_name, class: 'form-label fw-bold'
+div.col.my-auto = f.fields_for filter_name do |ff|
+  div.d-flex.flex-row
+    - select_field = 'phones/filter_form/select_field'
+    = ff.label :min, class: 'form-label m-2'
+    = render partial: select_field, locals: {f: ff, filter_name: filter_name, field_name: :min}
+    = ff.label :max, class: 'form-label m-2'
+    = render partial: select_field, locals: {f: ff, filter_name: filter_name, field_name: :max}

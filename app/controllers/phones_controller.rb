@@ -4,8 +4,10 @@ class PhonesController < ApplicationController
   load_and_authorize_resource
 
   def index
-    # @phones = Phone.order(updated_at: :desc)
-    @phones = @phones.order(updated_at: :desc)
+    @phones = PhoneFilterService.new(filter_params).filter
+    @phones = @phones.page(params[:page])
+  rescue PhoneFilterService::PhoneFilterError => e
+    flash[:error] = "Filter error: #{e.message}"
   end
 
   def new; end
@@ -76,5 +78,18 @@ class PhonesController < ApplicationController
       store = current_user.staff.store
       @phones = Phone.where(store: store)
     end
+  end
+
+  def filter_params
+    params.fetch(:filters, {}).permit(brand: [:value],
+                                      operating_system: [:value],
+                                      model: [:value],
+                                      store: [:value],
+                                      color: [:value],
+                                      status: [:value],
+                                      condition: [:value],
+                                      manufacture_year_range: %i[min max],
+                                      memory_range: %i[min max],
+                                      created_at_range: [start_date: {}, end_date: {}])
   end
 end
