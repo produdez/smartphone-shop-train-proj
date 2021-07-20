@@ -1,0 +1,30 @@
+div#inventory
+  h1.m-5 Model Inventory
+  - has_models = @models.present?
+  div#content.w-50
+    / = render partial: 'models/filter_form/filter_form'
+    div.d-flex.flex-row.align-items-center
+      - if can? :create, Model
+        = link_to 'Add Models', new_model_path ,class: 'btn btn-dark my-2 align-self'
+      p.m-3.fw-bold = "Total rows: #{has_models ? @models.total_count : 0}"
+    - if has_models
+      table class='styled-table'
+        thead
+          th Index
+          th Added Date
+          td Name
+          th Brand
+          th Operating System
+        - @models.each do |model|
+          tr
+            td.id = model.id
+            td.created_at = format_datetime(model.created_at)
+            td.name = model.name
+            td.brand = model.brand.name
+            td.operating_system = model.operating_system.name
+            td.link = link_to 'Info', model_path(model)
+    - else
+      p No items found. Please add some inventory.
+        Thank you!
+    .row.py-2
+      .col = render partial: 'shared/page_nav', locals: {model: @models}

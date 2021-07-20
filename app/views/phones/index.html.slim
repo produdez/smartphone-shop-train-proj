@@ -1,7 +1,7 @@
 scss = stylesheet_link_tag 'phones_index'
 = javascript_pack_tag 'phone_index'
 div#inventory
-  h1 Phone Inventory
+  h1.mt-3 Phone Inventory
   - has_phones = @phones.present?
   div#content
     = render partial: 'phones/filter_form/filter_form'

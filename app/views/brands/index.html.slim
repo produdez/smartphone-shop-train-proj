@@ -1,11 +1,9 @@
-scss = stylesheet_link_tag 'operating_systems_index'
-/ = javascript_pack_tag 'brand_index'
 div#inventory
-  h1 Brands Library
+  h1.m-5 Brands Library
 
   div#content 
   - has_brands = @brands.present?
-  div#content 
+  div#content.w-25
     div.d-flex.flex-row.align-items-center
       - if can? :create, Brand
         = link_to 'Add Brand', new_brand_path ,class: 'btn btn-dark my-2 align-self'

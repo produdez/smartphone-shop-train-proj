@@ -1,9 +1,7 @@
-scss = stylesheet_link_tag 'operating_systems_index'
-/ = javascript_pack_tag 'operating_system_index'
 div#inventory
-  h1 Operating Systems Library
+  h1.m-5 Operating Systems Library
   - has_os = @operating_systems.present?
-  div#content 
+  div#content.w-25
     div.d-flex.flex-row.align-items-center
       - if can? :create, OperatingSystem
         = link_to 'Add OS', new_operating_system_path ,class: 'btn btn-dark my-2 align-self'
