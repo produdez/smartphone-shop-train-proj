@@ -11,6 +11,7 @@ class Ability # rubocop:todo Style/Documentation
     if user.admin?
       can :manage, :all
       cannot :create, Phone
+      cannot :create_employee, User
     else
       staff = user.staff
       if staff.employee?
@@ -23,6 +24,7 @@ class Ability # rubocop:todo Style/Documentation
         can :read, Brand
         can :read, OperatingSystem
         can :read, Model
+        can :create_manager, User
       end
     end
     #

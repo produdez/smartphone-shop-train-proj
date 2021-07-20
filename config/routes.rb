@@ -4,7 +4,14 @@ Rails.application.routes.draw do
   root to: 'phones#index'
 
   devise_for :users, skip: %i[registrations passwords], controllers: { sessions: 'users/sessions' }
-  resources :users, only: [:show]
+  resources :users, only: [:show] do
+    collection do
+      get :new_manager
+      post :create_manager
+      get :new_employee
+      post :create_employee
+    end
+  end
 
   resources :phones do
     collection do
