@@ -13,11 +13,10 @@ class UsersController < ApplicationController # rubocop:todo Style/Documentation
 
   def new_manager; end
 
-  def create_manager
+  def create_manager # rubocop:todo Metrics/MethodLength
     ActiveRecord::Base.transaction do
-      raise PasswordConfirmationMismatch if password_mismatch
-
-      try_create_user('manager')
+      password_missmatch?
+      create_user?('manager')
       flash[:success] = 'Created Manager!'
     rescue PasswordConfirmationMismatch => e
       flash[:error] = e
@@ -28,28 +27,44 @@ class UsersController < ApplicationController # rubocop:todo Style/Documentation
     end
   end
 
+  def new_employee; end
+
+  def create_employee # rubocop:todo Metrics/MethodLength
+    ActiveRecord::Base.transaction do
+      password_missmatch?
+      create_user?('employee')
+      flash[:success] = 'Created Employee!'
+    rescue PasswordConfirmationMismatch => e
+      flash[:error] = e
+    rescue ActiveRecord::RecordInvalid => e
+      flash[:error] = "Error creating user: #{e.message}"
+    ensure
+      redirect_to(new_employee_users_path)
+    end
+  end
+
   private
 
   def permited_params
-    params.require(:user).permit(:store_name, :manager_name, :email, :password,
+    params.require(:user).permit(:store_name, :user_name, :email, :password,
                                  :password_confirmation, :store_location, :phone)
   end
 
   def user_params(param)
-    { name: param[:manager_name], email: param[:email], password: param[:password] }
+    { name: param[:user_name], email: param[:email], password: param[:password], phone: param[:phone] }
   end
 
   def store_params(param)
     { name: param[:store_name], location: param[:store_location] }
   end
 
-  def password_mismatch
-    permited_params[:password] != permited_params[:password_confirmation]
+  def password_missmatch?
+    raise PasswordConfirmationMismatch if permited_params[:password] != permited_params[:password_confirmation]
   end
 
-  def try_create_user(role)
+  def create_user?(role)
     user = User.create!(user_params(permited_params))
-    store = Store.create!(store_params(permited_params))
+    store = role == 'manager' ? Store.create!(store_params(permited_params)) : Store.find(current_user.staff.store_id)
     Staff.create!(user: user, store: store, role: role)
   end
 end

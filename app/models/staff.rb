@@ -24,7 +24,7 @@ class Staff < ApplicationRecord # rubocop:todo Style/Documentation
   def validate_single_store_per_manager
     return unless manager?
 
-    conflict_manager = Staff.manager.find_by(store: store)
-    errors.add(:store, 'Store already have a manager (1-1)') if conflict_manager.present?
+    exist_manager = Staff.manager.find_by(store: store)
+    errors.add(:store, 'Store already have a manager (1-1)') if exist_manager.present?
   end
 end
