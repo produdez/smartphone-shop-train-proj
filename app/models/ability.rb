@@ -13,7 +13,7 @@ class Ability # rubocop:todo Style/Documentation
       cannot :create, Phone
       cannot :create_employee, User
     else
-      can :show, User, id: user.id
+      can :read, User, id: user.id
       staff = user.staff
       if staff.employee?
         can :read, Phone, store_id: staff.store_id
@@ -27,6 +27,7 @@ class Ability # rubocop:todo Style/Documentation
         can :read, Model
         can :create_employee, User
         can :new_employee, User
+        can :read, User, staff: { store: { id: user.staff.store_id } }
       end
     end
     #

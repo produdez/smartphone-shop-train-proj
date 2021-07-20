@@ -14,6 +14,9 @@ div.d-flex.justify-content-center
   - if can? :create_employee, User
     = link_to 'Register Employee', new_employee_users_path, class: 'btn btn-dark m-5'
 
+  - if can? :read, User
+    = link_to 'Staffs', users_path, class: 'btn btn-dark m-5'
+
   = link_to 'Profile', user_path(current_user), class: 'btn btn-light m-5'
 
   = link_to 'Logout', destroy_user_session_path , class: 'btn btn-primary m-5', method: 'delete'

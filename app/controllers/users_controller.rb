@@ -1,12 +1,17 @@
 # frozen_string_literal: true
 
 class UsersController < ApplicationController # rubocop:todo Style/Documentation
-  authorize_resource
+  # before_action :load_staffs, only: [:index]
+  load_and_authorize_resource
 
   class PasswordConfirmationMismatch < StandardError # rubocop:todo Style/Documentation
     def message
       'Confirmation password mismatch!'
     end
+  end
+
+  def index
+    @users = @users.includes(:staff).page(params[:page])
   end
 
   def show; end
@@ -19,7 +24,7 @@ class UsersController < ApplicationController # rubocop:todo Style/Documentation
       create_user?('manager')
       flash[:success] = 'Created Manager!'
     rescue PasswordConfirmationMismatch => e
-      flash[:error] = e
+      flash[:error] = e.message
     rescue ActiveRecord::RecordInvalid => e
       flash[:error] = "Error creating user: #{e.message}"
     ensure

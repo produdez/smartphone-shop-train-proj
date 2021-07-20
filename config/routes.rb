@@ -4,7 +4,7 @@ Rails.application.routes.draw do
   root to: 'phones#index'
 
   devise_for :users, skip: %i[registrations passwords], controllers: { sessions: 'users/sessions' }
-  resources :users, only: [:show] do
+  resources :users, only: %i[show index] do
     collection do
       get :new_manager
       post :create_manager
