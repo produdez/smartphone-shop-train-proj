@@ -1,4 +1,6 @@
-class ModelsController < ApplicationController
+# frozen_string_literal: true
+
+class ModelsController < ApplicationController # rubocop:todo Style/Documentation
   before_action :load_models, only: [:index]
   load_and_authorize_resource
 

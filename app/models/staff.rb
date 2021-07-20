@@ -1,4 +1,6 @@
-class Staff < ApplicationRecord
+# frozen_string_literal: true
+
+class Staff < ApplicationRecord # rubocop:todo Style/Documentation
   belongs_to :store
   belongs_to :user, dependent: :destroy
 
@@ -20,9 +22,9 @@ class Staff < ApplicationRecord
   end
 
   def validate_single_store_per_manager
-    if manager?
-      conflict_manager = Staff.manager.find_by(store: store)
-      errors.add(:store, 'Store already have a manager (1-1)') if conflict_manager.present?
-    end
+    return unless manager?
+
+    conflict_manager = Staff.manager.find_by(store: store)
+    errors.add(:store, 'Store already have a manager (1-1)') if conflict_manager.present?
   end
 end

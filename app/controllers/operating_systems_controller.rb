@@ -1,4 +1,6 @@
-class OperatingSystemsController < ApplicationController
+# frozen_string_literal: true
+
+class OperatingSystemsController < ApplicationController # rubocop:todo Style/Documentation
   load_and_authorize_resource
 
   def index

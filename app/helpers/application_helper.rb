@@ -1,4 +1,6 @@
-module ApplicationHelper
+# frozen_string_literal: true
+
+module ApplicationHelper # rubocop:todo Style/Documentation
   def brand_mapping
     Brand.all.collect { |brand| [brand.name, brand.id] }
   end

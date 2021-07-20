@@ -1,4 +1,6 @@
-class Phone < ApplicationRecord
+# frozen_string_literal: true
+
+class Phone < ApplicationRecord # rubocop:todo Style/Documentation
   belongs_to :model
   belongs_to :store
   belongs_to :color

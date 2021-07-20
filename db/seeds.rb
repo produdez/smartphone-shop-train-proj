@@ -64,7 +64,9 @@ users.append(find_or_create_user({ email: 'admin@admin.com', password: 'adminadm
 # Stores and Managers
 stores = []
 (1..4).each do |i|
+  # rubocop:todo Layout/LineLength
   users.append(find_or_create_user({ email: "manager#{i}@email.com", password: 'password123', remember_created_at: Time.now,
+                                     # rubocop:enable Layout/LineLength
                                      name: "Manager #{i}", role: 'user' }))
   stores.append(Store.find_or_create_by(name: "Store #{i}", location: "Location #{i}"))
   Staff.find_or_create_by(user: users[-1], store: stores[-1], role: 'manager')

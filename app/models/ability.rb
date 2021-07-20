@@ -1,9 +1,10 @@
 # frozen_string_literal: true
 
-class Ability
+class Ability # rubocop:todo Style/Documentation
   include CanCan::Ability
 
-  def initialize(user)
+  # rubocop:todo Metrics/MethodLength
+  def initialize(user) # rubocop:todo Metrics/AbcSize
     # Define abilities for the passed in user here. For example:
     #
     user ||= User.new # guest user (not logged in)
@@ -43,4 +44,5 @@ class Ability
     # See the wiki for details:
     # https://github.com/CanCanCommunity/cancancan/wiki/Defining-Abilities
   end
+  # rubocop:enable Metrics/MethodLength
 end

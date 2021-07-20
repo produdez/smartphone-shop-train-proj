@@ -1,4 +1,6 @@
-class BrandsController < ApplicationController
+# frozen_string_literal: true
+
+class BrandsController < ApplicationController # rubocop:todo Style/Documentation
   load_and_authorize_resource
 
   def index
