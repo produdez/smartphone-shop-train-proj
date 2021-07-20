@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 class UsersController < ApplicationController # rubocop:todo Style/Documentation
-  # before_action :load_staffs, only: [:index]
   load_and_authorize_resource
 
   class PasswordConfirmationMismatch < StandardError # rubocop:todo Style/Documentation
