@@ -1,7 +1,8 @@
 class BrandsController < ApplicationController
-  before_action :load_brand, only: %i[edit update destroy show]
+  load_and_authorize_resource
+
   def index
-    @brands = Brand.order(updated_at: :desc)
+    @brands = Brand.order(updated_at: :desc).page(params[:page])
   end
 
   def new; end
@@ -39,9 +40,5 @@ class BrandsController < ApplicationController
 
   def brand_params
     params.require(:brand).permit(:name)
-  end
-
-  def load_brand
-    @brand = Brand.find(params[:id])
   end
 end

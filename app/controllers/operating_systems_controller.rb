@@ -1,7 +1,8 @@
 class OperatingSystemsController < ApplicationController
-  before_action :load_os, only: %i[edit update destroy show]
+  load_and_authorize_resource
+
   def index
-    @operating_systems = OperatingSystem.order(updated_at: :desc)
+    @operating_systems = OperatingSystem.order(updated_at: :desc).page(params[:page])
   end
 
   def new; end
@@ -39,9 +40,5 @@ class OperatingSystemsController < ApplicationController
 
   def os_params
     params.require(:operating_system).permit(:name)
-  end
-
-  def load_os
-    @operating_system = OperatingSystem.find(params[:id])
   end
 end

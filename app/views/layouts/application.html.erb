@@ -24,7 +24,7 @@
         <div class="alert alert-warning">
           <%= msg %>
         </div>
-      <%elsif type == 'error' %>
+      <%elsif type == 'error' || type == 'alert' %>
         <div class="alert alert-danger">
           <%= msg %>
         </div>
@@ -35,7 +35,11 @@
       <%end%>
 
     <% end %> 
-
+    
+    <% if user_signed_in? %>
+      <%= render partial: 'shared/navbar' %>
+    <% end %>
+    
     <%= yield %>
   </body>
 </html>

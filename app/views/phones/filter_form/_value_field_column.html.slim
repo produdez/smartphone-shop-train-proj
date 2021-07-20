@@ -1,0 +1,5 @@
+div.mb-3.justify-content-center.col
+  = f.label filter_name, class: 'form-label fw-bold'
+  = f.fields_for filter_name do |ff|
+    = render partial: 'phones/filter_form/select_field', \
+      locals: {f: ff, filter_name: filter_name, field_name: :value}

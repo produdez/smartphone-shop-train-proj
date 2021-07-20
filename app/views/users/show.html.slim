@@ -1,0 +1,53 @@
+div.d-flex.justify-content-center
+  div.card.text-center.w-50
+    h3.card-title Info User 
+    div.card-body.col
+      div.d-flex.flex-row.justify-content-center.align-items-center
+        div.p2 User Id: 
+        div.p2 = current_user.id
+      div.row.justify-content-between
+        div.mb-3.justify-content-center.col
+          label.form-label.fw-bold.fw-bold Email
+          p.mb-3.fs-6.border-bottom = current_user.email
+        div.mb-3.justify-content-center.col
+          label.form-label.fw-bold Name
+          p.mb-3.fs-6.border-bottom = current_user.name
+
+
+      div.row.justify-content-between
+        div.mb-3.justify-content-center.col
+          label.form-label.fw-bold Role
+          p.mb-3.fs-6.border-bottom = current_user.role
+        div.mb-3.justify-content-center.col
+          label.form-label.fw-bold Created At
+          div.row
+            div.col: p.mb-3.fs-6.border-bottom = current_user.created_at
+      
+      - if current_user.staff.present?
+        - staff = current_user.staff
+        h3.card-title Info Staff 
+        div.card-body.col
+          div.row.justify-content-between
+            div.mb-3.justify-content-center.col
+              label.form-label.fw-bold.fw-bold Id
+              p.mb-3.fs-6.border-bottom = staff.id
+            div.mb-3.justify-content-center.col
+              label.form-label.fw-bold Role
+              p.mb-3.fs-6.border-bottom = staff.role
+        - store = staff.store
+        h3.card-title Info Store 
+        div.card-body.col
+          div.row.justify-content-between
+            div.mb-3.justify-content-center.col
+              label.form-label.fw-bold.fw-bold Id
+              p.mb-3.fs-6.border-bottom = store.id
+            div.mb-3.justify-content-center.col
+              label.form-label.fw-bold Name
+              p.mb-3.fs-6.border-bottom = store.name
+          div.row.justify-content-between
+            div.mb-3.justify-content-center.col
+              label.form-label.fw-bold.fw-bold Location
+              p.mb-3.fs-6.border-bottom = store.location
+            div.mb-3.justify-content-center.col
+              label.form-label.fw-bold Created At
+              p.mb-3.fs-6.border-bottom = store.created_at
