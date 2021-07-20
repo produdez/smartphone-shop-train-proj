@@ -1,4 +1,6 @@
-module UtilityHelper
+# frozen_string_literal: true
+
+module UtilityHelper # rubocop:todo Style/Documentation
   def check_empty_hash(options)
     return true if options.blank?
 

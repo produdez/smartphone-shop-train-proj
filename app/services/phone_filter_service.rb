@@ -1,7 +1,9 @@
-class PhoneFilterService
+# frozen_string_literal: true
+
+class PhoneFilterService # rubocop:todo Style/Documentation
   class PhoneFilterError < StandardError; end
 
-  class NilFilterNameError < PhoneFilterError
+  class NilFilterNameError < PhoneFilterError # rubocop:todo Style/Documentation
     def message
       'No filter name specified'
     end
@@ -35,7 +37,7 @@ class PhoneFilterService
     nil
   end
 
-  def self.convert_params_to_datetime(event, start: true)
+  def self.convert_params_to_datetime(event, start: true) # rubocop:todo Metrics/AbcSize
     return nil if UtilityHelper.check_empty_hash(event)
 
     today = Date.today

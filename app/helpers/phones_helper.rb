@@ -1,4 +1,6 @@
-module PhonesHelper
+# frozen_string_literal: true
+
+module PhonesHelper # rubocop:todo Style/Documentation
   def color_mapping
     Color.all.collect { |color| [color.name.capitalize, color.id] }
   end
@@ -71,7 +73,7 @@ module PhonesHelper
     params.dig(:filters, filter_name, field_type)
   end
 
-  def get_filtered_date(filter_name, field_type)
+  def get_filtered_date(filter_name, field_type) # rubocop:todo Metrics/AbcSize
     event = params.dig(:filters, filter_name, field_type)
     return nil if check_empty_hash(event)
 

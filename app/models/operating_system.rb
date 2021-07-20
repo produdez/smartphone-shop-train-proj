@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class OperatingSystem < ApplicationRecord
   has_many :models, dependent: :destroy
 

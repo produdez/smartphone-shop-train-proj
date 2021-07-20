@@ -1,0 +1,26 @@
+div#inventory
+  h1.m-5 Staff
+  - has_user = @users.present?
+  div#content.w-50
+    div.d-flex.flex-row.align-items-center
+      p.m-3.fw-bold = "Total rows: #{has_user ? @users.total_count : 0}"
+    - if @users.any?
+      table class='styled-table'
+        thead
+          th Index
+          th Name
+          th Email
+          th Phone
+          th Role
+        - @users.each do |user|
+          tr
+            td.id = user.id
+            td.name = user.name
+            td.email = user.email
+            td.phone = user.phone
+            td.role = user.staff.present? ? user.staff.role : 'ADMIN'
+    - else
+      p No items found. Please add some inventory.
+        Thank you!
+    .row.py-2
+      .col = render partial: 'shared/page_nav', locals: {model: @users}

@@ -1,0 +1,30 @@
+div.d-flex.justify-content-center.p-5
+  div.card.text-center.w-50
+    h3.card-title New Store/Manager
+    div.card-body
+      = form_with model: User.new , method: :post, url: create_manager_users_path do |f|
+        div.justify-content-between
+          = f.label :store_name, class: 'form-label'
+          = f.text_field :store_name, class: 'form-control', required: true
+
+          = f.label :user_name, 'Manager Name', class: 'form-label'
+          = f.text_field :user_name, class: 'form-control', required: true
+
+          = f.label :email, 'Email address', class: 'label sr-only'
+          = f.email_field :email, autofocus: true, autocomplete: "email", class: 'form-control', id: 'inputEmail', placeholder: "Email address", required: true
+
+          = f.label :password, 'Password', class: 'label sr-only', autocomplete: "current-password"
+          = f.password_field :password, autocomplete: "current-password", class: 'form-control', id: 'inputPassword', placeholder: "Password", required: true
+
+          = f.label :password_confirmation, 'Password', class: 'label sr-only', autocomplete: "current-password"
+          = f.password_field :password_confirmation, autocomplete: "current-password", class: 'form-control', id: 'inputPassword', placeholder: "Password confirmation", required: true
+
+          = f.label :store_location, class: 'form-label'
+          = f.text_field :store_location, class: 'form-control', required: true
+
+          = f.label :phone, class: 'form-label'
+          = f.telephone_field :phone, class: 'form-control'
+
+
+          = f.submit 'Submit', class: 'btn btn-dark m-5'
+

@@ -1,4 +1,6 @@
-class PhonesController < ApplicationController
+# frozen_string_literal: true
+
+class PhonesController < ApplicationController # rubocop:todo Style/Documentation
   before_action :load_store_specific_phones, only: :index
   load_and_authorize_resource
 
@@ -11,7 +13,7 @@ class PhonesController < ApplicationController
 
   def new; end
 
-  def create
+  def create # rubocop:todo Metrics/AbcSize
     batch_size = params[:phone][:quantity].to_i
     (1..batch_size).each do
       Phone.create!(phone_params.merge(store_id: current_user.staff.store_id))
@@ -45,7 +47,7 @@ class PhonesController < ApplicationController
     redirect_to(phone_path(@phone))
   end
 
-  def delete_selected
+  def delete_selected # rubocop:todo Metrics/MethodLength
     id_list = params[:ids].split(',')
     if id_list.blank?
       render(json: { success: false, error: 'Empty Request' })
@@ -59,7 +61,7 @@ class PhonesController < ApplicationController
     render(json: { success: false, error: error })
   end
 
-  def set_unavailable_selected
+  def set_unavailable_selected # rubocop:todo Metrics/MethodLength
     id_list = params[:ids].split(',')
     if id_list.blank?
       render(json: { success: false, error: 'Empty Request' })

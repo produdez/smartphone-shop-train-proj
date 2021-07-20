@@ -4,27 +4,27 @@ div.d-flex.justify-content-center
     div.card-body.col
       div.d-flex.flex-row.justify-content-center.align-items-center
         div.p2 User Id: 
-        div.p2 = current_user.id
+        div.p2 = @user.id
       div.row.justify-content-between
         div.mb-3.justify-content-center.col
           label.form-label.fw-bold.fw-bold Email
-          p.mb-3.fs-6.border-bottom = current_user.email
+          p.mb-3.fs-6.border-bottom = @user.email
         div.mb-3.justify-content-center.col
           label.form-label.fw-bold Name
-          p.mb-3.fs-6.border-bottom = current_user.name
+          p.mb-3.fs-6.border-bottom = @user.name
 
 
       div.row.justify-content-between
         div.mb-3.justify-content-center.col
           label.form-label.fw-bold Role
-          p.mb-3.fs-6.border-bottom = current_user.role
+          p.mb-3.fs-6.border-bottom = @user.role
         div.mb-3.justify-content-center.col
           label.form-label.fw-bold Created At
           div.row
-            div.col: p.mb-3.fs-6.border-bottom = current_user.created_at
+            div.col: p.mb-3.fs-6.border-bottom = @user.created_at
       
-      - if current_user.staff.present?
-        - staff = current_user.staff
+      - if @user.staff.present?
+        - staff = @user.staff
         h3.card-title Info Staff 
         div.card-body.col
           div.row.justify-content-between
