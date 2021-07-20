@@ -5,12 +5,14 @@ $(function(){
 
   $delete_button.on('click', function(){
     data_json = check_selected_and_parse_data($check_boxes, 'delete')
+    if(data_json == null) return
     post_ajax_request(data_json, 'phones/delete_selected')
   })
 
   $unavailable_button.on('click', function(){
     data_json = check_selected_and_parse_data($check_boxes, '"Set Unavailable"')
-    post_ajax_request(data_json, 'phones/unavailable_selected')
+    if(data_json == null) return
+    post_ajax_request(data_json, 'phones/set_unavailable_selected')
   })
 })
 

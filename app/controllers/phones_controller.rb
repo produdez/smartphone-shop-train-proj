@@ -59,16 +59,16 @@ class PhonesController < ApplicationController
     render(json: { success: false, error: error })
   end
 
-  def unavailable_selected
+  def set_unavailable_selected
     id_list = params[:ids].split(',')
     if id_list.blank?
       render(json: { success: false, error: 'Empty Request' })
       return
     end
-    Phone.where(id: id_list).each { |phone| phone.update(status: 'unavailable') }
+    Phone.where(id: id_list).each { |phone| phone.update!(status: 'unavailable') }
     message = "Set unavailable for records: #{id_list}, finished: #{Time.now}"
     render(json: { success: true, ids: id_list, total: id_list.length, message: message })
-  rescue ActiveRecord::RecordNotDestroyed
+  rescue ActiveRecord::RecordInvalid
     error = 'Fail to set seleted records as unavailable!'
     render(json: { success: false, error: error })
   end
