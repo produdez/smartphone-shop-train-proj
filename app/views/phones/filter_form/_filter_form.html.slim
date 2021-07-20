@@ -9,7 +9,8 @@ div.card.text-center.p-5.border-primary.border-3.my-3 = form_for :filters, url: 
       = render partial: value_field_col, locals: {f: f, filter_name: :brand}  
       = render partial: value_field_col, locals: {f: f, filter_name: :operating_system}
       = render partial: value_field_col, locals: {f: f, filter_name: :model}
-      = render partial: value_field_col, locals: {f: f, filter_name: :store}
+      - if can? :read, Phone.all
+        = render partial: value_field_col, locals: {f: f, filter_name: :store}
       = render partial: value_field_col, locals: {f: f, filter_name: :color}
   div.row.mb-3.justify-content-between
     = render partial: select_range_field, locals: {f: f, filter_name: :manufacture_year_range, display_name: 'Manufacture Year'}

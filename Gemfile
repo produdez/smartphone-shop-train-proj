@@ -28,6 +28,8 @@ gem 'devise'
 gem 'slim-rails'
 # Rubocop
 gem 'rubocop', require: false
+# Role split
+gem 'cancancan'
 # Pagination
 gem 'kaminari'
 

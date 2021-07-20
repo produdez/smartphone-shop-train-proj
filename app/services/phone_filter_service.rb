@@ -7,23 +7,22 @@ class PhoneFilterService
     end
   end
 
-  def initialize(filters)
+  def initialize(phones, filters)
     @filters = filters.present? ? filters : {}
+    @phones = phones
   end
 
-  attr_reader :filters
+  attr_reader :filters, :phones
 
   def filter
-    phones = Phone.includes(:color, :store, :model, model: %i[brand operating_system])
+    filterd_phones = phones
     filters.each do |name, options|
       options = options.to_h.symbolize_keys
-
       next if UtilityHelper.check_empty_hash(options)
 
-      phones = phones.filter_by(name, options)
+      filterd_phones = filterd_phones.filter_by(name, options)
     end
-
-    phones.order(updated_at: :desc)
+    filterd_phones.order(updated_at: :desc)
   end
 
   def self.get_range_sql(attribute_name, min, max)

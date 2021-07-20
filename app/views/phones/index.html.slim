@@ -1,18 +1,19 @@
 scss = stylesheet_link_tag 'phones_inventory'
 = javascript_pack_tag 'phone_index'
 div#inventory
-  = render partial: 'shared/navbar'
   h1 Phone Inventory
   - has_phones = @phones.present?
   div#content
     = render partial: 'phones/filter_form/filter_form'
     div.d-flex.flex-row.align-items-center
-      = link_to 'Add Phones', new_phone_path ,class: 'btn btn-dark my-2 align-self'
+      - if can? :create, Phone
+        = link_to 'Add Phones', new_phone_path ,class: 'btn btn-dark my-2 align-self'
       p.m-3.fw-bold = "Total rows: #{has_phones ? @phones.total_count : 0}"
     - if has_phones
       table class='styled-table'
         thead
-          th
+          - if can? :manage, Phone
+            th 
           th Index
           th Added Date
           th Brand
@@ -22,13 +23,16 @@ div#inventory
           th Price
           th OS
           th Memory
-          th Store 
+          - if can? :read, Phone.all
+            th Store 
           th Condition
+          th Status
         - @phones.each do |phone|
           tr
-            td.select_box = check_box_tag :phone_check_box_id, phone.id, false
+            - if can? :manage, Phone
+              td.select_box = check_box_tag :phone_check_box_id, phone.id, false
             td.id = phone.id
-            td.created_at = phone.created_at
+            td.created_at = format_datetime(phone.created_at)
             td.brand = phone.model.brand.name
             td.model = phone.model.name
             td.manufacture_year = phone.manufacture_year
@@ -36,7 +40,9 @@ div#inventory
             td.price = format_price(phone.price)
             td.operating_system = phone.model.operating_system.name
             td.memory = format_memory(phone.memory)
-            td.store = phone.store.name
+            - if can? :read, Phone.all
+              td.store = phone.store.name
+            td.condition = format_condition(phone.condition)
             td.status = format_status(phone.status)
             td.link = link_to 'Info', phone_path(phone)
     - else
@@ -44,7 +50,9 @@ div#inventory
         Thank you!
     .row.py-2
       .col
-        = button_tag 'Set Unavailable', remote: true, id: 'unavailable-selected',class: 'btn btn-dark'
-        = button_tag 'Delete selected', remote: true, id: 'delete-selected',class: 'btn btn-dark mx-2'
+        - if can? :edit, Phone
+          = button_tag 'Set Unavailable', remote: true, id: 'unavailable-selected',class: 'btn btn-dark'
+        - if can? :destroy, Phone
+          = button_tag 'Delete selected', remote: true, id: 'delete-selected',class: 'btn btn-dark mx-2'
       .col-6 = render partial: 'shared/page_nav', locals: {model: @phones}
       .col

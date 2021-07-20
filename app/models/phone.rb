@@ -20,11 +20,11 @@ class Phone < ApplicationRecord
   }
 
   scope :filter_by_brand, lambda { |value: nil|
-    joins(:model).where(brand_id: value)
+    joins(:model).where(model: { brand_id: value })
   }
 
   scope :filter_by_operating_system, lambda { |value: nil|
-    joins(:model).where(operating_system_id: value)
+    joins(:model).where(model: { operating_system_id: value })
   }
 
   scope :filter_by_color, lambda { |value: nil|

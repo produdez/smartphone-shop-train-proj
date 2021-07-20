@@ -10,4 +10,8 @@ module ApplicationHelper
   def store_mapping
     Store.all.collect { |store| [store.name, store.id] }
   end
+
+  def format_datetime(date_time)
+    date_time.to_s(:long)
+  end
 end
