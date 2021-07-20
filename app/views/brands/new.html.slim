@@ -1,0 +1,13 @@
+div.d-flex.justify-content-center.p-5
+  div.card.text-center.w-50
+    h3.card-title New Brand
+    div.card-body
+      = form_with model: Brand.new , method: :post do |f|
+
+        div.justify-content-between
+          = f.label :name, class: 'form-label'
+          = f.text_field :name, class: 'form-control', required: true
+
+          = f.submit 'Submit', class: 'btn btn-dark m-5'
+          = link_to 'Cancel', brands_path, class: 'btn btn-light m-5'
+

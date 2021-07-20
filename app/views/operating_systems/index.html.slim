@@ -1,0 +1,25 @@
+scss = stylesheet_link_tag 'operating_systems_index'
+/ = javascript_pack_tag 'operating_system_index'
+div#inventory
+  = render partial: 'shared/navbar'
+  h1 Operating Systems Library
+
+  div#content 
+    = link_to 'Add OS', new_operating_system_path ,class: 'btn btn-dark my-2'
+    - if @operating_systems.any?
+      table class='styled-table'
+        thead
+          th
+          th Index
+          th Name
+        - @operating_systems.each do |operating_system|
+          tr
+            td.select_box = check_box_tag :operating_system_check_box_id, operating_system.id, false
+            td.id = operating_system.id
+            td.name = operating_system.name
+            td.link = link_to 'Edit', edit_operating_system_path(operating_system)
+    - else
+      p No items found. Please add some inventory.
+        Thank you!
+    button#unavailable-selected Set Unavailable
+    = button_tag 'Delete selected', remote: true, id: 'delete-selected'

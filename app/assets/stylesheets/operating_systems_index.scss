@@ -1,0 +1,10 @@
+@use 'inventory_table';
+
+#inventory{
+  text-align: center;
+  #content {
+    width: 50%;
+    text-align: left;
+    margin: auto;
+  }
+}

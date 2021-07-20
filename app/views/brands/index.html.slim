@@ -1,0 +1,25 @@
+scss = stylesheet_link_tag 'operating_systems_index'
+/ = javascript_pack_tag 'brand_index'
+div#inventory
+  = render partial: 'shared/navbar'
+  h1 Brands Library
+
+  div#content 
+    = link_to 'Add Brand', new_brand_path ,class: 'btn btn-dark my-2'
+    - if @brands.any?
+      table class='styled-table'
+        thead
+          th
+          th Index
+          th Name
+        - @brands.each do |brand|
+          tr
+            td.select_box = check_box_tag :brand_check_box_id, brand.id, false
+            td.id = brand.id
+            td.name = brand.name
+            td.link = link_to 'Edit', edit_brand_path(brand)
+    - else
+      p No items found. Please add some inventory.
+        Thank you!
+    button#unavailable-selected Set Unavailable
+    = button_tag 'Delete selected', remote: true, id: 'delete-selected'
