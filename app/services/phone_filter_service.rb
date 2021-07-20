@@ -12,17 +12,16 @@ class PhoneFilterService
     @phones = phones
   end
 
-  attr_reader :filters, :phones
+  attr_reader :filters
+  attr_accessor :phones
 
   def filter
     filters.each do |name, options|
       options = options.to_h.symbolize_keys
-
       next if UtilityHelper.check_empty_hash(options)
 
-      phones.filter_by(name, options)
+      self.phones = phones.filter_by(name, options)
     end
-
     phones.order(updated_at: :desc)
   end
 
