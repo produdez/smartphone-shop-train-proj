@@ -71,10 +71,12 @@ class PhonesController < ApplicationController
   end
 
   def load_store_specific_phones
-    @phones = Phone.includes(:color, :store, :model, model: %i[brand operating_system])
-    return if current_user.admin?
-
-    @phones = @phones.where(store: current_user.staff.store)
+    @phones = Phone.includes(:color, :model, model: %i[brand operating_system])
+    @phones = if current_user.admin?
+                @phones.includes(:store)
+              else
+                @phones.where(store_id: current_user.staff.store_id)
+              end
   end
 
   def filter_params

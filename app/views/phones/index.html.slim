@@ -23,7 +23,8 @@ div#inventory
           th Price
           th OS
           th Memory
-          th Store 
+          - if can? :read, Phone.all
+            th Store 
           th Condition
         - @phones.each do |phone|
           tr
@@ -38,7 +39,8 @@ div#inventory
             td.price = format_price(phone.price)
             td.operating_system = phone.model.operating_system.name
             td.memory = format_memory(phone.memory)
-            td.store = phone.store.name
+            - if can? :read, Phone.all
+              td.store = phone.store.name
             td.status = format_status(phone.status)
             td.link = link_to 'Info', phone_path(phone)
     - else

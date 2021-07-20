@@ -12,17 +12,17 @@ class PhoneFilterService
     @phones = phones
   end
 
-  attr_reader :filters
-  attr_accessor :phones
+  attr_reader :filters, :phones
 
   def filter
+    filterd_phones = phones
     filters.each do |name, options|
       options = options.to_h.symbolize_keys
       next if UtilityHelper.check_empty_hash(options)
 
-      self.phones = phones.filter_by(name, options)
+      filterd_phones = filterd_phones.filter_by(name, options)
     end
-    phones.order(updated_at: :desc)
+    filterd_phones.order(updated_at: :desc)
   end
 
   def self.get_range_sql(attribute_name, min, max)
