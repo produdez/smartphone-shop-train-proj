@@ -1,5 +1,4 @@
 class PhonesController < ApplicationController
-  # before_action :load_phone, only: %i[show edit destroy update]
   before_action :load_store_specific_phones, only: :index
   load_and_authorize_resource
 
@@ -73,7 +72,7 @@ class PhonesController < ApplicationController
 
   def load_store_specific_phones
     @phones = Phone.includes(:color, :store, :model, model: %i[brand operating_system])
-    return unless current_user.user? # admin gets all phone
+    return if current_user.admin?
 
     @phones = @phones.where(store: current_user.staff.store)
   end
