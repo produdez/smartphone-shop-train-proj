@@ -2,13 +2,13 @@ class OperatingSystemsController < ApplicationController
   load_and_authorize_resource
 
   def index
-    @operating_systems = OperatingSystem.order(updated_at: :desc).page(params[:page])
+    @operating_systems = @operating_systems.order(updated_at: :desc).page(params[:page])
   end
 
   def new; end
 
   def create
-    OperatingSystem.create!(os_params)
+    OperatingSystem.create!(operating_system_params)
     flash[:success] = 'Created OS successfully!'
     redirect_to operating_systems_path
   rescue ActiveRecord::RecordInvalid
@@ -19,7 +19,7 @@ class OperatingSystemsController < ApplicationController
   def edit; end
 
   def update
-    @operating_system.update!(os_params)
+    @operating_system.update!(operating_system_params)
     flash[:success] = 'Updated OS successfully!'
     redirect_to operating_systems_path
   rescue ActiveRecord::RecordInvalid
@@ -38,7 +38,7 @@ class OperatingSystemsController < ApplicationController
 
   private
 
-  def os_params
+  def operating_system_params
     params.require(:operating_system).permit(:name)
   end
 end

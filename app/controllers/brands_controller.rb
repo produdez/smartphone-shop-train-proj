@@ -2,7 +2,7 @@ class BrandsController < ApplicationController
   load_and_authorize_resource
 
   def index
-    @brands = Brand.order(updated_at: :desc).page(params[:page])
+    @brands = @brands.order(updated_at: :desc).page(params[:page])
   end
 
   def new; end
