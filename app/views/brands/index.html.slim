@@ -13,12 +13,10 @@ div#inventory
     - if @brands.any?
       table class='styled-table'
         thead
-          th
           th Index
           th Name
         - @brands.each do |brand|
           tr
-            td.select_box = check_box_tag :brand_check_box_id, brand.id, false
             td.id = brand.id
             td.name = brand.name
             - if can? :edit, Brand
@@ -27,8 +25,4 @@ div#inventory
       p No items found. Please add some inventory.
         Thank you!
     .row.py-2
-      .col
-        - if can? :destroy, Brand
-          = button_tag 'Delete selected', remote: true, id: 'delete-selected',class: 'btn btn-dark mx-2'
-      .col-6 = render partial: 'shared/page_nav', locals: {model: @brands}
-      .col
+      .col = render partial: 'shared/page_nav', locals: {model: @brands}

@@ -11,12 +11,10 @@ div#inventory
     - if @operating_systems.any?
       table class='styled-table'
         thead
-          th
           th Index
           th Name
         - @operating_systems.each do |operating_system|
           tr
-            td.select_box = check_box_tag :operating_system_check_box_id, operating_system.id, false
             td.id = operating_system.id
             td.name = operating_system.name
             - if can? :edit, OperatingSystem
@@ -25,8 +23,4 @@ div#inventory
       p No items found. Please add some inventory.
         Thank you!
     .row.py-2
-      .col
-        - if can? :destroy, OperatingSystem
-          = button_tag 'Delete selected', remote: true, id: 'delete-selected',class: 'btn btn-dark mx-2'
-      .col-6 = render partial: 'shared/page_nav', locals: {model: @operating_systems}
-      .col
+      .col = render partial: 'shared/page_nav', locals: {model: @operating_systems}
