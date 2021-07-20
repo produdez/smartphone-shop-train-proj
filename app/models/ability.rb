@@ -13,9 +13,9 @@ class Ability
     else
       staff = user.staff
       if staff.employee?
-        can :read, Phone
+        can :read, Phone, store_id: staff.store_id
       elsif staff.manager?
-        can :manage, Phone
+        can :manage, Phone, store_id: staff.store_id
       end
     end
     #
