@@ -1,0 +1,24 @@
+div#inventory
+  h1.m-5 Operating Systems Library
+  - has_os = @operating_systems.present?
+  div#content.w-25
+    div.d-flex.flex-row.align-items-center
+      - if can? :create, OperatingSystem
+        = link_to 'Add OS', new_operating_system_path ,class: 'btn btn-dark my-2 align-self'
+      p.m-3.fw-bold = "Total rows: #{has_os ? @operating_systems.total_count : 0}"
+    - if @operating_systems.any?
+      table class='styled-table'
+        thead
+          th Index
+          th Name
+        - @operating_systems.each do |operating_system|
+          tr
+            td.id = operating_system.id
+            td.name = operating_system.name
+            - if can? :edit, OperatingSystem
+              td.link = link_to 'Edit', edit_operating_system_path(operating_system)
+    - else
+      p No items found. Please add some inventory.
+        Thank you!
+    .row.py-2
+      .col = render partial: 'shared/page_nav', locals: {model: @operating_systems}

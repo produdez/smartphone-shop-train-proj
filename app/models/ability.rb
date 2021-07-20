@@ -14,8 +14,14 @@ class Ability
       staff = user.staff
       if staff.employee?
         can :read, Phone, store_id: staff.store_id
+        can :read, Brand
+        can :read, OperatingSystem
+        can :read, Model
       elsif staff.manager?
         can :manage, Phone, store_id: staff.store_id
+        can :read, Brand
+        can :read, OperatingSystem
+        can :read, Model
       end
     end
     #

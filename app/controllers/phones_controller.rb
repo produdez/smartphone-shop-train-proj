@@ -45,7 +45,6 @@ class PhonesController < ApplicationController
     redirect_to(phone_path(@phone))
   end
 
-  # NOTE: async ajax
   def delete_selected
     id_list = params[:ids].split(',')
     if id_list.blank?
@@ -57,6 +56,20 @@ class PhonesController < ApplicationController
     render(json: { success: true, ids: id_list, total: id_list.length, message: message })
   rescue ActiveRecord::RecordNotDestroyed
     error = 'Fail to delete seleted records!'
+    render(json: { success: false, error: error })
+  end
+
+  def set_unavailable_selected
+    id_list = params[:ids].split(',')
+    if id_list.blank?
+      render(json: { success: false, error: 'Empty Request' })
+      return
+    end
+    Phone.where(id: id_list).each { |phone| phone.update!(status: 'unavailable') }
+    message = "Set unavailable for records: #{id_list}, finished: #{Time.now}"
+    render(json: { success: true, ids: id_list, total: id_list.length, message: message })
+  rescue ActiveRecord::RecordInvalid
+    error = 'Fail to set seleted records as unavailable!'
     render(json: { success: false, error: error })
   end
 

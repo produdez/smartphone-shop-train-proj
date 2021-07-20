@@ -1,0 +1,31 @@
+div.d-flex.justify-content-center.m-5
+  div.card.text-center.w-50
+    h3.card-title Info Model 
+    div.card-body.col
+      div.d-flex.flex-row.justify-content-center.align-items-center
+        div.p2 Model Id: 
+        div.p2 = @model.id
+      div.row.justify-content-between
+        div.mb-3.justify-content-center.col
+          label.form-label.fw-bold.fw-bold Name
+          p.mb-3.fs-6.border-bottom = @model.name
+        div.mb-3.justify-content-center.col
+          label.form-label.fw-bold Created At
+          p.mb-3.fs-6.border-bottom = format_datetime(@model.created_at)
+      div.row.justify-content-between
+        div.mb-3.justify-content-center.col
+          label.form-label.fw-bold.fw-bold Brand
+          p.mb-3.fs-6.border-bottom = @model.brand.name
+        div.mb-3.justify-content-center.col
+          label.form-label.fw-bold OS
+          p.mb-3.fs-6.border-bottom = @model.operating_system.name
+      div.mb-3.col
+        div.row: label.form-label.fw-bold Description
+        div.row: label.form-text = format_description(@model.description)
+
+      - if can? :destroy, @model 
+        = link_to 'DELETE', model_path(@model), class: 'btn btn-danger m-5', method: 'delete', data: { confirm: 'Are you sure?' }
+      - if can? :edit, @model
+        = link_to 'Edit', edit_model_path(@model), class: 'btn btn-primary m-5'
+
+      = link_to 'Cancel', models_path, class: 'btn btn-light m-5'

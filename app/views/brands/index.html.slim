@@ -1,0 +1,25 @@
+div#inventory
+  h1.m-5 Brands Library
+  div#content 
+  - has_brands = @brands.present?
+  div#content.w-25
+    div.d-flex.flex-row.align-items-center
+      - if can? :create, Brand
+        = link_to 'Add Brand', new_brand_path ,class: 'btn btn-dark my-2 align-self'
+      p.m-3.fw-bold = "Total rows: #{has_brands ? @brands.total_count : 0}"
+    - if @brands.any?
+      table class='styled-table'
+        thead
+          th Index
+          th Name
+        - @brands.each do |brand|
+          tr
+            td.id = brand.id
+            td.name = brand.name
+            - if can? :edit, Brand
+              td.link = link_to 'Edit', edit_brand_path(brand)
+    - else
+      p No items found. Please add some inventory.
+        Thank you!
+    .row.py-2
+      .col = render partial: 'shared/page_nav', locals: {model: @brands}

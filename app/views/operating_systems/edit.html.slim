@@ -1,0 +1,16 @@
+div.d-flex.justify-content-center.p-5
+  div.card.text-center.w-50
+    h3.card-title Edit OS 
+    div.card-body.col
+      = form_with model: @operating_system , method: :patch do |f|
+        div.d-flex.flex-row.justify-content-center.align-items-center
+          div.p2 OS Id: 
+          div.p2 = @operating_system.id
+        div.row.justify-content-between
+          div.mb-3.justify-content-center.col
+            = f.label :name, class: 'form-label'
+            = f.text_field :name,  class: 'form-control', required: true
+        div.row.justify-content-between
+          .col = link_to 'DELETE', operating_system_path(@operating_system), class: 'btn btn-danger m-5', method: 'delete', data: { confirm: 'Are you sure?' }
+          .col = f.submit 'Submit', class: 'btn btn-dark m-5'
+          .col = link_to 'Cancel', operating_systems_path, class: 'btn btn-light m-5'

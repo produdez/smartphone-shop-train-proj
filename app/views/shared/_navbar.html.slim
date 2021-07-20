@@ -1,9 +1,13 @@
 div.d-flex.justify-content-center
 
-  = link_to 'Home', '/', class: 'btn btn-dark m-5'
+  = link_to 'Phones', phones_path, class: 'btn btn-primary m-5'
 
-  = link_to 'Phones', phones_path, class: 'btn btn-dark m-5'
+  = link_to 'Models', models_path, class: 'btn btn-dark m-5'
 
-  = link_to 'Logout', destroy_user_session_path , class: 'btn btn-primary m-5', method: 'delete'
+  = link_to 'Brands', brands_path, class: 'btn btn-dark m-5'
+
+  = link_to 'Operating Systems', operating_systems_path, class: 'btn btn-dark m-5'
 
   = link_to 'Profile', user_path(current_user), class: 'btn btn-light m-5'
+
+  = link_to 'Logout', destroy_user_session_path , class: 'btn btn-primary m-5', method: 'delete'
