@@ -19,7 +19,7 @@ RSpec.describe 'Brands', type: :request do # rubocop:todo Metrics/BlockLength
       end
     end
 
-    it_behaves_like 'Not logged in'
+    it_behaves_like 'not_logged_in'
   end
 
   describe 'GET /brands/new' do
@@ -32,23 +32,22 @@ RSpec.describe 'Brands', type: :request do # rubocop:todo Metrics/BlockLength
       end
     end
 
-    it_behaves_like 'Not logged in'
+    it_behaves_like 'not_logged_in'
   end
 
   describe 'POST /brands/' do
-    let(:name) { 'Test Brand' }
-    let(:params) { { brand: { name: name } } }
+    let(:params) { { brand: attributes_for(:brand) } }
     subject { post brands_url, params: params }
 
     context 'Logged In', :logged_in do
       it 'should add new record and redirect' do
         expect { subject }.to change(Brand, :count).by(1)
         expect(response).to redirect_to(brands_url)
-        expect(Brand.first.name).to eq(name)
+        expect(Brand.first).to eql_brand_params(params)
       end
     end
 
-    it_behaves_like 'Not logged in'
+    it_behaves_like 'not_logged_in'
   end
 
   describe 'GET /brand/:id/edit' do
@@ -62,13 +61,12 @@ RSpec.describe 'Brands', type: :request do # rubocop:todo Metrics/BlockLength
       end
     end
 
-    it_behaves_like 'Not logged in'
+    it_behaves_like 'not_logged_in'
   end
 
   describe 'patch /brands/:id/' do
     let(:brand) { create(:brand) }
-    let(:new_name) { 'New Name' }
-    let(:params) { { brand: { name: new_name } } }
+    let(:params) { { brand: attributes_for(:brand, name: 'Updated Brand') } }
     subject { patch brand_url(brand), params: params }
 
     context 'Logged In', :logged_in do
@@ -76,12 +74,12 @@ RSpec.describe 'Brands', type: :request do # rubocop:todo Metrics/BlockLength
         subject
         expect(response).to redirect_to(brands_url)
         created_brand = Brand.first
-        expect(created_brand.name).to eql(new_name)
+        expect(created_brand).to eql_brand_params(params)
         expect(created_brand.id).to eql(brand.id)
       end
     end
 
-    it_behaves_like 'Not logged in'
+    it_behaves_like 'not_logged_in'
   end
 
   describe 'delete /brands/:id' do
@@ -98,6 +96,6 @@ RSpec.describe 'Brands', type: :request do # rubocop:todo Metrics/BlockLength
       end
     end
 
-    it_behaves_like 'Not logged in'
+    it_behaves_like 'not_logged_in'
   end
 end

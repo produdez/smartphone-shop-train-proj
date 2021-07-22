@@ -19,7 +19,7 @@ RSpec.describe 'OperatingSystems', type: :request do # rubocop:todo Metrics/Bloc
       end
     end
 
-    it_behaves_like 'Not logged in'
+    it_behaves_like 'not_logged_in'
   end
 
   describe 'GET /operating_systems/new' do
@@ -32,23 +32,22 @@ RSpec.describe 'OperatingSystems', type: :request do # rubocop:todo Metrics/Bloc
       end
     end
 
-    it_behaves_like 'Not logged in'
+    it_behaves_like 'not_logged_in'
   end
 
   describe 'POST /operating_systems/' do
-    let(:name) { 'Test OperatingSystem' }
-    let(:params) { { operating_system: { name: name } } }
+    let(:params) { { operating_system: attributes_for(:operating_system) } }
     subject { post operating_systems_url, params: params }
 
     context 'Logged In', :logged_in do
       it 'should add new record and redirect' do
         expect { subject }.to change(OperatingSystem, :count).by(1)
         expect(response).to redirect_to(operating_systems_url)
-        expect(OperatingSystem.first.name).to eq(name)
+        expect(OperatingSystem.first).to eql_os_params(params)
       end
     end
 
-    it_behaves_like 'Not logged in'
+    it_behaves_like 'not_logged_in'
   end
 
   describe 'GET /operating_system/:id/edit' do
@@ -62,13 +61,12 @@ RSpec.describe 'OperatingSystems', type: :request do # rubocop:todo Metrics/Bloc
       end
     end
 
-    it_behaves_like 'Not logged in'
+    it_behaves_like 'not_logged_in'
   end
 
   describe 'patch /operating_systems/:id/' do
     let(:operating_system) { create(:operating_system) }
-    let(:new_name) { 'New Name' }
-    let(:params) { { operating_system: { name: new_name } } }
+    let(:params) { { operating_system: attributes_for(:operating_system, name: 'Updated OS') } }
     subject { patch operating_system_url(operating_system), params: params }
 
     context 'Logged In', :logged_in do
@@ -76,12 +74,12 @@ RSpec.describe 'OperatingSystems', type: :request do # rubocop:todo Metrics/Bloc
         subject
         expect(response).to redirect_to(operating_systems_url)
         created_operating_system = OperatingSystem.first
-        expect(created_operating_system.name).to eql(new_name)
+        expect(created_operating_system).to eql_os_params(params)
         expect(created_operating_system.id).to eql(operating_system.id)
       end
     end
 
-    it_behaves_like 'Not logged in'
+    it_behaves_like 'not_logged_in'
   end
 
   describe 'delete /operating_systems/:id' do
@@ -98,6 +96,6 @@ RSpec.describe 'OperatingSystems', type: :request do # rubocop:todo Metrics/Bloc
       end
     end
 
-    it_behaves_like 'Not logged in'
+    it_behaves_like 'not_logged_in'
   end
 end
