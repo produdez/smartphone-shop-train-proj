@@ -22,3 +22,13 @@ RSpec::Matchers.define :eql_model_params do |params|
     && model.operating_system.id == p[:operating_system_id]
   end
 end
+
+RSpec::Matchers.define :eql_phone_params do |params|
+  match do |phone|
+    p = params[:phone]
+    phone.model.id == p[:model_id] && phone.color.id == p[:color_id] \
+    && phone.manufacture_year == p[:manufacture_year] && phone.condition == p[:condition] \
+    && phone.memory == p[:memory] && phone.price == p[:price] \
+    && phone.status == p[:status]
+  end
+end

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require 'rails_helper'
-RSpec.describe 'OperatingSystems', type: :request do # rubocop:todo Metrics/BlockLength
+RSpec.describe 'Models', type: :request do # rubocop:todo Metrics/BlockLength
   let(:admin) { create(:user, role: 'admin', email: 'admin@admin.com') }
 
   before(:example, :logged_in) do
@@ -71,19 +71,13 @@ RSpec.describe 'OperatingSystems', type: :request do # rubocop:todo Metrics/Bloc
   end
 
   describe 'DELETE /models/:id' do
-    let(:models) do
-      brands = create_list(:brand, 2)
-      oses = create_list(:operating_system, 2)
-      models = create_list(:model, 2, brand: brands.first, operating_system: oses.first)
-      models += create_list(:model, 2, brand: brands.last, operating_system: oses.last)
-      models
-    end
+    let(:models) { create_list(:model, 3) }
     let(:delete_model) { models.last }
     subject { delete model_url(delete_model) }
 
     context 'Logged In', :logged_in do
       it 'should delte and redirect to index' do
-        models
+        expect { models }.to change(Model, :count).by(3)
         expect { subject }.to change(Model, :count).by(-1)
         expect(response).to redirect_to(models_url)
         expect(Model.where(id: delete_model.id)).not_to exist
