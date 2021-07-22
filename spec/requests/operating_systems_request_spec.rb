@@ -13,7 +13,7 @@ RSpec.describe 'OperatingSystems', type: :request do # rubocop:todo Metrics/Bloc
     subject { get operating_systems_url }
 
     context 'Logged In', :logged_in do
-      it_behaves_like 'url_responds_ok'
+      it_behaves_like 'url responds ok'
     end
 
     it_behaves_like 'not logged in'
@@ -23,7 +23,7 @@ RSpec.describe 'OperatingSystems', type: :request do # rubocop:todo Metrics/Bloc
     subject { get new_operating_system_url }
 
     context 'Logged In', :logged_in do
-      it_behaves_like 'url_responds_ok'
+      it_behaves_like 'url responds ok'
     end
 
     it_behaves_like 'not logged in'
@@ -34,7 +34,7 @@ RSpec.describe 'OperatingSystems', type: :request do # rubocop:todo Metrics/Bloc
     subject { post operating_systems_url, params: params }
 
     context 'Logged In', :logged_in do
-      it 'should add new record and redirect' do
+      it 'should create and redirect to index' do
         expect { subject }.to change(OperatingSystem, :count).by(1)
         expect(response).to redirect_to(operating_systems_url)
         expect(OperatingSystem.first).to eql_os_params(params)
@@ -49,7 +49,7 @@ RSpec.describe 'OperatingSystems', type: :request do # rubocop:todo Metrics/Bloc
     subject { get edit_operating_system_url(operating_system) }
 
     context 'Logged In', :logged_in do
-      it_behaves_like 'url_responds_ok'
+      it_behaves_like 'url responds ok'
     end
 
     it_behaves_like 'not logged in'
@@ -61,7 +61,7 @@ RSpec.describe 'OperatingSystems', type: :request do # rubocop:todo Metrics/Bloc
     subject { patch operating_system_url(operating_system), params: params }
 
     context 'Logged In', :logged_in do
-      it 'should return edit and redirect' do
+      it 'should edit and redirect to index' do
         subject
         expect(response).to redirect_to(operating_systems_url)
         created_operating_system = OperatingSystem.first
@@ -79,7 +79,7 @@ RSpec.describe 'OperatingSystems', type: :request do # rubocop:todo Metrics/Bloc
     subject { delete operating_system_url(delete_operating_system) }
 
     context 'Logged In', :logged_in do
-      it 'should return delete and redirect' do
+      it 'should delete and redirect to index' do
         expect { operating_systems }.to change(OperatingSystem, :count).by(3)
         expect { subject }.to change(OperatingSystem, :count).by(-1)
         expect(response).to redirect_to(operating_systems_url)

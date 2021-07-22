@@ -13,7 +13,7 @@ RSpec.describe 'Phones', type: :request do # rubocop:todo Metrics/BlockLength
     subject { get phones_url }
 
     context 'Logged In', :logged_in do
-      it_behaves_like 'url_responds_ok'
+      it_behaves_like 'url responds ok'
     end
 
     it_behaves_like 'not logged in'
@@ -23,7 +23,7 @@ RSpec.describe 'Phones', type: :request do # rubocop:todo Metrics/BlockLength
     subject { get new_phone_url }
 
     context 'Logged In', :logged_in do
-      it_behaves_like 'url_responds_ok'
+      it_behaves_like 'url responds ok'
     end
 
     it_behaves_like 'not logged in'
@@ -50,7 +50,7 @@ RSpec.describe 'Phones', type: :request do # rubocop:todo Metrics/BlockLength
     subject { get phone_url(phone) }
 
     context 'Logged In', :logged_in do
-      it_behaves_like 'url_responds_ok'
+      it_behaves_like 'url responds ok'
     end
 
     it_behaves_like 'not logged in'
@@ -61,7 +61,7 @@ RSpec.describe 'Phones', type: :request do # rubocop:todo Metrics/BlockLength
     subject { get edit_phone_url(phone) }
 
     context 'Logged In', :logged_in do
-      it_behaves_like 'url_responds_ok'
+      it_behaves_like 'url responds ok'
     end
 
     it_behaves_like 'not logged in'
@@ -73,7 +73,7 @@ RSpec.describe 'Phones', type: :request do # rubocop:todo Metrics/BlockLength
     subject { patch phone_url(phone), params: params }
 
     context 'Logged In', :logged_in do
-      it 'should edit correctly and redirect to edit' do
+      it 'should edit correctly and redirect to show' do
         subject
         expect(response).to redirect_to(phone_url(phone))
         expect(Phone.first).to eql_phone_params(params)
@@ -89,7 +89,7 @@ RSpec.describe 'Phones', type: :request do # rubocop:todo Metrics/BlockLength
     subject { delete phone_url(delete_phone) }
 
     context 'Logged In', :logged_in do
-      it 'should delte and redirect to index' do
+      it 'should delete and redirect to index' do
         phones
         expect { subject }.to change(Phone, :count).by(-1)
         expect(response).to redirect_to(phones_url)

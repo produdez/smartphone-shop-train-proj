@@ -12,7 +12,7 @@ RSpec.describe 'Models', type: :request do # rubocop:todo Metrics/BlockLength
     subject { get models_url }
 
     context 'Logged In', :logged_in do
-      it_behaves_like 'url_responds_ok'
+      it_behaves_like 'url responds ok'
     end
 
     it_behaves_like 'not logged in'
@@ -22,7 +22,7 @@ RSpec.describe 'Models', type: :request do # rubocop:todo Metrics/BlockLength
     subject { get new_model_url }
 
     context 'Logged In', :logged_in do
-      it_behaves_like 'url_responds_ok'
+      it_behaves_like 'url responds ok'
     end
 
     it_behaves_like 'not logged in'
@@ -33,7 +33,7 @@ RSpec.describe 'Models', type: :request do # rubocop:todo Metrics/BlockLength
 
     subject { post models_url, params: params }
     context 'Logged In', :logged_in do
-      it 'should create correcly and redirect to index' do
+      it 'should create and redirect to index' do
         expect { subject }.to change(Model, :count).by(1)
         expect(response).to redirect_to(models_url)
         expect(Model.first).to eql_model_params(params)
@@ -48,7 +48,7 @@ RSpec.describe 'Models', type: :request do # rubocop:todo Metrics/BlockLength
     subject { get edit_model_url(model) }
 
     context 'Logged In', :logged_in do
-      it_behaves_like 'url_responds_ok'
+      it_behaves_like 'url responds ok'
     end
 
     it_behaves_like 'not logged in'
@@ -60,7 +60,7 @@ RSpec.describe 'Models', type: :request do # rubocop:todo Metrics/BlockLength
     subject { patch model_url(model), params: params }
 
     context 'Logged In', :logged_in do
-      it 'should edit correctly and redirect to edit' do
+      it 'should edit and redirect to edit' do
         subject
         expect(response).to redirect_to(models_url)
         expect(Model.first).to eql_model_params(params)
@@ -76,7 +76,7 @@ RSpec.describe 'Models', type: :request do # rubocop:todo Metrics/BlockLength
     subject { delete model_url(delete_model) }
 
     context 'Logged In', :logged_in do
-      it 'should delte and redirect to index' do
+      it 'should delete and redirect to index' do
         expect { models }.to change(Model, :count).by(3)
         expect { subject }.to change(Model, :count).by(-1)
         expect(response).to redirect_to(models_url)

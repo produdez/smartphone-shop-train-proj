@@ -13,7 +13,7 @@ RSpec.describe 'Brands', type: :request do # rubocop:todo Metrics/BlockLength
     subject { get brands_url }
 
     context 'Logged In', :logged_in do
-      it_behaves_like 'url_responds_ok'
+      it_behaves_like 'url responds ok'
     end
 
     it_behaves_like 'not logged in'
@@ -23,7 +23,7 @@ RSpec.describe 'Brands', type: :request do # rubocop:todo Metrics/BlockLength
     subject { get new_brand_url }
 
     context 'Logged In', :logged_in do
-      it_behaves_like 'url_responds_ok'
+      it_behaves_like 'url responds ok'
     end
 
     it_behaves_like 'not logged in'
@@ -34,7 +34,7 @@ RSpec.describe 'Brands', type: :request do # rubocop:todo Metrics/BlockLength
     subject { post brands_url, params: params }
 
     context 'Logged In', :logged_in do
-      it 'should add new record and redirect' do
+      it 'should add new record and redirect to index' do
         expect { subject }.to change(Brand, :count).by(1)
         expect(response).to redirect_to(brands_url)
         expect(Brand.first).to eql_brand_params(params)
@@ -49,7 +49,7 @@ RSpec.describe 'Brands', type: :request do # rubocop:todo Metrics/BlockLength
     subject { get edit_brand_url(brand) }
 
     context 'Logged In', :logged_in do
-      it_behaves_like 'url_responds_ok'
+      it_behaves_like 'url responds ok'
     end
 
     it_behaves_like 'not logged in'
@@ -61,7 +61,7 @@ RSpec.describe 'Brands', type: :request do # rubocop:todo Metrics/BlockLength
     subject { patch brand_url(brand), params: params }
 
     context 'Logged In', :logged_in do
-      it 'should return edit and redirect' do
+      it 'should edit and redirect to index' do
         subject
         expect(response).to redirect_to(brands_url)
         created_brand = Brand.first
@@ -79,7 +79,7 @@ RSpec.describe 'Brands', type: :request do # rubocop:todo Metrics/BlockLength
     subject { delete brand_url(delete_brand) }
 
     context 'Logged In', :logged_in do
-      it 'should return delete and redirect' do
+      it 'should delete and redirect to index' do
         expect { brands }.to change(Brand, :count).by(3)
         expect { subject }.to change(Brand, :count).by(-1)
         expect(response).to redirect_to(brands_url)
