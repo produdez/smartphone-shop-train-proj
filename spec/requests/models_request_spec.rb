@@ -12,49 +12,35 @@ RSpec.describe 'OperatingSystems', type: :request do # rubocop:todo Metrics/Bloc
     subject { get models_url }
 
     context 'Logged In', :logged_in do
-      it 'should return ok' do
-        subject
-        expect(response).to have_http_status(:ok)
-      end
+      it_behaves_like 'url_responds_ok'
     end
 
-    it_behaves_like 'not_logged_in'
+    it_behaves_like 'not logged in'
   end
 
   describe 'GET /models/new' do
     subject { get new_model_url }
 
     context 'Logged In', :logged_in do
-      it 'should return ok' do
-        subject
-        expect(response).to have_http_status(:ok)
-      end
+      it_behaves_like 'url_responds_ok'
     end
 
-    it_behaves_like 'not_logged_in'
+    it_behaves_like 'not logged in'
   end
 
   describe 'POST /models/new' do
-    # let(:params) do
-    #   brand = create(:brand)
-    #   os = create(:operating_system)
-    #   { model: { name: 'Test Model', operating_system_id: os.id, brand_id: brand.id } }
-    # end
-
     let(:params) { model_params('New Test Model') }
 
     subject { post models_url, params: params }
     context 'Logged In', :logged_in do
       it 'should create correcly and redirect to index' do
-        expect do
-          subject
-        end.to change(Model, :count).by(1)
+        expect { subject }.to change(Model, :count).by(1)
         expect(response).to redirect_to(models_url)
         expect(Model.first).to eql_model_params(params)
       end
     end
 
-    it_behaves_like 'not_logged_in'
+    it_behaves_like 'not logged in'
   end
 
   describe 'GET /models/:id/edit' do
@@ -62,13 +48,10 @@ RSpec.describe 'OperatingSystems', type: :request do # rubocop:todo Metrics/Bloc
     subject { get edit_model_url(model) }
 
     context 'Logged In', :logged_in do
-      it 'should return ok' do
-        subject
-        expect(response).to have_http_status(:ok)
-      end
+      it_behaves_like 'url_responds_ok'
     end
 
-    it_behaves_like 'not_logged_in'
+    it_behaves_like 'not logged in'
   end
 
   describe 'PATCH /models/:id' do
@@ -84,6 +67,6 @@ RSpec.describe 'OperatingSystems', type: :request do # rubocop:todo Metrics/Bloc
       end
     end
 
-    it_behaves_like 'not_logged_in'
+    it_behaves_like 'not logged in'
   end
 end

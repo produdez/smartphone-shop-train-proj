@@ -13,26 +13,20 @@ RSpec.describe 'Brands', type: :request do # rubocop:todo Metrics/BlockLength
     subject { get brands_url }
 
     context 'Logged In', :logged_in do
-      it 'should return 200' do
-        subject
-        expect(response).to have_http_status(:ok)
-      end
+      it_behaves_like 'url_responds_ok'
     end
 
-    it_behaves_like 'not_logged_in'
+    it_behaves_like 'not logged in'
   end
 
   describe 'GET /brands/new' do
     subject { get new_brand_url }
 
     context 'Logged In', :logged_in do
-      it 'should return 200' do
-        subject
-        expect(response).to have_http_status(:ok)
-      end
+      it_behaves_like 'url_responds_ok'
     end
 
-    it_behaves_like 'not_logged_in'
+    it_behaves_like 'not logged in'
   end
 
   describe 'POST /brands/' do
@@ -47,7 +41,7 @@ RSpec.describe 'Brands', type: :request do # rubocop:todo Metrics/BlockLength
       end
     end
 
-    it_behaves_like 'not_logged_in'
+    it_behaves_like 'not logged in'
   end
 
   describe 'GET /brand/:id/edit' do
@@ -55,13 +49,10 @@ RSpec.describe 'Brands', type: :request do # rubocop:todo Metrics/BlockLength
     subject { get edit_brand_url(brand) }
 
     context 'Logged In', :logged_in do
-      it 'should return 200' do
-        subject
-        expect(response).to have_http_status(:ok)
-      end
+      it_behaves_like 'url_responds_ok'
     end
 
-    it_behaves_like 'not_logged_in'
+    it_behaves_like 'not logged in'
   end
 
   describe 'patch /brands/:id/' do
@@ -79,23 +70,23 @@ RSpec.describe 'Brands', type: :request do # rubocop:todo Metrics/BlockLength
       end
     end
 
-    it_behaves_like 'not_logged_in'
+    it_behaves_like 'not logged in'
   end
 
   describe 'delete /brands/:id' do
-    let(:brands) { create_list(:brand, 20) }
+    let(:brands) { create_list(:brand, 3) }
     let(:delete_brand) { brands.last }
     subject { delete brand_url(delete_brand) }
 
     context 'Logged In', :logged_in do
       it 'should return delete and redirect' do
-        expect { brands }.to change(Brand, :count).by(20)
+        expect { brands }.to change(Brand, :count).by(3)
         expect { subject }.to change(Brand, :count).by(-1)
         expect(response).to redirect_to(brands_url)
         expect(Brand.where(id: delete_brand.id)).not_to exist
       end
     end
 
-    it_behaves_like 'not_logged_in'
+    it_behaves_like 'not logged in'
   end
 end

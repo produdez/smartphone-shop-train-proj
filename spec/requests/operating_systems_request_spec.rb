@@ -13,26 +13,20 @@ RSpec.describe 'OperatingSystems', type: :request do # rubocop:todo Metrics/Bloc
     subject { get operating_systems_url }
 
     context 'Logged In', :logged_in do
-      it 'should return 200' do
-        subject
-        expect(response).to have_http_status(:ok)
-      end
+      it_behaves_like 'url_responds_ok'
     end
 
-    it_behaves_like 'not_logged_in'
+    it_behaves_like 'not logged in'
   end
 
   describe 'GET /operating_systems/new' do
     subject { get new_operating_system_url }
 
     context 'Logged In', :logged_in do
-      it 'should return 200' do
-        subject
-        expect(response).to have_http_status(:ok)
-      end
+      it_behaves_like 'url_responds_ok'
     end
 
-    it_behaves_like 'not_logged_in'
+    it_behaves_like 'not logged in'
   end
 
   describe 'POST /operating_systems/' do
@@ -47,7 +41,7 @@ RSpec.describe 'OperatingSystems', type: :request do # rubocop:todo Metrics/Bloc
       end
     end
 
-    it_behaves_like 'not_logged_in'
+    it_behaves_like 'not logged in'
   end
 
   describe 'GET /operating_system/:id/edit' do
@@ -55,13 +49,10 @@ RSpec.describe 'OperatingSystems', type: :request do # rubocop:todo Metrics/Bloc
     subject { get edit_operating_system_url(operating_system) }
 
     context 'Logged In', :logged_in do
-      it 'should return 200' do
-        subject
-        expect(response).to have_http_status(:ok)
-      end
+      it_behaves_like 'url_responds_ok'
     end
 
-    it_behaves_like 'not_logged_in'
+    it_behaves_like 'not logged in'
   end
 
   describe 'patch /operating_systems/:id/' do
@@ -79,23 +70,23 @@ RSpec.describe 'OperatingSystems', type: :request do # rubocop:todo Metrics/Bloc
       end
     end
 
-    it_behaves_like 'not_logged_in'
+    it_behaves_like 'not logged in'
   end
 
   describe 'delete /operating_systems/:id' do
-    let(:operating_systems) { create_list(:operating_system, 20) }
+    let(:operating_systems) { create_list(:operating_system, 3) }
     let(:delete_operating_system) { operating_systems.last }
     subject { delete operating_system_url(delete_operating_system) }
 
     context 'Logged In', :logged_in do
       it 'should return delete and redirect' do
-        expect { operating_systems }.to change(OperatingSystem, :count).by(20)
+        expect { operating_systems }.to change(OperatingSystem, :count).by(3)
         expect { subject }.to change(OperatingSystem, :count).by(-1)
         expect(response).to redirect_to(operating_systems_url)
         expect(OperatingSystem.where(id: delete_operating_system.id)).not_to exist
       end
     end
 
-    it_behaves_like 'not_logged_in'
+    it_behaves_like 'not logged in'
   end
 end
