@@ -90,7 +90,7 @@ RSpec.describe 'Phones', type: :request do # rubocop:todo Metrics/BlockLength
 
     context 'Logged In', :logged_in do
       it 'should delete and redirect to index' do
-        phones
+        expect { phones }.to change(Phone, :count).by(5)
         expect { subject }.to change(Phone, :count).by(-1)
         expect(response).to redirect_to(phones_url)
         expect(Phone.where(id: delete_phone.id)).not_to exist
@@ -98,5 +98,41 @@ RSpec.describe 'Phones', type: :request do # rubocop:todo Metrics/BlockLength
     end
 
     it_behaves_like 'not logged in'
+  end
+
+  describe 'POST /phones/delete_selected' do
+    let(:phones) { create_list(:phone, 5, store: manager.store) }
+    let(:selected) { (0..1) }
+    let(:delete_phones) { phones[selected] }
+    let(:ids) { delete_phones.pluck(:id) }
+    let(:params) { { ids: ids.reduce { |str, id| "#{str},#{id}" } } }
+    subject { post delete_selected_phones_url, params: params }
+
+    context 'Logged In', :logged_in do
+      it 'should delete all selected and ok respond (ajax response)' do
+        expect { phones }.to change(Phone, :count).by(5)
+        expect { subject }.to change(Phone, :count).by(-2)
+        expect(response).to have_http_status(:ok)
+        expect(Phone.where(id: ids)).not_to exist
+      end
+    end
+  end
+
+  describe 'POST /phones/set_unavailable_selected' do
+    let(:phones) { create_list(:phone, 5, store: manager.store) }
+    let(:selected) { (0..1) }
+    let(:unavailable_phones) { phones[selected] }
+    let(:ids) { unavailable_phones.pluck(:id) }
+    let(:params) { { ids: ids.reduce { |str, id| "#{str},#{id}" } } }
+    subject { post set_unavailable_selected_phones_url, params: params }
+
+    context 'Logged In', :logged_in do
+      it 'should set unavailable all selected and ok respond (ajax response)' do
+        expect { phones }.to change(Phone, :count).by(5)
+        subject
+        expect(response).to have_http_status(:ok)
+        expect(Phone.unavailable.pluck(:id)).to eql(ids)
+      end
+    end
   end
 end
