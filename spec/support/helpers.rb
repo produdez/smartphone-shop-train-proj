@@ -16,4 +16,26 @@ module Helpers
     params[:phone].merge!({ quantity: quantity }) if quantity.present?
     params
   end
+
+  def manager_params
+    { user:
+      {
+        store_name: 'Test Store',
+        user_name: 'Test Manager',
+        email: 'manager@testmail.com',
+        password: '1234456dd',
+        password_confirmation: '1234456dd',
+        store_location: 'Nowhare'
+      } }
+  end
+
+  def employee_params
+    { user:
+      {
+        user_name: 'Test Employee',
+        email: 'bestemployee@emil.com',
+        password: '1234456dd',
+        password_confirmation: '1234456dd'
+      } }
+  end
 end

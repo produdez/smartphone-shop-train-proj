@@ -32,3 +32,22 @@ RSpec::Matchers.define :eql_phone_params do |params|
     && phone.status == p[:status]
   end
 end
+
+RSpec::Matchers.define :eql_manager_params do |params|
+  match do |user|
+    p = params[:user]
+    staff = user.staff
+    user.email == p[:email] && user.name == p[:user_name] && user.role == 'user' \
+    && staff.store.name == p[:store_name] && staff.store.location == p[:store_location] \
+    && staff.role == 'manager'
+  end
+end
+
+RSpec::Matchers.define :eql_employee_params do |params|
+  match do |user|
+    p = params[:user]
+    staff = user.staff
+    user.email == p[:email] && user.name == p[:user_name] && user.role == 'user' \
+    && staff.role == 'employee'
+  end
+end
