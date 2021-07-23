@@ -1,20 +1,66 @@
 version: 2.1
-orbs:
-  ruby: circleci/ruby@0.1.2 
+
+executors:
+  default:
+    working_directory: ~/train_project
+    docker:
+      - image: circleci/ruby:2.7.3
+        environment:
+          BUNDLE_JOBS: 3
+          BUNDLE_PATH: vendor/bundle
+          BUNDLE_RETRY: 3
+          BUNDLER_VERSION: 2.0.1
+          RAILS_ENV: test
+          DB_HOST: 127.0.0.1
+          DB_USERNAME: root
+          DB_PASSWORD: ''
+      - image: circleci/mysql:5.7.34
+        command: [--default-authentication-plugin=mysql_native_password]
+        environment:
+          MYSQL_ALLOW_EMPTY_PASSWORD: 'true'
+          MYSQL_ROOT_HOST: '%'
+
+commands:
+  configure_bundler:
+    description: Configure bundler
+    steps:
+      - run:
+          name: Configure bundler
+          command: |
+            echo 'export BUNDLER_VERSION=$(cat Gemfile.lock | tail -1 | tr -d " ")' >> $BASH_ENV
+            source $BASH_ENV
+            gem install bundler
 
 jobs:
-  build: # our first job, named "build"
-  docker:
-    - image: cimg/ruby:2.7-node # use a tailored CircleCI docker image.
-      auth:
-        username: mydockerhub-user
-        password: $DOCKERHUB_PASSWORD  # context / project UI env-var reference
-  steps:
-    - checkout # pull down our git code.
-    - ruby/install-deps # use the ruby orb to install dependencies
-    # use the node orb to install our packages
-    # specifying that we use `yarn` and to cache dependencies with `yarn.lock`
-    # learn more: https://circleci.com/docs/2.0/caching/
-    - node/install-packages:
-        pkg-manager: yarn
-        cache-key: "yarn.lock"
+  build:
+    executor: default
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - train_project-{{ .Branch }}-{{ checksum "Gemfile.lock" }}
+            - train_project-
+      - configure_bundler
+      - run:
+          name: Install bundle
+          command: bundle install
+      - run:
+          name: Wait for DB
+          command: dockerize -wait tcp://127.0.0.1:3306 -timeout 1m
+      - run:
+          name: Setup DB
+          command: bundle exec rails db:create db:schema:load --trace
+      - save_cache:
+          key: train_project-{{ .Branch }}-{{ checksum "Gemfile.lock" }}
+          paths:
+            - vendor/bundle
+      - persist_to_workspace:
+          root: ~/
+          paths:
+            - ./train_project
+
+workflows:
+  version: 2
+  integration:
+    jobs:
+      - build
