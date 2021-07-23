@@ -34,10 +34,16 @@ RSpec.describe 'Brands', type: :request do # rubocop:todo Metrics/BlockLength
     subject { post brands_url, params: params }
 
     context 'Logged in', :logged_in do
-      it 'add new record and redirect to index' do
+      it 'valid params, add new record and redirect to index' do
         expect { subject }.to change(Brand, :count).by(1)
         expect(response).to redirect_to(brands_url)
         expect(Brand.first).to eql_brand_params(params)
+      end
+
+      it 'invalid params, no create, redirect to new' do
+        params[:brand][:name] = ' '
+        expect { subject }.to change(Brand, :count).by(0)
+        expect(response).to redirect_to(new_brand_url)
       end
     end
 
@@ -61,12 +67,19 @@ RSpec.describe 'Brands', type: :request do # rubocop:todo Metrics/BlockLength
     subject { patch brand_url(brand), params: params }
 
     context 'Logged in', :logged_in do
-      it 'edit and redirect to index' do
+      it 'valid params, edit and redirect to index' do
         subject
         expect(response).to redirect_to(brands_url)
         created_brand = Brand.first
         expect(created_brand).to eql_brand_params(params)
         expect(created_brand.id).to eql(brand.id)
+      end
+
+      it 'invalid params, no change, redirect to edit' do
+        params[:brand][:name] = ' '
+        subject
+        expect(brand.name).to_not eql(params[:brand][:name])
+        expect(response).to redirect_to(edit_brand_url(brand))
       end
     end
 

@@ -99,10 +99,16 @@ RSpec.describe 'Users', type: :request do # rubocop:todo Metrics/BlockLength
       let(:params) { manager_params }
       subject { post create_manager_users_url, params: params }
       context 'Logged in', :logged_in do
-        it 'create manager and routes back to new index' do
+        it 'invalid params, create manager and routes back to new index' do
           expect { subject }.to change(User, :count).by(1)
           expect(response).to redirect_to(new_manager_users_url)
           expect(User.last).to eql_manager_params(params)
+        end
+
+        it 'invalid params, no create, redirect to new' do
+          params[:user][:email] = 'notmail'
+          expect { subject }.to change(User, :count).by(0)
+          expect(response).to redirect_to(new_manager_users_url)
         end
       end
 
@@ -133,11 +139,17 @@ RSpec.describe 'Users', type: :request do # rubocop:todo Metrics/BlockLength
       let(:params) { employee_params }
       subject { post create_employee_users_url, params: params }
       context 'Logged in', :logged_in do
-        it 'create manager and routes back to new index' do
+        it 'valid params, create manager and routes back to new index' do
           expect { subject }.to change(User, :count).by(1)
           expect(response).to redirect_to(new_employee_users_url)
           expect(User.last).to eql_employee_params(params, 'user', 'employee')
           expect(User.last.staff.store_id).to eql(manager.store_id)
+        end
+
+        it 'invalid params, no create, redirect to new' do
+          params[:user][:email] = 'notmail'
+          expect { subject }.to change(User, :count).by(0)
+          expect(response).to redirect_to(new_employee_users_url)
         end
       end
 

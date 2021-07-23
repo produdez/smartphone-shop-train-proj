@@ -33,10 +33,16 @@ RSpec.describe 'Models', type: :request do # rubocop:todo Metrics/BlockLength
 
     subject { post models_url, params: params }
     context 'Logged in', :logged_in do
-      it 'create and redirect to index' do
+      it 'valid params, create and redirect to index' do
         expect { subject }.to change(Model, :count).by(1)
         expect(response).to redirect_to(models_url)
         expect(Model.first).to eql_model_params(params)
+      end
+
+      it 'invalid params, no create, redirect to new' do
+        params[:model][:name] = ' '
+        expect { subject }.to change(Model, :count).by(0)
+        expect(response).to redirect_to(new_model_url)
       end
     end
 
@@ -60,10 +66,17 @@ RSpec.describe 'Models', type: :request do # rubocop:todo Metrics/BlockLength
     subject { patch model_url(model), params: params }
 
     context 'Logged in', :logged_in do
-      it 'edit and redirect to edit' do
+      it 'valid params, edit and redirect to edit' do
         subject
         expect(response).to redirect_to(models_url)
         expect(Model.first).to eql_model_params(params)
+      end
+
+      it 'invalid params, no change, redirect to edit' do
+        params[:model][:name] = ' '
+        subject
+        expect(model.name).to_not eql(params[:model][:name])
+        expect(response).to redirect_to(edit_model_url(model))
       end
     end
 

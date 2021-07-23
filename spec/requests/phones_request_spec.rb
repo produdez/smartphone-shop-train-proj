@@ -34,11 +34,17 @@ RSpec.describe 'Phones', type: :request do # rubocop:todo Metrics/BlockLength
 
     subject { post phones_url, params: params }
     context 'Logged in', :logged_in do
-      it 'create correcly and redirect to index' do
+      it 'valid params, create correcly and redirect to index' do
         expect { subject }.to change(Phone, :count).by(3)
         expect(response).to redirect_to(phones_url)
         expect(Phone.first).to eql_phone_params(params)
         expect(Phone.first.store).to eql(manager.store)
+      end
+
+      it 'invalid params, no create, redirect to new' do
+        params[:phone][:memory] = -1
+        expect { subject }.to change(Phone, :count).by(0)
+        expect(response).to redirect_to(new_phone_url)
       end
     end
 
@@ -73,10 +79,17 @@ RSpec.describe 'Phones', type: :request do # rubocop:todo Metrics/BlockLength
     subject { patch phone_url(phone), params: params }
 
     context 'Logged in', :logged_in do
-      it 'edit correctly and redirect to show' do
+      it 'valid params, edit correctly and redirect to show' do
         subject
         expect(response).to redirect_to(phone_url(phone))
         expect(Phone.first).to eql_phone_params(params)
+      end
+
+      it 'invalid params, no change, redirect to edit' do
+        params[:phone][:memory] = -5
+        subject
+        expect(phone.memory).to_not eql(params[:phone][:memory])
+        expect(response).to redirect_to(edit_phone_url(phone))
       end
     end
 
@@ -107,7 +120,7 @@ RSpec.describe 'Phones', type: :request do # rubocop:todo Metrics/BlockLength
     subject { post delete_selected_phones_url, params: params }
 
     context 'Logged in', :logged_in do
-      it 'delete all selected and ok respond (ajax response)' do
+      it 'valid params, delete all selected and ok respond (ajax response)' do
         expect { phones }.to change(Phone, :count).by(5)
         expect { subject }.to change(Phone, :count).by(-2)
         expect(response).to have_http_status(:ok)

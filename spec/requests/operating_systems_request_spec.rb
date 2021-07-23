@@ -34,10 +34,16 @@ RSpec.describe 'OperatingSystems', type: :request do # rubocop:todo Metrics/Bloc
     subject { post operating_systems_url, params: params }
 
     context 'Logged in', :logged_in do
-      it 'create and redirect to index' do
+      it 'valid params, create and redirect to index' do
         expect { subject }.to change(OperatingSystem, :count).by(1)
         expect(response).to redirect_to(operating_systems_url)
         expect(OperatingSystem.first).to eql_os_params(params)
+      end
+
+      it 'invalid params, no create, redirect to new' do
+        params[:operating_system][:name] = ' '
+        expect { subject }.to change(OperatingSystem, :count).by(0)
+        expect(response).to redirect_to(new_operating_system_url)
       end
     end
 
@@ -61,12 +67,19 @@ RSpec.describe 'OperatingSystems', type: :request do # rubocop:todo Metrics/Bloc
     subject { patch operating_system_url(operating_system), params: params }
 
     context 'Logged in', :logged_in do
-      it 'edit and redirect to index' do
+      it 'valid params, edit and redirect to index' do
         subject
         expect(response).to redirect_to(operating_systems_url)
         created_operating_system = OperatingSystem.first
         expect(created_operating_system).to eql_os_params(params)
         expect(created_operating_system.id).to eql(operating_system.id)
+      end
+
+      it 'invalid params, no change, redirect to edit' do
+        params[:operating_system][:name] = ' '
+        subject
+        expect(operating_system.name).to_not eql(params[:operating_system][:name])
+        expect(response).to redirect_to(edit_operating_system_url(operating_system))
       end
     end
 
