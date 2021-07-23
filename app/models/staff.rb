@@ -18,6 +18,8 @@ class Staff < ApplicationRecord # rubocop:todo Style/Documentation
   private
 
   def validate_user_role
+    return if user.blank?
+
     errors.add(:role, "Invalid user role: #{user.role} for a staff, must be a normal user") unless user.user?
   end
 
