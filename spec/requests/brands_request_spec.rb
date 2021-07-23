@@ -12,47 +12,47 @@ RSpec.describe 'Brands', type: :request do # rubocop:todo Metrics/BlockLength
   describe 'GET /brands' do
     subject { get brands_url }
 
-    context 'Logged In', :logged_in do
-      it_behaves_like 'url responds ok'
+    context 'Logged in', :logged_in do
+      include_examples 'url responds ok'
     end
 
-    it_behaves_like 'not logged in'
+    include_examples 'not logged in'
   end
 
   describe 'GET /brands/new' do
     subject { get new_brand_url }
 
-    context 'Logged In', :logged_in do
-      it_behaves_like 'url responds ok'
+    context 'Logged in', :logged_in do
+      include_examples 'url responds ok'
     end
 
-    it_behaves_like 'not logged in'
+    include_examples 'not logged in'
   end
 
   describe 'POST /brands/' do
     let(:params) { { brand: attributes_for(:brand) } }
     subject { post brands_url, params: params }
 
-    context 'Logged In', :logged_in do
-      it 'should add new record and redirect to index' do
+    context 'Logged in', :logged_in do
+      it 'add new record and redirect to index' do
         expect { subject }.to change(Brand, :count).by(1)
         expect(response).to redirect_to(brands_url)
         expect(Brand.first).to eql_brand_params(params)
       end
     end
 
-    it_behaves_like 'not logged in'
+    include_examples 'not logged in'
   end
 
   describe 'GET /brand/:id/edit' do
     let(:brand) { create(:brand) }
     subject { get edit_brand_url(brand) }
 
-    context 'Logged In', :logged_in do
-      it_behaves_like 'url responds ok'
+    context 'Logged in', :logged_in do
+      include_examples 'url responds ok'
     end
 
-    it_behaves_like 'not logged in'
+    include_examples 'not logged in'
   end
 
   describe 'patch /brands/:id/' do
@@ -60,8 +60,8 @@ RSpec.describe 'Brands', type: :request do # rubocop:todo Metrics/BlockLength
     let(:params) { { brand: attributes_for(:brand, name: 'Updated Brand') } }
     subject { patch brand_url(brand), params: params }
 
-    context 'Logged In', :logged_in do
-      it 'should edit and redirect to index' do
+    context 'Logged in', :logged_in do
+      it 'edit and redirect to index' do
         subject
         expect(response).to redirect_to(brands_url)
         created_brand = Brand.first
@@ -70,7 +70,7 @@ RSpec.describe 'Brands', type: :request do # rubocop:todo Metrics/BlockLength
       end
     end
 
-    it_behaves_like 'not logged in'
+    include_examples 'not logged in'
   end
 
   describe 'delete /brands/:id' do
@@ -78,8 +78,8 @@ RSpec.describe 'Brands', type: :request do # rubocop:todo Metrics/BlockLength
     let(:delete_brand) { brands.last }
     subject { delete brand_url(delete_brand) }
 
-    context 'Logged In', :logged_in do
-      it 'should delete and redirect to index' do
+    context 'Logged in', :logged_in do
+      it 'delete and redirect to index' do
         expect { brands }.to change(Brand, :count).by(3)
         expect { subject }.to change(Brand, :count).by(-1)
         expect(response).to redirect_to(brands_url)
@@ -87,6 +87,6 @@ RSpec.describe 'Brands', type: :request do # rubocop:todo Metrics/BlockLength
       end
     end
 
-    it_behaves_like 'not logged in'
+    include_examples 'not logged in'
   end
 end

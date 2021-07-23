@@ -7,9 +7,9 @@ RSpec.describe Color, type: :model do
     described_class.new(name: 'Test Color')
   end
 
-  it_behaves_like 'has valid attributes'
+  include_examples 'has valid attributes'
 
-  it_behaves_like 'presence field', 'name'
+  include_examples 'presence field', 'name'
 
-  it_behaves_like 'unique field', :color, 'name', 'Dup Name'
+  include_examples 'unique field', :color, 'name', 'Dup Name'
 end

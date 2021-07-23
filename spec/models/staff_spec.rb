@@ -11,11 +11,11 @@ RSpec.describe Staff, type: :model do # rubocop:todo Metrics/BlockLength
     )
   end
 
-  it_behaves_like 'has valid attributes'
+  include_examples 'has valid attributes'
 
   context 'Must have valid user account' do
-    it_behaves_like 'must have field', 'user'
-    it_behaves_like 'reference field', 'user'
+    include_examples 'must have field', 'user'
+    include_examples 'reference field', 'user'
     it 'invalid staff\s user account is admin' do
       subject.user = create(:user, role: 'admin')
       expect(subject).to_not be_valid
@@ -23,8 +23,8 @@ RSpec.describe Staff, type: :model do # rubocop:todo Metrics/BlockLength
   end
 
   context 'Must have valid store' do
-    it_behaves_like 'must have field', 'user'
-    it_behaves_like 'reference field', 'store'
+    include_examples 'must have field', 'user'
+    include_examples 'reference field', 'store'
     it 'invalid if more than one manager per store' do
       existing_manager = create(:staff, role: 'manager')
       subject.store = existing_manager.store
@@ -33,8 +33,8 @@ RSpec.describe Staff, type: :model do # rubocop:todo Metrics/BlockLength
   end
 
   context 'Must have valid role' do
-    it_behaves_like 'presence field', 'role'
-    it_behaves_like 'defaulted field', 'role', 'employee'
-    it_behaves_like 'inclusion field', 'role', 'fake role'
+    include_examples 'presence field', 'role'
+    include_examples 'defaulted field', 'role', 'employee'
+    include_examples 'inclusion field', 'role', 'fake role'
   end
 end

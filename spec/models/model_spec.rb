@@ -9,20 +9,20 @@ RSpec.describe Model, type: :model do
     described_class.new(name: 'Test Model', brand: brand, operating_system: os)
   end
 
-  it_behaves_like 'has valid attributes'
+  include_examples 'has valid attributes'
 
   context 'Must have valid Name' do
-    it_behaves_like 'presence field', 'name'
-    it_behaves_like 'unique field', :model, 'name', 'Dup Name'
+    include_examples 'presence field', 'name'
+    include_examples 'unique field', :model, 'name', 'Dup Name'
   end
 
   context 'Must have valid brand' do
-    it_behaves_like 'must have field', 'brand'
-    it_behaves_like 'reference field', 'brand'
+    include_examples 'must have field', 'brand'
+    include_examples 'reference field', 'brand'
   end
 
   context 'Must have valid operating system' do
-    it_behaves_like 'must have field', 'operating_system'
-    it_behaves_like 'reference field', 'operating_system'
+    include_examples 'must have field', 'operating_system'
+    include_examples 'reference field', 'operating_system'
   end
 end

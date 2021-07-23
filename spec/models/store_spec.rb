@@ -7,9 +7,9 @@ RSpec.describe Store, type: :model do
     described_class.new(name: 'Test Store')
   end
 
-  it_behaves_like 'has valid attributes'
+  include_examples 'has valid attributes'
 
-  it_behaves_like 'presence field', 'name'
+  include_examples 'presence field', 'name'
 
-  it_behaves_like 'unique field', :store, 'name', 'Dup Name'
+  include_examples 'unique field', :store, 'name', 'Dup Name'
 end

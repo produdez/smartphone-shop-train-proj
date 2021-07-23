@@ -14,49 +14,49 @@ RSpec.describe Phone, type: :model do # rubocop:todo Metrics/BlockLength
     )
   end
 
-  it_behaves_like 'has valid attributes'
+  include_examples 'has valid attributes'
 
   context 'Must have valid store' do
-    it_behaves_like 'must have field', 'store'
-    it_behaves_like 'reference field', 'store'
+    include_examples 'must have field', 'store'
+    include_examples 'reference field', 'store'
   end
 
   context 'Must have valid color' do
-    it_behaves_like 'must have field', 'color'
-    it_behaves_like 'reference field', 'color'
+    include_examples 'must have field', 'color'
+    include_examples 'reference field', 'color'
   end
 
   context 'Must have valid model' do
-    it_behaves_like 'must have field', 'model'
-    it_behaves_like 'reference field', 'model'
+    include_examples 'must have field', 'model'
+    include_examples 'reference field', 'model'
   end
 
   context 'Must have valid manufacture_year' do
-    it_behaves_like 'must have field', 'manufacture_year'
-    it_behaves_like 'number field', 'manufacture_year'
-    it_behaves_like 'non negative field', 'manufacture_year'
+    include_examples 'must have field', 'manufacture_year'
+    include_examples 'number field', 'manufacture_year'
+    include_examples 'non negative field', 'manufacture_year'
   end
 
   context 'Must have valid memory' do
-    it_behaves_like 'must have field', 'memory'
-    it_behaves_like 'number field', 'memory'
-    it_behaves_like 'non negative field', 'memory'
+    include_examples 'must have field', 'memory'
+    include_examples 'number field', 'memory'
+    include_examples 'non negative field', 'memory'
   end
 
   context 'Must have valid price' do
-    it_behaves_like 'must have field', 'price'
-    it_behaves_like 'number field', 'price'
-    it_behaves_like 'non negative field', 'price'
+    include_examples 'must have field', 'price'
+    include_examples 'number field', 'price'
+    include_examples 'non negative field', 'price'
   end
 
   context 'Must have valid condition' do
-    it_behaves_like 'must have field', 'condition'
-    it_behaves_like 'inclusion field', 'condition', 'fake condition'
+    include_examples 'must have field', 'condition'
+    include_examples 'inclusion field', 'condition', 'fake condition'
   end
 
   context 'Must have valid status' do
-    it_behaves_like 'must have field', 'status'
-    it_behaves_like 'inclusion field', 'status', 'fake status'
-    it_behaves_like 'defaulted field', 'status', 'in_stock'
+    include_examples 'must have field', 'status'
+    include_examples 'inclusion field', 'status', 'fake status'
+    include_examples 'defaulted field', 'status', 'in_stock'
   end
 end
