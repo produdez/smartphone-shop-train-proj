@@ -50,13 +50,13 @@ RSpec.describe 'Users', type: :request do # rubocop:todo Metrics/BlockLength
     end
   end
 
-  context 'When user is employee' do
+  context 'when user is employee' do
     let(:employee) { create(:staff, role: 'employee') }
     let(:user) { employee.user }
 
     include_context 'when user is any role'
 
-    context 'When access unauthorized urls', :logged_in do
+    context 'when access unauthorized urls', :logged_in do
       describe 'GET users/:id (others)' do
         let(:other_employee) { create(:staff) }
         subject { get user_url(other_employee.user) }
@@ -69,7 +69,7 @@ RSpec.describe 'Users', type: :request do # rubocop:todo Metrics/BlockLength
     end
   end
 
-  context 'When user is admin' do # rubocop:todo Metrics/BlockLength
+  context 'when user is admin' do # rubocop:todo Metrics/BlockLength
     let(:user) { create(:user, role: 'admin') }
 
     include_context 'when user is any role'
@@ -115,12 +115,12 @@ RSpec.describe 'Users', type: :request do # rubocop:todo Metrics/BlockLength
       include_examples 'not logged in'
     end
 
-    context 'When access unauthorized urls', :logged_in do
+    context 'when access unauthorized urls', :logged_in do
       include_examples 'cant create employee'
     end
   end
 
-  context 'When user is manager' do # rubocop:todo Metrics/BlockLength
+  context 'when user is manager' do # rubocop:todo Metrics/BlockLength
     include_context 'when user is any role'
 
     let(:manager) { create(:staff, role: 'manager') }
@@ -156,7 +156,7 @@ RSpec.describe 'Users', type: :request do # rubocop:todo Metrics/BlockLength
       include_examples 'not logged in'
     end
 
-    context 'When access unauthorized urls', :logged_in do
+    context 'when access unauthorized urls', :logged_in do
       include_examples 'cant create manager'
     end
   end
