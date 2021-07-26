@@ -6,7 +6,7 @@ RSpec.describe 'Users', type: :request do # rubocop:todo Metrics/BlockLength
     sign_in user
   end
 
-  RSpec.shared_context 'when any user log in (any role)' do
+  RSpec.shared_context 'when user is any role' do
     describe 'GET /users' do
       subject { get users_url }
       context 'Logged in', :logged_in do
@@ -54,7 +54,7 @@ RSpec.describe 'Users', type: :request do # rubocop:todo Metrics/BlockLength
     let(:employee) { create(:staff, role: 'employee') }
     let(:user) { employee.user }
 
-    include_context 'any user'
+    include_context 'when user is any role'
 
     context 'When access unauthorized urls', :logged_in do
       describe 'GET users/:id (others)' do
@@ -72,7 +72,7 @@ RSpec.describe 'Users', type: :request do # rubocop:todo Metrics/BlockLength
   context 'When user is admin' do # rubocop:todo Metrics/BlockLength
     let(:user) { create(:user, role: 'admin') }
 
-    include_context 'any user'
+    include_context 'when user is any role'
 
     describe 'GET users/:id (others)', :logged_in do
       subject { get user_url(other.user) }
@@ -121,7 +121,7 @@ RSpec.describe 'Users', type: :request do # rubocop:todo Metrics/BlockLength
   end
 
   context 'When user is manager' do # rubocop:todo Metrics/BlockLength
-    include_context 'any user'
+    include_context 'when user is any role'
 
     let(:manager) { create(:staff, role: 'manager') }
     let(:user) { manager.user }
