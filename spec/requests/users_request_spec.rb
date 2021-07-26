@@ -6,7 +6,7 @@ RSpec.describe 'Users', type: :request do # rubocop:todo Metrics/BlockLength
     sign_in user
   end
 
-  RSpec.shared_context 'any user' do
+  RSpec.shared_context 'when any user log in (any role)' do
     describe 'GET /users' do
       subject { get users_url }
       context 'Logged in', :logged_in do
@@ -50,13 +50,13 @@ RSpec.describe 'Users', type: :request do # rubocop:todo Metrics/BlockLength
     end
   end
 
-  context 'Current user is employee' do
+  context 'When user is employee' do
     let(:employee) { create(:staff, role: 'employee') }
     let(:user) { employee.user }
 
     include_context 'any user'
 
-    context 'Accesing unauthorized urls', :logged_in do
+    context 'When access unauthorized urls', :logged_in do
       describe 'GET users/:id (others)' do
         let(:other_employee) { create(:staff) }
         subject { get user_url(other_employee.user) }
@@ -69,7 +69,7 @@ RSpec.describe 'Users', type: :request do # rubocop:todo Metrics/BlockLength
     end
   end
 
-  context 'Current user is admin' do # rubocop:todo Metrics/BlockLength
+  context 'When user is admin' do # rubocop:todo Metrics/BlockLength
     let(:user) { create(:user, role: 'admin') }
 
     include_context 'any user'
@@ -115,12 +115,12 @@ RSpec.describe 'Users', type: :request do # rubocop:todo Metrics/BlockLength
       include_examples 'not logged in'
     end
 
-    context 'Accesing unauthorized urls', :logged_in do
+    context 'When access unauthorized urls', :logged_in do
       include_examples 'cant create employee'
     end
   end
 
-  context 'Current user is manager' do # rubocop:todo Metrics/BlockLength
+  context 'When user is manager' do # rubocop:todo Metrics/BlockLength
     include_context 'any user'
 
     let(:manager) { create(:staff, role: 'manager') }
@@ -156,7 +156,7 @@ RSpec.describe 'Users', type: :request do # rubocop:todo Metrics/BlockLength
       include_examples 'not logged in'
     end
 
-    context 'Accesing unauthorized urls', :logged_in do
+    context 'When access unauthorized urls', :logged_in do
       include_examples 'cant create manager'
     end
   end
