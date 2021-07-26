@@ -24,16 +24,14 @@ commands:
     steps:
       - restore_cache:
           keys:
-            - train_project-{{ .Branch }}-{{ checksum "Gemfile" }}
+            - train_project-{{ .Branch }}-{{ checksum "Gemfile.lock" }}
             - train_project-
       - run:
-          name: Install bundler and bundle
+          name: Install bundle
           command: |
-            gem install bundler
-            bundle -v
             bundle install
       - save_cache:
-          key: train_project-{{ .Branch }}-{{ checksum "Gemfile" }}
+          key: train_project-{{ .Branch }}-{{ checksum "Gemfile.lock" }}
           paths:
             - vendor/bundle
   start-my-sql:
