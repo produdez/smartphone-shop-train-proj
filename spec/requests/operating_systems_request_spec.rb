@@ -12,7 +12,7 @@ RSpec.describe 'OperatingSystems', type: :request do # rubocop:todo Metrics/Bloc
   describe 'GET /operating_systems' do
     subject { get operating_systems_url }
 
-    context 'Logged in', :logged_in do
+    context 'logged in', :logged_in do
       include_examples 'url responds ok'
     end
 
@@ -22,7 +22,7 @@ RSpec.describe 'OperatingSystems', type: :request do # rubocop:todo Metrics/Bloc
   describe 'GET /operating_systems/new' do
     subject { get new_operating_system_url }
 
-    context 'Logged in', :logged_in do
+    context 'logged in', :logged_in do
       include_examples 'url responds ok'
     end
 
@@ -33,7 +33,7 @@ RSpec.describe 'OperatingSystems', type: :request do # rubocop:todo Metrics/Bloc
     let(:params) { { operating_system: attributes_for(:operating_system) } }
     subject { post operating_systems_url, params: params }
 
-    context 'Logged in', :logged_in do
+    context 'logged in', :logged_in do
       it 'valid params, create and redirect to index' do
         expect { subject }.to change(OperatingSystem, :count).by(1)
         expect(response).to redirect_to(operating_systems_url)
@@ -54,7 +54,7 @@ RSpec.describe 'OperatingSystems', type: :request do # rubocop:todo Metrics/Bloc
     let(:operating_system) { create(:operating_system) }
     subject { get edit_operating_system_url(operating_system) }
 
-    context 'Logged in', :logged_in do
+    context 'logged in', :logged_in do
       include_examples 'url responds ok'
     end
 
@@ -66,7 +66,7 @@ RSpec.describe 'OperatingSystems', type: :request do # rubocop:todo Metrics/Bloc
     let(:params) { { operating_system: attributes_for(:operating_system, name: 'Updated OS') } }
     subject { patch operating_system_url(operating_system), params: params }
 
-    context 'Logged in', :logged_in do
+    context 'logged in', :logged_in do
       it 'valid params, edit and redirect to index' do
         subject
         expect(response).to redirect_to(operating_systems_url)
@@ -91,7 +91,7 @@ RSpec.describe 'OperatingSystems', type: :request do # rubocop:todo Metrics/Bloc
     let(:delete_operating_system) { operating_systems.last }
     subject { delete operating_system_url(delete_operating_system) }
 
-    context 'Logged in', :logged_in do
+    context 'logged in', :logged_in do
       it 'delete and redirect to index' do
         expect { operating_systems }.to change(OperatingSystem, :count).by(3)
         expect { subject }.to change(OperatingSystem, :count).by(-1)

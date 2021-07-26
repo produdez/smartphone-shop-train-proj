@@ -9,7 +9,7 @@ RSpec.describe 'Users', type: :request do # rubocop:todo Metrics/BlockLength
   RSpec.shared_context 'when user is any role' do
     describe 'GET /users' do
       subject { get users_url }
-      context 'Logged in', :logged_in do
+      context 'logged in', :logged_in do
         include_examples 'url responds ok'
       end
 
@@ -18,7 +18,7 @@ RSpec.describe 'Users', type: :request do # rubocop:todo Metrics/BlockLength
 
     describe 'GET /user/:id (self)' do
       subject { get user_url(user) }
-      context 'Logged in', :logged_in do
+      context 'logged in', :logged_in do
         include_examples 'url responds ok'
       end
 
@@ -88,7 +88,7 @@ RSpec.describe 'Users', type: :request do # rubocop:todo Metrics/BlockLength
 
     describe 'GET /users/new_manager' do
       subject { get new_manager_users_url }
-      context 'Logged in', :logged_in do
+      context 'logged in', :logged_in do
         include_examples 'url responds ok'
       end
 
@@ -98,7 +98,7 @@ RSpec.describe 'Users', type: :request do # rubocop:todo Metrics/BlockLength
     describe 'POST /users/create_manager' do
       let(:params) { manager_params }
       subject { post create_manager_users_url, params: params }
-      context 'Logged in', :logged_in do
+      context 'logged in', :logged_in do
         it 'invalid params, create manager and routes back to new index' do
           expect { subject }.to change(User, :count).by(1)
           expect(response).to redirect_to(new_manager_users_url)
@@ -128,7 +128,7 @@ RSpec.describe 'Users', type: :request do # rubocop:todo Metrics/BlockLength
 
     describe 'GET /users/new_employee' do
       subject { get new_employee_users_url }
-      context 'Logged in', :logged_in do
+      context 'logged in', :logged_in do
         include_examples 'url responds ok'
       end
 
@@ -138,7 +138,7 @@ RSpec.describe 'Users', type: :request do # rubocop:todo Metrics/BlockLength
     describe 'POST /users/create_employee' do
       let(:params) { employee_params }
       subject { post create_employee_users_url, params: params }
-      context 'Logged in', :logged_in do
+      context 'logged in', :logged_in do
         it 'valid params, create manager and routes back to new index' do
           expect { subject }.to change(User, :count).by(1)
           expect(response).to redirect_to(new_employee_users_url)

@@ -13,7 +13,7 @@ RSpec.describe Staff, type: :model do # rubocop:todo Metrics/BlockLength
 
   include_examples 'has valid attributes'
 
-  context 'Must have valid user account' do
+  context 'must have valid user account' do
     include_examples 'must have field', 'user'
     include_examples 'reference field', 'user'
     it 'invalid staff\s user account is admin' do
@@ -22,7 +22,7 @@ RSpec.describe Staff, type: :model do # rubocop:todo Metrics/BlockLength
     end
   end
 
-  context 'Must have valid store' do
+  context 'must have valid store' do
     include_examples 'must have field', 'user'
     include_examples 'reference field', 'store'
     it 'invalid if more than one manager per store' do
@@ -32,7 +32,7 @@ RSpec.describe Staff, type: :model do # rubocop:todo Metrics/BlockLength
     end
   end
 
-  context 'Must have valid role' do
+  context 'must have valid role' do
     include_examples 'presence field', 'role'
     include_examples 'defaulted field', 'role', 'employee'
     include_examples 'inclusion field', 'role', 'fake role'

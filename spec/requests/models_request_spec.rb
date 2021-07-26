@@ -11,7 +11,7 @@ RSpec.describe 'Models', type: :request do # rubocop:todo Metrics/BlockLength
   describe 'GET /models' do
     subject { get models_url }
 
-    context 'Logged in', :logged_in do
+    context 'logged in', :logged_in do
       include_examples 'url responds ok'
     end
 
@@ -21,7 +21,7 @@ RSpec.describe 'Models', type: :request do # rubocop:todo Metrics/BlockLength
   describe 'GET /models/new' do
     subject { get new_model_url }
 
-    context 'Logged in', :logged_in do
+    context 'logged in', :logged_in do
       include_examples 'url responds ok'
     end
 
@@ -32,7 +32,7 @@ RSpec.describe 'Models', type: :request do # rubocop:todo Metrics/BlockLength
     let(:params) { model_params('New Test Model') }
 
     subject { post models_url, params: params }
-    context 'Logged in', :logged_in do
+    context 'logged in', :logged_in do
       it 'valid params, create and redirect to index' do
         expect { subject }.to change(Model, :count).by(1)
         expect(response).to redirect_to(models_url)
@@ -53,7 +53,7 @@ RSpec.describe 'Models', type: :request do # rubocop:todo Metrics/BlockLength
     let(:model) { create(:model) }
     subject { get edit_model_url(model) }
 
-    context 'Logged in', :logged_in do
+    context 'logged in', :logged_in do
       include_examples 'url responds ok'
     end
 
@@ -65,7 +65,7 @@ RSpec.describe 'Models', type: :request do # rubocop:todo Metrics/BlockLength
     let(:params) { model_params('Updated Model') }
     subject { patch model_url(model), params: params }
 
-    context 'Logged in', :logged_in do
+    context 'logged in', :logged_in do
       it 'valid params, edit and redirect to edit' do
         subject
         expect(response).to redirect_to(models_url)
@@ -88,7 +88,7 @@ RSpec.describe 'Models', type: :request do # rubocop:todo Metrics/BlockLength
     let(:delete_model) { models.last }
     subject { delete model_url(delete_model) }
 
-    context 'Logged in', :logged_in do
+    context 'logged in', :logged_in do
       it 'delete and redirect to index' do
         expect { models }.to change(Model, :count).by(3)
         expect { subject }.to change(Model, :count).by(-1)

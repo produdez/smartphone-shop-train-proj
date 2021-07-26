@@ -16,45 +16,45 @@ RSpec.describe Phone, type: :model do # rubocop:todo Metrics/BlockLength
 
   include_examples 'has valid attributes'
 
-  context 'Must have valid store' do
+  context 'must have valid store' do
     include_examples 'must have field', 'store'
     include_examples 'reference field', 'store'
   end
 
-  context 'Must have valid color' do
+  context 'must have valid color' do
     include_examples 'must have field', 'color'
     include_examples 'reference field', 'color'
   end
 
-  context 'Must have valid model' do
+  context 'must have valid model' do
     include_examples 'must have field', 'model'
     include_examples 'reference field', 'model'
   end
 
-  context 'Must have valid manufacture_year' do
+  context 'must have valid manufacture_year' do
     include_examples 'must have field', 'manufacture_year'
     include_examples 'number field', 'manufacture_year'
     include_examples 'non negative field', 'manufacture_year'
   end
 
-  context 'Must have valid memory' do
+  context 'must have valid memory' do
     include_examples 'must have field', 'memory'
     include_examples 'number field', 'memory'
     include_examples 'non negative field', 'memory'
   end
 
-  context 'Must have valid price' do
+  context 'must have valid price' do
     include_examples 'must have field', 'price'
     include_examples 'number field', 'price'
     include_examples 'non negative field', 'price'
   end
 
-  context 'Must have valid condition' do
+  context 'must have valid condition' do
     include_examples 'must have field', 'condition'
     include_examples 'inclusion field', 'condition', 'fake condition'
   end
 
-  context 'Must have valid status' do
+  context 'must have valid status' do
     include_examples 'must have field', 'status'
     include_examples 'inclusion field', 'status', 'fake status'
     include_examples 'defaulted field', 'status', 'in_stock'

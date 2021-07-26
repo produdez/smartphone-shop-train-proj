@@ -11,17 +11,17 @@ RSpec.describe Model, type: :model do
 
   include_examples 'has valid attributes'
 
-  context 'Must have valid Name' do
+  context 'must have valid Name' do
     include_examples 'presence field', 'name'
     include_examples 'unique field', :model, 'name', 'Dup Name'
   end
 
-  context 'Must have valid brand' do
+  context 'must have valid brand' do
     include_examples 'must have field', 'brand'
     include_examples 'reference field', 'brand'
   end
 
-  context 'Must have valid operating system' do
+  context 'must have valid operating system' do
     include_examples 'must have field', 'operating_system'
     include_examples 'reference field', 'operating_system'
   end
