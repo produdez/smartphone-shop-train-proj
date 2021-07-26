@@ -73,7 +73,7 @@ commands:
           command: bundle exec rubocop
       - run:
           name: 'Unit Test Rspec'
-          command: bundle exec rspec spec/models spec/requests --format progress
+          command: bundle exec rspec --format progress
 jobs:
   build:
     executor: default
