@@ -2,6 +2,6 @@
 
 FactoryBot.define do
   factory :store do
-    sequence(:name) { |n| "Store #{n}" }
+    name { Faker::Company.unique.name }
   end
 end

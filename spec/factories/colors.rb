@@ -2,6 +2,6 @@
 
 FactoryBot.define do
   factory :color do
-    sequence(:name) { |n| "Color #{n}" }
+    name { Faker::Color.unique.color_name }
   end
 end

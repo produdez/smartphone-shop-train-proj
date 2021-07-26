@@ -2,7 +2,7 @@
 
 FactoryBot.define do
   factory :model do
-    sequence(:name) { |n| "Test Model #{n}" }
+    name { Faker::Name.unique.name }
     association :brand
     association :operating_system
   end

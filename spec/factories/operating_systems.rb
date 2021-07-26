@@ -2,6 +2,6 @@
 
 FactoryBot.define do
   factory :operating_system do
-    sequence(:name) { |n| "Test OS #{n}" }
+    name { Faker::Name.unique.name }
   end
 end
