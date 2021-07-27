@@ -63,7 +63,7 @@ RSpec.describe 'Brands', type: :request do # rubocop:todo Metrics/BlockLength
   end
 
   context 'when user is manager' do
-    let(:staff) { create(:staff) }
+    let(:staff) { create(:staff, role: 'manager') }
     let(:user) { staff.user }
 
     include_context 'when user is any role'
