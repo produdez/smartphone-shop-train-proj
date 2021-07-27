@@ -6,7 +6,7 @@ RSpec.describe 'Users', type: :request do # rubocop:todo Metrics/BlockLength
     sign_in user
   end
 
-  RSpec.shared_context 'when user is any role' do
+  shared_context 'when user is any role' do
     describe 'GET /users' do
       subject { get users_url }
       context 'logged in', :logged_in do
@@ -38,7 +38,7 @@ RSpec.describe 'Users', type: :request do # rubocop:todo Metrics/BlockLength
     end
   end
 
-  RSpec.shared_examples 'cant create employee' do
+  shared_examples 'cant create employee' do
     describe 'GET /users/new_employee' do
       subject { get new_employee_users_url }
       include_examples 'not authorized'

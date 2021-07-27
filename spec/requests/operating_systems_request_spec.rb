@@ -7,7 +7,7 @@ RSpec.describe 'OperatingSystems', type: :request do # rubocop:todo Metrics/Bloc
     sign_in user
   end
 
-  RSpec.shared_context 'when user is any role' do
+  shared_context 'when user is any role' do
     describe 'GET /operating_systems' do
       subject { get operating_systems_url }
 
@@ -19,7 +19,7 @@ RSpec.describe 'OperatingSystems', type: :request do # rubocop:todo Metrics/Bloc
     end
   end
 
-  RSpec.shared_examples 'when user is not admin', :logged_in do
+  shared_examples 'when user is not admin', :logged_in do
     describe 'GET /operating_systems/new' do
       subject { get new_operating_system_url }
       include_examples 'not authorized'

@@ -6,7 +6,7 @@ RSpec.describe 'Models', type: :request do # rubocop:todo Metrics/BlockLength
     sign_in user
   end
 
-  RSpec.shared_context 'when user is any role' do
+  shared_context 'when user is any role' do
     describe 'GET /models' do
       subject { get models_url }
 
@@ -18,7 +18,7 @@ RSpec.describe 'Models', type: :request do # rubocop:todo Metrics/BlockLength
     end
   end
 
-  RSpec.shared_examples 'when user is not admin', :logged_in do
+  shared_examples 'when user is not admin', :logged_in do
     describe 'GET /models/new' do
       subject { get new_model_url }
       include_examples 'not authorized'

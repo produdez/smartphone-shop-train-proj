@@ -7,7 +7,7 @@ RSpec.describe 'Brands', type: :request do # rubocop:todo Metrics/BlockLength
     sign_in user
   end
 
-  RSpec.shared_context 'when user is any role' do
+  shared_context 'when user is any role' do
     describe 'GET /brands' do
       subject { get brands_url }
 
@@ -19,7 +19,7 @@ RSpec.describe 'Brands', type: :request do # rubocop:todo Metrics/BlockLength
     end
   end
 
-  RSpec.shared_examples 'when user is not admin', :logged_in do
+  shared_examples 'when user is not admin', :logged_in do
     describe 'GET /brands/new' do
       subject { get new_brand_url }
       include_examples 'not authorized'
