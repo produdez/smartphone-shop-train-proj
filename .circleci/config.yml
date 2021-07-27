@@ -6,7 +6,9 @@ executors:
     docker:
       - image: cimg/ruby:2.7.3-node
         environment:
+          BUNDLE_JOBS: 3
           RAILS_ENV: test
+          BUNDLE_PATH: vendor/bundle
           DB_HOST: 127.0.0.1
       - image: circleci/mysql:5.7.34
         environment:
