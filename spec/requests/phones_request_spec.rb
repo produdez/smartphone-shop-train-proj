@@ -6,15 +6,11 @@ RSpec.describe 'Phones', type: :request do # rubocop:todo Metrics/BlockLength
   let(:store) { employee.store }
   let(:user) { employee.user }
 
-  shared_context 'login' do
-    before { sign_in user }
-  end
-
   describe 'GET /phones' do
     subject { get phones_url }
 
     context 'when logged in' do
-      include_context 'login'
+      before { sign_in user }
 
       include_examples 'url responds ok'
     end
@@ -22,12 +18,12 @@ RSpec.describe 'Phones', type: :request do # rubocop:todo Metrics/BlockLength
     include_examples 'not logged in'
   end
 
-  describe 'GET /phones/:id/' do
+  describe 'GET /phones/:id' do
     let(:phone) { create(:phone, store: store) }
     subject { get phone_url(phone) }
 
     context 'when logged in' do
-      include_context 'login'
+      before { sign_in user }
 
       include_examples 'url responds ok'
     end
@@ -44,7 +40,7 @@ RSpec.describe 'Phones', type: :request do # rubocop:todo Metrics/BlockLength
       let(:user) { manager.user }
 
       context 'when logged in' do
-        include_context 'login'
+        before { sign_in user }
 
         include_examples 'url responds ok'
       end
@@ -52,8 +48,8 @@ RSpec.describe 'Phones', type: :request do # rubocop:todo Metrics/BlockLength
       include_examples 'not logged in'
     end
 
-    context 'when user is employee' do
-      include_context 'login'
+    context 'when user is not manager' do
+      before { sign_in user }
 
       include_examples 'not authorized'
     end
@@ -69,9 +65,9 @@ RSpec.describe 'Phones', type: :request do # rubocop:todo Metrics/BlockLength
       let(:user) { manager.user }
 
       context 'with valid params' do
-        include_context 'login'
+        before { sign_in user }
 
-        it 'edit and redirect to show' do
+        it 'update record and redirect to show' do
           subject
           expect(response).to redirect_to(phone_url(phone))
           expect(Phone.first).to eql_phone_params(params)
@@ -79,10 +75,12 @@ RSpec.describe 'Phones', type: :request do # rubocop:todo Metrics/BlockLength
       end
 
       context 'with invalid params' do
-        include_context 'login'
-        before { params[:phone][:memory] = -5 }
+        before do
+          sign_in user
+          params[:phone][:memory] = -5
+        end
 
-        it 'no change, redirect to edit' do
+        it 'do not change record, redirect to edit' do
           subject
           expect(phone.memory).to_not eql(params[:phone][:memory])
           expect(response).to redirect_to(edit_phone_url(phone))
@@ -92,8 +90,8 @@ RSpec.describe 'Phones', type: :request do # rubocop:todo Metrics/BlockLength
       include_examples 'not logged in'
     end
 
-    context 'when user is employee' do
-      include_context 'login'
+    context 'when user is not manager' do
+      before { sign_in user }
 
       include_examples 'not authorized'
     end
@@ -108,8 +106,8 @@ RSpec.describe 'Phones', type: :request do # rubocop:todo Metrics/BlockLength
       let(:manager) { create(:staff, role: 'manager', store: store) }
       let(:user) { manager.user }
 
-      context 'with valid params' do
-        include_context 'login'
+      context 'when logged in' do
+        before { sign_in user }
 
         it 'delete and redirect to index' do
           expect { phones }.to change(Phone, :count).by(5)
@@ -122,8 +120,8 @@ RSpec.describe 'Phones', type: :request do # rubocop:todo Metrics/BlockLength
       include_examples 'not logged in'
     end
 
-    context 'when user is employee' do
-      include_context 'login'
+    context 'when user is not manager' do
+      before { sign_in user }
 
       include_examples 'not authorized'
     end
@@ -139,8 +137,8 @@ RSpec.describe 'Phones', type: :request do # rubocop:todo Metrics/BlockLength
       let(:manager) { create(:staff, role: 'manager', store: store) }
       let(:user) { manager.user }
 
-      context 'with valid params' do
-        include_context 'login'
+      context 'when logged in' do
+        before { sign_in user }
 
         it 'delete all selected and ok respond (ajax response)' do
           expect { phones }.to change(Phone, :count).by(5)
@@ -153,8 +151,8 @@ RSpec.describe 'Phones', type: :request do # rubocop:todo Metrics/BlockLength
       include_examples 'not logged in'
     end
 
-    context 'when user is employee' do
-      include_context 'login'
+    context 'when user is not manager' do
+      before { sign_in user }
 
       include_examples 'not authorized'
     end
@@ -170,8 +168,8 @@ RSpec.describe 'Phones', type: :request do # rubocop:todo Metrics/BlockLength
       let(:manager) { create(:staff, role: 'manager', store: store) }
       let(:user) { manager.user }
 
-      context 'with valid params' do
-        include_context 'login'
+      context 'when logged in' do
+        before { sign_in user }
 
         it 'set unavailable all selected and ok respond (ajax response)' do
           expect { phones }.to change(Phone, :count).by(5)
@@ -184,8 +182,8 @@ RSpec.describe 'Phones', type: :request do # rubocop:todo Metrics/BlockLength
       include_examples 'not logged in'
     end
 
-    context 'when user is employee' do
-      include_context 'login'
+    context 'when user is not manager' do
+      before { sign_in user }
 
       include_examples 'not authorized'
     end
@@ -198,8 +196,8 @@ RSpec.describe 'Phones', type: :request do # rubocop:todo Metrics/BlockLength
       let(:manager) { create(:staff, role: 'manager', store: store) }
       let(:user) { manager.user }
 
-      context 'with valid params' do
-        include_context 'login'
+      context 'when logged in' do
+        before { sign_in user }
 
         include_examples 'url responds ok'
       end
@@ -207,21 +205,14 @@ RSpec.describe 'Phones', type: :request do # rubocop:todo Metrics/BlockLength
       include_examples 'not logged in'
     end
 
-    context 'when user is employee' do
-      include_context 'login'
-
-      include_examples 'not authorized'
-    end
-
-    context 'when user is admin' do
-      let(:user) { create(:user, role: 'admin') }
-      include_context 'login'
+    context 'when user is not manager' do
+      before { sign_in user }
 
       include_examples 'not authorized'
     end
   end
 
-  describe 'POST /phones/new' do # rubocop:todo Metrics/BlockLength
+  describe 'POST /phones' do # rubocop:todo Metrics/BlockLength
     let(:params) { phone_params(quantity: 3) }
 
     subject { post phones_url, params: params }
@@ -231,9 +222,9 @@ RSpec.describe 'Phones', type: :request do # rubocop:todo Metrics/BlockLength
       let(:user) { manager.user }
 
       context 'with valid params' do
-        include_context 'login'
+        before { sign_in user }
 
-        it 'create correcly and redirect to index' do
+        it 'add new record and redirect to index' do
           expect { subject }.to change(Phone, :count).by(3)
           expect(response).to redirect_to(phones_url)
           expect(Phone.first).to eql_phone_params(params)
@@ -242,9 +233,9 @@ RSpec.describe 'Phones', type: :request do # rubocop:todo Metrics/BlockLength
       end
 
       context 'with invalid params' do
-        include_context 'login'
+        before { sign_in user }
 
-        it 'no create, redirect to new' do
+        it 'do not create record, redirect to new' do
           params[:phone][:memory] = -1
           expect { subject }.to change(Phone, :count).by(0)
           expect(response).to redirect_to(new_phone_url)
@@ -254,15 +245,8 @@ RSpec.describe 'Phones', type: :request do # rubocop:todo Metrics/BlockLength
       include_examples 'not logged in'
     end
 
-    context 'when user is employee' do
-      include_context 'login'
-
-      include_examples 'not authorized'
-    end
-
-    context 'when user is admin' do
-      let(:user) { create(:user, role: 'admin') }
-      include_context 'login'
+    context 'when user is not manager' do
+      before { sign_in user }
 
       include_examples 'not authorized'
     end

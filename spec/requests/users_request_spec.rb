@@ -2,14 +2,12 @@
 
 require 'rails_helper'
 RSpec.describe 'Users', type: :request do # rubocop:todo Metrics/BlockLength
-  before(:example, :logged_in) do
-    sign_in user
-  end
-
   shared_context 'when user is any role' do
     describe 'GET /users' do
       subject { get users_url }
-      context 'logged in', :logged_in do
+      context 'when logged in' do
+        before { sign_in user }
+
         include_examples 'url responds ok'
       end
 
@@ -18,7 +16,9 @@ RSpec.describe 'Users', type: :request do # rubocop:todo Metrics/BlockLength
 
     describe 'GET /user/:id (self)' do
       subject { get user_url(user) }
-      context 'logged in', :logged_in do
+      context 'when logged in' do
+        before { sign_in user }
+
         include_examples 'url responds ok'
       end
 
@@ -26,7 +26,7 @@ RSpec.describe 'Users', type: :request do # rubocop:todo Metrics/BlockLength
     end
   end
 
-  RSpec.shared_examples 'cant create manager' do
+  shared_examples 'cant create manager' do
     describe 'GET /users/new_manager' do
       subject { get new_manager_users_url }
       include_examples 'not authorized'
@@ -56,7 +56,9 @@ RSpec.describe 'Users', type: :request do # rubocop:todo Metrics/BlockLength
 
     include_context 'when user is any role'
 
-    context 'when access unauthorized urls', :logged_in do
+    context 'when access unauthorized urls' do
+      before { sign_in user }
+
       describe 'GET users/:id (others)' do
         let(:other_employee) { create(:staff) }
         subject { get user_url(other_employee.user) }
@@ -74,13 +76,15 @@ RSpec.describe 'Users', type: :request do # rubocop:todo Metrics/BlockLength
 
     include_context 'when user is any role'
 
-    describe 'GET users/:id (others)', :logged_in do
+    describe 'GET users/:id (others)' do
+      before { sign_in user }
+
       subject { get user_url(other.user) }
-      context 'employee profile' do
+      describe 'get employee profile' do
         let(:other) { create(:staff) }
         include_examples 'url responds ok'
       end
-      context 'employee profile' do
+      describe 'get manager profile' do
         let(:other) { create(:staff, role: 'manager') }
         include_examples 'url responds ok'
       end
@@ -88,7 +92,9 @@ RSpec.describe 'Users', type: :request do # rubocop:todo Metrics/BlockLength
 
     describe 'GET /users/new_manager' do
       subject { get new_manager_users_url }
-      context 'logged in', :logged_in do
+      context 'when logged in' do
+        before { sign_in user }
+
         include_examples 'url responds ok'
       end
 
@@ -98,7 +104,9 @@ RSpec.describe 'Users', type: :request do # rubocop:todo Metrics/BlockLength
     describe 'POST /users/create_manager' do
       let(:params) { manager_params }
       subject { post create_manager_users_url, params: params }
-      context 'logged in', :logged_in do
+      context 'when logged in' do
+        before { sign_in user }
+
         context 'with valid params' do
           it 'create manager and routes back to new index' do
             expect { subject }.to change(User, :count).by(1)
@@ -108,7 +116,7 @@ RSpec.describe 'Users', type: :request do # rubocop:todo Metrics/BlockLength
         end
 
         context 'with invalid params' do
-          it 'no create, redirect to new' do
+          it 'do not create record, redirect to new' do
             params[:user][:email] = 'notmail'
             expect { subject }.to change(User, :count).by(0)
             expect(response).to redirect_to(new_manager_users_url)
@@ -119,7 +127,9 @@ RSpec.describe 'Users', type: :request do # rubocop:todo Metrics/BlockLength
       include_examples 'not logged in'
     end
 
-    context 'when access unauthorized urls', :logged_in do
+    context 'when access unauthorized urls' do
+      before { sign_in user }
+
       include_examples 'cant create employee'
     end
   end
@@ -132,7 +142,9 @@ RSpec.describe 'Users', type: :request do # rubocop:todo Metrics/BlockLength
 
     describe 'GET /users/new_employee' do
       subject { get new_employee_users_url }
-      context 'logged in', :logged_in do
+      context 'when logged in' do
+        before { sign_in user }
+
         include_examples 'url responds ok'
       end
 
@@ -142,7 +154,9 @@ RSpec.describe 'Users', type: :request do # rubocop:todo Metrics/BlockLength
     describe 'POST /users/create_employee' do
       let(:params) { employee_params }
       subject { post create_employee_users_url, params: params }
-      context 'logged in', :logged_in do
+      context 'when logged in' do
+        before { sign_in user }
+
         context 'with valid params' do
           it 'create manager and routes back to new index' do
             expect { subject }.to change(User, :count).by(1)
@@ -153,7 +167,7 @@ RSpec.describe 'Users', type: :request do # rubocop:todo Metrics/BlockLength
         end
 
         context 'with invalid params' do
-          it 'no create, redirect to new' do
+          it 'do not create record, redirect to new' do
             params[:user][:email] = 'notmail'
             expect { subject }.to change(User, :count).by(0)
             expect(response).to redirect_to(new_employee_users_url)
@@ -164,7 +178,9 @@ RSpec.describe 'Users', type: :request do # rubocop:todo Metrics/BlockLength
       include_examples 'not logged in'
     end
 
-    context 'when access unauthorized urls', :logged_in do
+    context 'when access unauthorized urls' do
+      before { sign_in user }
+
       include_examples 'cant create manager'
     end
   end
