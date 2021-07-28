@@ -25,17 +25,16 @@ RSpec.describe 'Models', type: :request do # rubocop:todo Metrics/BlockLength
 
       include_examples 'url responds ok'
     end
-    
+
     include_examples 'not logged in'
   end
-
 
   shared_examples 'when user is not admin' do
     context 'when user is not admin' do
       let(:staff) { create(:staff) }
       let(:user) { staff.user }
       include_context 'login'
-      
+
       include_examples 'not authorized'
     end
   end

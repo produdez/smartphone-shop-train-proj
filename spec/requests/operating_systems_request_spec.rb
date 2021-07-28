@@ -33,7 +33,7 @@ RSpec.describe 'OperatingSystems', type: :request do # rubocop:todo Metrics/Bloc
       let(:staff) { create(:staff) }
       let(:user) { staff.user }
       include_context 'login'
-      
+
       include_examples 'not authorized'
     end
   end
