@@ -141,7 +141,7 @@ RSpec.describe 'Models', type: :request do # rubocop:todo Metrics/BlockLength
     include_examples 'when user is not admin'
   end
 
-  describe 'DELTE /models/:id' do
+  describe 'DELETE /models/:id' do
     let(:models) { create_list(:model, 3) }
     let(:delete_model) { models.last }
     subject { delete model_url(delete_model) }

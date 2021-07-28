@@ -141,7 +141,7 @@ RSpec.describe 'OperatingSystems', type: :request do # rubocop:todo Metrics/Bloc
     include_examples 'when user is not admin'
   end
 
-  describe 'DELTE /operating_systems/:id' do
+  describe 'DELETE /operating_systems/:id' do
     let(:operating_systems) { create_list(:operating_system, 3) }
     let(:delete_operating_system) { operating_systems.last }
     subject { delete operating_system_url(delete_operating_system) }

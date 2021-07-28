@@ -97,7 +97,7 @@ RSpec.describe 'Phones', type: :request do # rubocop:todo Metrics/BlockLength
     end
   end
 
-  describe 'DELTE /phones/:id' do
+  describe 'DELETE /phones/:id' do
     let(:phones) { create_list(:phone, 5, store: store) }
     let(:delete_phone) { phones.last }
     subject { delete phone_url(delete_phone) }
