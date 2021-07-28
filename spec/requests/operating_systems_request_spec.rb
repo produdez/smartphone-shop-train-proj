@@ -106,7 +106,7 @@ RSpec.describe 'OperatingSystems', type: :request do # rubocop:todo Metrics/Bloc
     include_examples 'when user is not admin'
   end
 
-  describe 'patch /operating_systems/:id' do # rubocop:todo Metrics/BlockLength
+  describe 'PATCH /operating_systems/:id' do # rubocop:todo Metrics/BlockLength
     let(:operating_system) { create(:operating_system) }
     let(:params) { { operating_system: attributes_for(:operating_system, name: 'Updated OperatingSystem') } }
     subject { patch operating_system_url(operating_system), params: params }
@@ -141,7 +141,7 @@ RSpec.describe 'OperatingSystems', type: :request do # rubocop:todo Metrics/Bloc
     include_examples 'when user is not admin'
   end
 
-  describe 'delete /operating_systems/:id' do
+  describe 'DELTE /operating_systems/:id' do
     let(:operating_systems) { create_list(:operating_system, 3) }
     let(:delete_operating_system) { operating_systems.last }
     subject { delete operating_system_url(delete_operating_system) }

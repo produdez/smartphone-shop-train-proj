@@ -80,11 +80,11 @@ RSpec.describe 'Users', type: :request do # rubocop:todo Metrics/BlockLength
       before { sign_in user }
 
       subject { get user_url(other.user) }
-      describe 'get employee profile' do
+      describe 'GET employee profile' do
         let(:other) { create(:staff) }
         include_examples 'url responds ok'
       end
-      describe 'get manager profile' do
+      describe 'GET manager profile' do
         let(:other) { create(:staff, role: 'manager') }
         include_examples 'url responds ok'
       end

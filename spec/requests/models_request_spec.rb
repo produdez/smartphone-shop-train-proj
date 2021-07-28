@@ -106,7 +106,7 @@ RSpec.describe 'Models', type: :request do # rubocop:todo Metrics/BlockLength
     include_examples 'when user is not admin'
   end
 
-  describe 'patch /models/:id' do # rubocop:todo Metrics/BlockLength
+  describe 'PATCH /models/:id' do # rubocop:todo Metrics/BlockLength
     let(:model) { create(:model) }
     let(:params) { model_params('Updated Model') }
     subject { patch model_url(model), params: params }
@@ -141,7 +141,7 @@ RSpec.describe 'Models', type: :request do # rubocop:todo Metrics/BlockLength
     include_examples 'when user is not admin'
   end
 
-  describe 'delete /models/:id' do
+  describe 'DELTE /models/:id' do
     let(:models) { create_list(:model, 3) }
     let(:delete_model) { models.last }
     subject { delete model_url(delete_model) }
