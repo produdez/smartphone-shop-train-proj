@@ -10,14 +10,9 @@ executors:
           RAILS_ENV: test
           BUNDLE_PATH: vendor/bundle
           DB_HOST: 127.0.0.1
-          DB_USERNAME: root
-          DB_PASSWORD: ''
-          NODE_ENV: test
       - image: circleci/mysql:5.7.34
         environment:
           MY_SQL_ALLOW_EMPTY_PASSWORD: 'true'
-          MYSQL_password: ''
-          MYSQL_ROOT_PASSWORD: ''
 
 commands: 
   install-bundle:
